@@ -1,0 +1,85 @@
+Below is the same flow, but written as individual, copy-paste commands you run by hand.
+
+Do them in order; skip any step that does not apply (e.g. if you are already on the newest release).
+
+0. Become root and make a quick backup / snapshot  
+   
+```sh
+   doas -s && /bin/sh
+   ```
+
+1. See how far behind the machine is  
+   
+```sh
+   uname -r
+   ftp -V -o - https://ftp.openbsd.org/pub/OpenBSD/ | awk '/href="[0-9]+\.[0-9]+\//{print $2}' | sort -V | tail -1 | tr -d '/'
+   ```
+
+2. Check hardware clock is syncing before anything is timestamped
+
+```sh
+rcctl check ntpd || { rcctl enable ntpd; rcctl start ntpd; }
+
+# quick check: are we synced?
+ntpctl -s status
+   ```
+
+3. Jump to the newest release (only if step 1 shows a newer version)  
+   
+```sh
+   sysupgrade -r         # downloads sets and reboots into the upgrade
+   # log back in as root after the reboot
+   ```
+
+4. Apply binary patches for the release you now run  
+   
+```sh
+   syspatch
+   ```
+
+5. Refresh firmware blobs  
+   
+```sh
+   fw_update
+   ```
+
+6. Upgrade every installed package  
+   
+```sh
+   pkg_add -u -v
+   ```
+
+7. Merge any changed /etc files  
+   
+```sh
+   sysmerge -d
+   sysmerge
+   ```
+
+8. Reboot if kernel or libc was touched  
+   
+```sh
+   reboot
+   ```
+
+9. Vacuum package database and delete orphaned packages  
+   
+```sh
+   pkg_check
+   pkg_delete -a
+   ```
+
+10. Remove old kernels and build debris  
+    
+```sh
+    rm -rf /usr/obj/*
+    rm -rf /usr/src/sys/arch/$(uname -m)/compile/*
+    rm -f /bsd.* /obsd /obsd.rd
+    ```
+
+11. Scrub user-specific caches (X11, GNOME, KDE, etc.)  
+    
+```sh
+rm -rf /home/[user]/.cache/*
+rm -rf /home/[user]/.config/*
+    ```
