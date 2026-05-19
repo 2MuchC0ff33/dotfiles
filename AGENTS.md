@@ -121,3 +121,48 @@ flake.nix             # Nix flake
 | 9 | AsciiDoc Documentation Standard | 3146–3317 |
 | 10 | Version Control (jj workflow) | 3318–3584 |
 | 11 | Nushell Configuration & Scripts | 3585–4530 |
+
+## Skills System: `.opencode/skills/`
+
+This repo includes **247 atomic skill files** at
+`.opencode/skills/` that opencode agents can load for granular
+STANDARDS.adoc adherence. Each skill covers ONE rule/pattern.
+
+| Category | Skills | Prefix | Use When... |
+|---|---|---|---|
+| Nushell Config | 41 | `nushell-config-*`, `nushell-alias-*`, `nushell-env-*`, `nushell-starship-*` | Writing/editing `config.nu`, setting aliases, env vars |
+| Nushell Naming | 9 | `nushell-naming-*` | Naming commands, variables, files |
+| Nushell Formatting | 7 | `nushell-formatting-*` | Formatting `.nu` files |
+| Nushell Strings | 3 | `nushell-strings-*` | String literal formatting |
+| Nushell Types | 6 | `nushell-types-*` | Type annotations, I/O sigs |
+| Nushell Pipelines | 6 | `nushell-pipeline-*` | Pipeline patterns |
+| Nushell Modules | 7 | `nushell-module-*` | Module exports, imports |
+| Nushell Errors | 6 | `nushell-errors-*` | Error handling patterns |
+| Nushell Security | 9 | `nushell-security-*` | Security best practices |
+| Nushell Anti-patterns | 23 | `nushell-antipattern-*` | Avoiding forbidden patterns |
+| Nushell Performance | 6 | `nushell-performance-*` | Performance patterns |
+| Nushell Linting | 5 | `nushell-linting-*` | nu-lint configuration |
+| Nushell Testing | 5 | `nushell-testing-*` | Test patterns |
+| jj VCS | 25 | `jj-*` | Version control with jj |
+| AsciiDoc Docs | 17 | `asciidoc-*` | Writing `.adoc` docs |
+| justfile Recipes | 18 | `just-recipe-*` | Build system recipes |
+| xtask | 5 | `xtask-*` | Rust build automation |
+| Rust/2024 Edition | 6 | `rust-unsafe-*`, `rust-edition-*`, `rust-cfg-*` | Rust 2024 edition syntax |
+| Cargo Config | 4 | `rust-cargo-*` | Cargo.toml, config.toml |
+| Nix Flakes | 3 | `rust-nix-*` | Nix environment |
+| Toolchain | 3 | `rust-toolchain-*`, `rust-cargo-install-*`, `rust-flake-*` | Tool version pinning |
+| Rust Native Tools | 3 | `rust-native-tools-*` | Tool replacement mapping |
+| Directory Layout | 5 | `standards-directory-*`, `standards-git*` | Repo structure |
+| Suckless Code | 9 | `standards-suckless-*` | Code design rules |
+| Proof Tiers | 5 | `standards-proof-tier-*` | Proof annotations |
+| Error Taxonomy | 6 | `standards-error-*` | Error type design |
+| Formal Verification | 5 | `standards-proof-*` | Kani/proptest/fuzz |
+| **TOTAL** | **247** | | |
+
+Load a skill via the skill tool:
+
+```
+skill name="nushell-config-completions-fuzzy"
+```
+
+See `.opencode/skills/README.md` for the full registry.
