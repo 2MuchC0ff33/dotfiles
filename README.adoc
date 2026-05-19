@@ -1,0 +1,148 @@
+= dotfiles
+:toc: left
+:toclevels: 3
+:sectnums:
+:icons: font
+:license: ISC
+
+:org-name: 2MuchC0ff33
+:repo-url: https://github.com/2MuchC0ff33/dotfiles
+:standards-version: 2.0.0
+
+image:https://img.shields.io/badge/license-ISC-blue.svg[ISC License, link=https://opensource.org/licenses/ISC]
+image:https://img.shields.io/badge/rust-2024-edition-orange[Rust 2024 Edition]
+image:https://img.shields.io/badge/status-active-brightgreen[Status: Active]
+
+'''''
+
+== Overview
+
+This repository contains the personal development environment bootstrap and
+configuration — dotfiles — for +{org-name}+. It is the single source of truth
+for shell configuration, editor setup, terminal multiplexer layout, prompt
+theme, and development tooling defaults across all workstations.
+
+The repository is governed by the framework defined in
+<<STANDARDS.adoc,STANDARDS.adoc>> (v{standards-version}), which establishes the
+toolchain, coding standards, and project structure conventions used throughout
+this environment.
+
+'''''
+
+== Repository Structure
+
+[source]
+----
+.
+├── STANDARDS.adoc          # Development standards framework (v{standards-version})
+├── README.adoc             # This file
+├── scripts/                # Nushell bootstrap and utility scripts
+│   ├── dev-setup.nu        # Full toolchain installation
+│   ├── check-deps.nu       # Environment integrity verification
+│   └── ...                 # Additional automation scripts
+├── config/                 # Application configuration directories
+│   ├── nushell/            # ~/.config/nushell/ (config.nu, env.nu)
+│   ├── helix/              # ~/.config/helix/ (config.toml, languages.toml)
+│   ├── starship.toml       # Prompt theme
+│   ├── zellij/             # Terminal multiplexer config
+│   └── alacritty/          # Terminal emulator config
+├── justfile                # Command runner (top-level interface)
+├── flake.nix               # Nix flake for hermetic dev environment
+└── .gitignore
+----
+
+'''''
+
+== Technology Stack
+
+The environment is built on the toolchain prescribed by STANDARDS.adoc. Key
+components include:
+
+|===
+| Category | Tool | Version
+
+| Shell
+| Nushell
+| 0.112.2
+
+| Editor
+| Helix
+| 25.07.1
+
+| Version Control
+| Jujutsu (jj)
+| 0.41.0
+
+| Build System
+| just + xtask
+| 1.51.0
+
+| Environment
+| Nix Flakes
+| 26.05
+
+| Language
+| Rust
+| 1.95.0 (Edition 2024)
+|===
+
+All classic Unix tools (grep, find, cat, sed, diff, ls, du, ps, top) are
+replaced by Rust-native alternatives: ripgrep, fd, bat, sd, delta, eza, dust,
+procs, bottom — configured through Nushell aliases in `config.nu`.
+
+See <<STANDARDS.adoc#part-1-the-full-stack-decision,Part 1 of STANDARDS.adoc>>
+for the full rationale.
+
+'''''
+
+== Getting Started
+
+[horizontal]
+Clone:: `jj git clone {repo-url}` or `git clone {repo-url}`
+Bootstrap:: `nu scripts/dev-setup.nu` or `nix develop .`
+Verify:: `nu scripts/check-deps.nu` or `nix flake check`
+
+These steps install the Rust toolchain, Nushell, Helix, jj, and all supporting
+utilities at the versions specified in the standard.
+
+'''''
+
+== Standards Framework
+
+The file <<STANDARDS.adoc,STANDARDS.adoc>> (v{standards-version}) is the
+governing document for this repository and all projects under the
++{org-name}+ organization. It defines:
+
+.Parts of the Standard
+|===
+| Part | Title
+| 0 | Guiding Philosophies
+| 1 | The Full Stack Decision
+| 2 | Repository Structure
+| 3 | Rust Configuration
+| 4 | Data-Oriented Design and ECS
+| 5 | ASN.1 and DER
+| 6 | Formal Verification Pipeline
+| 7 | Cross-Compilation
+| 8 | Build System
+| 9 | AsciiDoc Documentation Standard
+| 10 | Version Control
+| 11 | Nushell Configuration and Scripts
+| 12 | Error Handling and Proof Taxonomy
+| 13 | Project Type Adaptation Guide
+|===
+
+The standard uses semantic versioning. The version pinned in this repository
+is v{standards-version}.
+
+'''''
+
+== License
+
+This repository is licensed under the ISC License.
+
+Copyright (c) {org-name}.
+
+Permission to use, copy, modify, and/or distribute this software for any
+purpose with or without fee is hereby granted, provided that the above
+copyright notice and this permission notice appear in all copies.
