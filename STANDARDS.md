@@ -1,7 +1,9 @@
 # Complete Project Standard Framework
 
-> **Version:** 1.0.0
+> **Version:** 2.0.0
 > **Status:** Approved
+> **Rust Edition:** 2024
+> **Rust Version:** 1.95.0
 > **Scope:** All projects under this organization — new development, rewrites, and migrations
 > **License:** MIT OR Apache-2.0 (same as project code)
 
@@ -349,6 +351,20 @@ pub static STATE_TABLE: &[[Option<StateTransition>; 6]; 4] = &[
 | Type invariants | `Type_Invariant` aspect | `kani::invariant` |
 | Freedom from deadlock | Proof of locking order | Separate proof layer |
 
+#### 0.3.1.1 Industry Standards for Rust in Critical Systems
+
+The Rust formal verification ecosystem now benefits from formal industry standards:
+
+| Standard | Organization | Published | Scope |
+|----------|-------------|-----------|-------|
+| **Ferrocene Language Specification** | Ferrous Systems → Rust Foundation (donated Mar 2025) | 2022 (donated 2025) | Formal Rust specification, adopted by Rust t-spec team as basis for official Rust Specification |
+| **SAE JA1020** | SAE International | March 2026 | First aerospace/automotive safety standard specifically for Rust in critical systems |
+| **Safety-Critical Rust Consortium** | Rust Foundation | June 2024 | Cross-industry consortium for safety-critical Rust guidelines and tooling |
+| **Ferrocene certified `core` subset** | Ferrous Systems | December 2025 | IEC 61508 SIL 2 certification of Rust `core` library subset |
+
+**MANDATE:** Every project SHALL track the Rust Specification (`t-spec` team) for language semantics updates.
+**MANDATE:** Projects targeting safety-critical domains SHALL comply with SAE JA1020 guidelines.
+
 #### 0.3.2 The Proof Pyramid
 
 ```
@@ -356,8 +372,8 @@ pub static STATE_TABLE: &[[Option<StateTransition>; 6]; 4] = &[
 │                KANI MODEL CHECKING (all paths)                   │
 │  Proves: no panics, no overflow, no bounds errors, invariants   │
 │  Scope: ALL public functions in library code                    │
-│  Cost: 30-60 min CI per 1000 LOC                                │
-│  Tool: cargo kani                                               │
+│  Cost: 15-30 min CI per 1000 LOC (improved in Kani 0.67+ with bounded checking)      │
+│  Tool: cargo kani, --concrete-playback, --visualize             │
 ├─────────────────────────────────────────────────────────────────┤
 │              PROPERTY-BASED TESTING (proptest)                   │
 │  Proves: algebraic properties, idempotence, round-trips         │
@@ -429,6 +445,8 @@ pub unsafe fn blazing_fast_hash(input: &[u8]) -> u64 { ... }
 
 **MANDATE:** One of `[PROVED]`, `[TESTED]`, `[LINTED]`, or `[FFI_AUDITED]` on every
 `pub fn` doc comment. CI SHALL fail if a pub fn lacks this annotation.
+**SHOULD:** Use `#[diagnostic::do_not_recommend]` on trait impls that should be hidden
+from compiler error messages to improve UX for downstream consumers.
 
 #### 0.3.4 What Is NOT Proved (Honest Boundaries)
 
@@ -475,7 +493,8 @@ The deal is explicit:
 | Concern | Decision | Rationale |
 |---------|----------|-----------|
 | **Language** | Rust | Memory safety + zero-cost abstractions + formal verification tooling |
-| **Edition** | 2021 (migrate to 2024 when Kani fully supports it) | 2021 is proven with Kani. 2024 adds ergonomic improvements but Kani compatibility is still rolling out. |
+| **Edition** | 2024 | Kani has supported edition 2024 since v0.64.0 (July 2025). 2024 adds `let_chains`, `unsafe` extern blocks, async closures, improved RPIT lifetime capture, and the Rust 2024 style edition. |
+| **Async closures** | Stabilized (Rust 1.85+) | `async || {}`, `async move || {}`, `AsyncFn*` traits. Available in all editions since 1.85. |
 | **`std` policy** | `std` by default. `no_std` is opt-in via feature flag for embedded targets. | Pragmatism: most projects need I/O, allocation, concurrency, networking. |
 | **Build system** | `just` (human interface) + `xtask` (Rust automation) | Single source of truth in Rust. Thin shell wrapper for tab-completion and discoverability. |
 | **Cross-compilation** | `cargo-zigbuild` (Zig linker) | "Build once, run anywhere." Zig cc bundles musl, glibc, and all target libs in one binary. No per-target toolchain installation. |
@@ -483,11 +502,12 @@ The deal is explicit:
 | **Shell** | Nushell | Structured data pipelines, typed variables, no string-whispering. |
 | **VCS (philosophical ideal)** | **Pijul** | Patch-theory-based VCS. Formally grounded merge model eliminates merge conflicts at the mathematical level. MANDATE: all new projects shall target pijul as the long-term VCS. | |---|---|---|
 | **VCS (practical implementation)** | **Jujutsu (`jj`)** with git backend | Change-oriented VCS, 100% git-compatible. Adopted until pijul reaches production maturity. Zero migration risk — interoperates with existing GitHub/GitLab infrastructure. |
-| **Formal verification** | Kani model checker | SPARK-equivalent proof of runtime safety. Proves no panics, no overflow, no bounds errors, arbitrary invariants. |
+| **Formal verification** | Kani model checker (v0.67+) + Ferrocene qualified toolchain (IEC 61508 SIL 4, ISO 26262 ASIL D) | SPARK-equivalent proof of runtime safety. Proves no panics, no overflow, no bounds errors, arbitrary invariants. Kani 0.67+ adds concrete playback (generates unit tests from counterexamples), visualization (HTML trace reports), and function contracts (`kani::requires`/`kani::ensures`). Ferrocene provides a certified toolchain for safety-critical deployment. |
 | **DOD architecture** | ECS (`hecs`) for stateful apps | SoA by construction, cache-friendly, data-driven. `hecs` chosen for minimalism (~2000 LOC, no macros). |
 | **Data serialization** | ASN.1 + DER (Distinguished Encoding Rules) | Deterministic encoding, schema-enforced, cryptography-grade. Only DER — never BER, CER, XER, or JER. |
-| **Documentation** | AsciiDoc (source of truth) + Vale (prose lint) | Strict build pipeline with `--failure-level=WARN`. README.md generated from README.adoc at release for crates.io. |
+| **Documentation** | AsciiDoc (source of truth) + Vale (prose lint) | Strict build pipeline with `--failure-level=WARN`. README.md generated from README.adoc at release for crates.io. Track the official Rust Specification at `github.com/rust-qualification/ferrocene-specification`. |
 | **Editor** | Helix | Modal editor with built-in LSP, tree-sitter, and minimal configuration. |
+| **Rust Specification** | Ferrocene Language Specification (donated to Rust Foundation, adopted by Rust t-spec team) | The Rust Project's official specification effort, based on the Ferrocene Language Specification. Formal language semantics for safety-critical qualification. Repository: `github.com/rust-qualification/ferrocene-specification`. |
 | **Package registry** | crates.io (public libs), custom registry (internal) | `publish = false` in Cargo.toml until explicitly set to `true`. |
 | **CI** | Per-project (not prescribed) | GitHub Actions, GitLab CI, Buildkite, etc. Chosen per-project. The standard documents what CI MUST enforce, not which CI system. |
 
@@ -500,7 +520,7 @@ The deal is explicit:
 | Layer | Source | Pinning |
 |-------|--------|---------|
 | System tools (zig, asciidoctor, pandoc, vale, cmake, etc.) | nixpkgs via `flake.nix` | `flake.lock` (merkle tree of ALL transitive deps) |
-| Rust toolchain (rustc, cargo, clippy, rustfmt, etc.) | fenix overlay via `rust-toolchain.toml` | Exact version (e.g. `"1.85.0"`) |
+| Rust toolchain (rustc, cargo, clippy, rustfmt, etc.) | fenix overlay via `rust-toolchain.toml` | Exact version (e.g. `"1.95.0"`) |
 | Project binary | `crane.buildPackage` in Nix sandbox | `Cargo.lock` + `flake.lock` (dual merkle) |
 
 **MANDATE:** All `cargo install` SHALL use `--locked`.
@@ -519,7 +539,10 @@ The deal is explicit:
 | `wasm32-wasi` | WASI | WebAssembly server-side | Full |
 | `wasm32-unknown-unknown` | none | Web browser (WASM + JS) | Via wasm-pack, not zigbuild |
 | `riscv64gc-unknown-linux-musl` | musl | RISC-V Linux | Full |
+| `powerpc64-unknown-linux-musl` | musl | PowerPC64 Linux | Full (Tier 2 since 1.95) |
+| `aarch64-pc-windows-msvc` | MSVC | ARM Windows | Full (Tier 1 since 1.91) |
 | `armv7-unknown-linux-musleabihf` | musl | ARM 32-bit (e.g., Pi 0/1) | Full |
+| `wasm32-unknown-emscripten` | Emscripten | WebAssembly via Emscripten | Partial |
 
 **MANDATE:** Every project SHALL define its target matrix in `cross/targets.toml`.
 All targets SHALL be buildable with a single `just cross` command.
@@ -599,6 +622,30 @@ jj        → git      (auto-rebase, undo, safer workflow)
 sd        → sed      (simple find-and-replace, regex consistent)
 ```
 
+#### 1.4.4.1 New in Rust 1.95.0 + Edition 2024
+
+MANDATE: All projects SHALL use edition = "2024" in Cargo.toml (replaces 2021).
+MANDATE: All `unsafe` extern blocks SHALL use `unsafe extern "C"` syntax.
+MANDATE: All `#[no_mangle]`, `#[export_name]`, `#[link_section]` SHALL use `#[unsafe(no_mangle)]` syntax.
+MANDATE: `unsafe` operations in `unsafe fn` SHALL be wrapped in explicit `unsafe {}` blocks.
+
+New language features available:
+
+| Feature | Stabilized | Description |
+|---------|-----------|-------------|
+| `cfg_select!` | 1.95.0 | Built-in compile-time cfg matching, replaces the `cfg-if` crate dependency |
+| `if let` guards | 1.95.0 | `match` arm guards using `if let` pattern matching |
+| `let_chains` | 2024 Edition | `if let A = x && let B = y` chains |
+| Async closures | 1.85.0 | `async || {}`, `async move || {}` |
+| Precise capturing | 1.82.0+ (default 2024) | `impl Trait + use<'a, T>` for explicit lifetime capture |
+| Trait upcasting | 1.86.0 | `dyn SubTrait` → `dyn SuperTrait` coercion |
+| Naked functions | 1.88.0 | Full control over function assembly |
+| `core::range` module | 1.95.0 | New range types: `core::range::RangeInclusive` |
+| `core::hint::cold_path` | 1.95.0 | Hint to compiler that a path is cold |
+| `bool: TryFrom<{integer}>` | 1.95.0 | Safe conversion from integer to bool |
+| `Vec::push_mut`, `Vec::insert_mut` | 1.95.0 | In-place mutation of elements |
+| Generic const arg inference | 1.89.0 | Infer const generic arguments |
+
 #### 1.4.5 Caveats and Compatibility Notes
 
 - **uutils/coreutils**: Actively developed, most tools complete. `ls`, `cp`, `mv`, `rm`, `cat`,
@@ -669,7 +716,7 @@ sd        → sed      (simple find-and-replace, regex consistent)
 
 ```toml
 [toolchain]
-channel = "1.85.0"
+channel = "1.95.0"
 components = ["clippy", "rustfmt", "rust-src", "llvm-tools-preview"]
 targets = [
     "x86_64-unknown-linux-gnu",
@@ -681,6 +728,8 @@ targets = [
     "x86_64-unknown-freebsd14",
     "x86_64-apple-darwin",
     "aarch64-apple-darwin",
+    "powerpc64-unknown-linux-musl",
+    "aarch64-pc-windows-msvc",
 ]
 ```
 
@@ -730,6 +779,8 @@ All targets are built from a **single Linux Nix host** using `pkgsCross`:
 | `x86_64-unknown-freebsd14` | `pkgs.pkgsCross.x86_64-freebsd` | None |
 | `x86_64-apple-darwin` | `pkgs.pkgsCross.x86_64-darwin` | macOS host or remote builder |
 | `aarch64-apple-darwin` | `pkgs.pkgsCross.aarch64-darwin` | macOS host or remote builder |
+| `powerpc64-unknown-linux-musl` | `pkgs.pkgsCross.powerpc64-musl` | None |
+| `wasm32-unknown-emscripten` | `pkgs.pkgsCross.wasm32-emscripten` | Emscripten SDK |
 
 **FreeBSD strategy:** Cross-compiled FROM Linux TO FreeBSD via `pkgsCross.x86_64-freebsd`. No native Nix on FreeBSD is required. FreeBSD developers use a Linux CI runner or bhyve VM, documented as a remote-build pattern.
 
@@ -789,7 +840,8 @@ project/
 │       │   ├── check.rs              # full pipeline
 │       │   ├── lint.rs               # clippy + fmt + nostd check
 │       │   ├── test.rs               # cargo test
-│       │   ├── proof.rs              # Kani verification
+│       │   ├── proof.rs              # Kani verification (model checking)
+│       │   ├── verify.rs             # Kani function contract verification
 │       │   ├── fuzz.rs               # cargo-fuzz invocation
 │       │   ├── docs.rs               # cargo doc + AsciiDoc build
 │       │   ├── release.rs            # full check + readme gen + publish prep
@@ -1057,8 +1109,8 @@ CARGO_TERM_COLOR = "always"
 [package]
 name          = "project-name"
 version       = "0.1.0"
-edition       = "2021"                      # MANDATE: 2021 until Kani fully supports 2024
-rust-version  = "1.85.0"                    # MANDATE: MSRV never omitted
+edition       = "2024"                      # MANDATE: 2024 edition — Kani supports since v0.64.0
+rust-version  = "1.95.0"                    # MANDATE: MSRV never omitted
 authors       = ["Name <email@example.com>"]
 description   = "One sentence description."
 license       = "MIT OR Apache-2.0"
@@ -1085,6 +1137,23 @@ exclude       = [
 # MANDATE: publish = false until explicitly ready.
 # Prevents accidental crate publication.
 publish = false
+
+# MANDATE: edition = "2024" implies resolver = "3".
+# Rust 2024 edition uses the v3 resolver (Rust-version aware dependency resolution).
+# This ensures Cargo prefers dependency versions compatible with the declared rust-version.
+
+# ─────────────────────────────────────────
+# EDITION 2024 FEATURES
+# ─────────────────────────────────────────
+#
+# The 2024 edition enables these language features:
+# - if let && let chains: if let A = x && let B = y { }
+# - if let guards in match arms: match x { Some(v) if let Ok(y) = f(v) => { } }
+# - cfg_select! macro: built-in cfg matching, replaces cfg-if crate
+# - async closures: async || { }, async move || { }
+# - let_chains in while: while let Some(x) = iter.next() && condition { }
+#
+# These do not require feature flags — they are part of the 2024 edition.
 
 [lib]
 name = "project_name"
@@ -1189,6 +1258,51 @@ private_doc_tests             = "allow"
 # CI blocks dead code unless explicitly justified.
 dead_code                     = "warn"
 
+# ─────────────────────────────────────────
+# RUST 2024 EDITION COMPATIBILITY LINTS
+# ─────────────────────────────────────────
+
+# Missing unsafe on extern blocks (2024 edition requirement).
+missing_unsafe_on_extern       = "forbid"
+
+# Unsafe attributes must use #[unsafe(...)] syntax in 2024.
+unsafe_attr_outside_unsafe      = "forbid"
+
+# Unsafe operations in unsafe fn need explicit unsafe {} blocks.
+unsafe_op_in_unsafe_fn          = "warn"
+
+# RPIT lifetime capture changes in 2024.
+# Auto-fix adds explicit use<..> bounds where needed.
+impl_trait_overcaptures         = "warn"
+
+# if let temporary scope changes in 2024.
+if_let_rescope                  = "warn"
+
+# Tail expression drop order changes in 2024.
+tail_expr_drop_order            = "warn"
+
+# Pattern compatibility with 2024 match ergonomics.
+rust_2024_incompatible_pat      = "warn"
+
+# gen keyword reservation in 2024.
+keyword_idents_2024             = "error"
+
+# Box<[T]> into_iter changes in 2024.
+boxed_slice_into_iter           = "warn"
+
+# Prelude collisions (Future, IntoFuture added in 2024).
+rust_2024_prelude_collisions    = "warn"
+
+# Deprecated safe functions now unsafe in 2024 (set_var, before_exec, etc.).
+deprecated_safe_2024            = "warn"
+
+# Ambiguous glob-imported traits (new in 1.95).
+ambiguous_glob_imported_traits  = "warn"
+
+# Never type fallback changes in 2024 edition.
+dependency_on_unit_never_type_fallback = "deny"
+never_type_fallback_flowing_into_unsafe = "deny"
+
 [lints.clippy]
 # Strictest lint levels.
 all      = "warn"
@@ -1229,6 +1343,9 @@ semicolon_if_nothing_returned = "warn"
 same_name_method          = "warn"
 significant_drop_tightening = "warn"
 
+# 2024 edition: doctests compiled into single binary
+# Use standalone_crate tag for incompatible doctests
+
 # ─────────────────────────────────────────
 # DENY: These are hard errors, not warnings.
 # ─────────────────────────────────────────
@@ -1241,6 +1358,7 @@ nonsensical_open_options    = true
 pointer_structural_match    = true
 private_bounds              = true
 unconditional_recursion     = true
+static_mut_refs             = true    # deny-by-default in 2024
 
 [lints.clippy.deny]
 cargo_common_metadata       = true
@@ -1370,6 +1488,9 @@ macro_rules! invariant_violation {
         }
     };
 }
+
+// NOTE: Since Rust 1.92, Location::file_as_c_str() is available for zero-cost
+// &CStr access to source locations. Consider using it for FFI error reporting.
 
 impl fmt::Display for Error {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
@@ -1874,12 +1995,12 @@ This section provides implementation details for each layer.
 [package]
 name    = "proofs"
 version = "0.1.0"
-edition = "2021"
+edition = "2024"
 publish = false
 
 [dependencies]
 project_name = { path = ".." }
-kani         = { version = "0.55", features = ["concrete"] }
+kani         = { version = "0.67", features = ["concrete"] }
 
 # Cannot use std for proofs when the target is no_std.
 # Proofs crate always uses std for harness infrastructure.
@@ -1903,6 +2024,15 @@ pub mod ecs_proofs;
 pub mod state_machine_proofs;
 pub mod math_proofs;
 ```
+
+#### 6.2.1.1 New in Kani 0.67+
+
+| Feature | Description | Usage |
+|---------|-------------|-------|
+| **Concrete Playback** | Generates concrete unit tests from counterexample traces | `cargo kani --concrete-playback` — run generated tests with `cargo test` |
+| **Visualization** | HTML reports showing trace and counterexample paths | `cargo kani --visualize` — opens browser with interactive trace viewer |
+| **Function Contracts** | Pre/post-condition specification using `kani::requires` and `kani::ensures` | Experimental. See §6.2.5 |
+| **Bounded checking improvements** | More efficient symbolic execution for bounded proofs | Default unwind handling improved |
 
 #### 6.2.2 Proof Harness Patterns
 
@@ -1998,6 +2128,8 @@ MANDATE (for proved code):
   - No raw pointer dereference
   - All indexing MUST be provably in-bounds
   - All arithmetic MUST be provably overflow-free
+  - No `gen` blocks (reserved keyword in 2024, use iterators)
+  - Use `cfg_select!` over `cfg-if` crate for compile-time branching
 
 SHOULD (for proved code):
   - Use bounded integer types (u8, u16, u32) where possible
@@ -2018,9 +2150,44 @@ SHOULD (for proved code):
       --enable-unstable \
       --restrict-vtable  \
       --default-unwind 100 \
-      --output-format terse
+      --output-format terse \
+      --concrete-playback
   timeout-minutes: 60
+
+- name: Run Kani concrete playback tests
+  if: always()
+  run: |
+    cd proofs
+    cargo test --test kani_concrete_tests
 ```
+
+#### 6.2.5 Function Contracts (Experimental)
+
+Kani 0.67+ supports experimental function contracts — pre/post-condition specification
+inspired by SPARK:
+
+```rust
+/// Divides two integers with Kani function contracts.
+///
+/// [PROVED] Using kani::requires and kani::ensures
+#[kani::requires(divisor != 0)]
+#[kani::ensures(|result| *result == dividend / divisor)]
+pub fn divide(dividend: i32, divisor: i32) -> i32 {
+    dividend / divisor
+}
+```
+
+**MANDATE:** Function contracts SHALL be used for all public API functions in
+safety-critical modules. They serve as:
+- **Executable documentation** — contracts are checked at proof time
+- **Formal specification** — Kani proves the implementation satisfies the contract
+- **Test generation** — concrete playback generates unit tests from contract coverage
+
+**MANDATE:** Contracts SHALL be verified in CI via `cargo kani` with the
+`--contracts` flag (experimental, requires `--enable-unstable`).
+
+**RATIONALE:** Contracts are the closest Rust has to SPARK's `Pre`/`Post` aspects.
+They turn function documentation from prose into machine-checkable specifications.
 
 ### 6.3 Property-Based Testing (proptest)
 
@@ -2106,6 +2273,7 @@ cargo zigbuild --target x86_64-unknown-linux-musl --release
 **MANDATE:** CI SHALL build ALL targets via `nix build` inside the Nix sandbox.
 **MANDATE:** `cargo-zigbuild` is FORBIDDEN in CI.
 **SHOULD:** Use `nix build` for local cross-compilation. `cargo zigbuild` is acceptable for quick iteration.
+**NOTE:** `cargo-zigbuild` v0.22+ supports the expanded target matrix. Ensure zig version ≥ 0.14.
 
 ### 7.3 cross/targets.toml (Optional)
 
@@ -2375,6 +2543,11 @@ enum Command {
     NoStd,
     /// Check MSRV compliance
     Msrv,
+    /// Run Kani function contract verification
+    Verify {
+        #[arg(long)]
+        harness: Option<String>,
+    },
 }
 
 fn main() -> Result<()> {
@@ -2392,6 +2565,7 @@ fn main() -> Result<()> {
         Command::Cross { target }    => tasks::cross::run(target.as_deref()),
         Command::NoStd               => tasks::nostd::run(),
         Command::Msrv                => tasks::msrv::run(),
+        Command::Verify { harness }     => tasks::verify::run(harness.as_deref()),
     }
 }
 ```
@@ -2420,6 +2594,7 @@ pub fn run() -> Result<()> {
             "--restrict-vtable",
             "--default-unwind", "100",
             "--output-format", "terse",
+            "--concrete-playback",
         ],
         "Kani proof verification failed. See Kani output above for details.",
     )?;
@@ -2766,7 +2941,7 @@ This standard uses a **dual VCS approach**:
 #### 10.2.1 Installation
 
 ```bash
-cargo install --locked jujutsu
+cargo install --locked jujutsu        # latest: 0.41.0 (May 2026)
 ```
 
 #### 10.2.2 Initialize in Existing Git Repo
@@ -2847,7 +3022,15 @@ change_id shortest " " commit_id.shortest " " bookmarks " " description " " empt
 | **§1.4 Rust-native** | Written in Rust. Installs via `cargo install --locked`. |
 | **§6.2.3 Proved correctness** | Automatic rebase, first-class conflicts, full undo stack — fewer manual operations means fewer errors. |
 
-#### 10.2.6 Known Gaps vs Git
+#### 10.2.6 New in jj 0.41+
+
+| Feature | Description |
+|---------|-------------|
+| **Enhanced conflict resolution** | Better merge conflict markers and resolution UX |
+| **Faster operation log** | Improved performance for large repos |
+| **Improved `jj git` interop** | Smoother push/pull with GitHub and GitLab |
+
+#### 10.2.7 Known Gaps vs Git
 
 | Gap | Workaround |
 |-----|------------|
@@ -2903,6 +3086,7 @@ Note: These rules are enforced at the **hosting platform** (GitHub), not the VCS
 ---
 
 ## Part 11: Nushell Configuration & Scripts
+> **Nushell version:** 0.112+ (April 2026)
 
 ### 11.1 ~/.config/nushell/config.nu
 
@@ -3813,6 +3997,8 @@ MANDATE:
   - Every error variant is a STRUCT with named fields (no stringly-typed errors)
   - Every error includes source location (file, line)
   - Every error is #[non_exhaustive] (allows adding variants without breaking API)
+  - Every error MAY use #[diagnostic::do_not_recommend] on From impls to
+    suppress unhelpful conversion suggestions in compiler diagnostics
   - Every error implements std::error::Error with source() chain
   - No Error::Other(String) catch-all variants
   - No anyhow::Error in library code (only in xtask/binaries)
@@ -3940,6 +4126,16 @@ to keep, adapt, or remove.
 - Cross-compilation: test all targets but only publish for host triple
 - Proof: full Kani coverage on ALL public API
 
+**Safety-Critical:**
+- SAE JA1020 (Mar 2026) compliance SHALL be evaluated for all aviation/automotive targets
+- Ferrocene qualified toolchain SHALL be used for ISO 26262 (ASIL D) or IEC 61508 (SIL 4) deployments
+- Every public function MUST be [PROVED] (Kani) or [FFI_AUDITED] — no exceptions
+- Function contracts (`kani::requires`/`kani::ensures`) SHALL be used for safety-critical API boundaries
+- The Ferrocene certified `core` subset SHALL be used where `core` library qualification is required
+- MC/DC coverage SHALL be targeted for DO-178C DAL A/B compliance
+- All dependencies MUST be `#![forbid(unsafe_code)]` or individually audited
+- `unsafe` code is FORBIDDEN in safety-critical modules — use FFI_AUDITED boundary crates
+
 ---
 
 ## Appendices
@@ -3959,7 +4155,7 @@ By adopting this standard, you commit to:
 
 ```
 ┌──────────────────────────────────────────────────────────────────────┐
-│                     THE 12 COMMANDMENTS                               │
+│                     THE 14 COMMANDMENTS                               │
 ├──────────────────────────────────────────────────────────────────────┤
 │                                                                       │
 │  DATA & DESIGN                                                       │
@@ -3981,62 +4177,66 @@ By adopting this standard, you commit to:
 │  INFRASTRUCTURE                                                       │
 │  11. just + xtask for all build tasks (never Makefile)                │
 │  12. README.adoc is source of truth. README.md is generated.          │
+│  13. Edition 2024 — all projects use Rust 2024 edition                 │
+│  14. cfg_select! over cfg-if — built-in compile-time branching          │
 │                                                                       │
 └──────────────────────────────────────────────────────────────────────┘
 ```
 
 ### Appendix C: Toolchain Source
 
-| Tool | Source |
-|------|--------|
-| rustup | https://rustup.rs |
-| cargo-zigbuild | https://github.com/rust-cross/cargo-zigbuild |
-| Zig | https://ziglang.org/download |
-| Kani | https://github.com/model-checking/kani |
-| just | https://github.com/casey/just |
-| jj | https://github.com/jj-vcs/jj |
-| pijul | https://nest.pijul.com/pijul/pijul |
-| Nushell | https://www.nushell.sh |
-| nu-lint | https://crates.io/crates/nu-lint |
-| topiary (tree-sitter formatter) | https://github.com/tweag/topiary |
-| Asciidoctor | https://asciidoctor.org |
-| Vale | https://vale.sh |
-| proptest | https://github.com/proptest-rs/proptest |
-| cargo-fuzz | https://github.com/rust-fuzz/cargo-fuzz |
-| helix | https://helix-editor.com |
-| hecs | https://github.com/Ralith/hecs |
-| rasn | https://github.com/XAMPPRocky/rasn |
-| ripgrep | https://github.com/BurntSushi/ripgrep |
-| fd | https://github.com/sharkdp/fd |
-| bat | https://github.com/sharkdp/bat |
-| eza | https://github.com/eza-community/eza |
-| delta | https://github.com/dandavison/delta |
-| sd | https://github.com/chmln/sd |
-| dust | https://github.com/bootandy/dust |
-| bottom | https://github.com/ClementTsang/bottom |
-| procs | https://github.com/dalance/procs |
-| xh | https://github.com/ducaale/xh |
-| zoxide | https://github.com/ajeetdsouza/zoxide |
-| hyperfine | https://github.com/sharkdp/hyperfine |
-| tokei | https://github.com/XAMPPRocky/tokei |
-| ouch | https://github.com/ouch-org/ouch |
-| starship | https://starship.rs |
-| zellij | https://zellij.dev |
-| alacritty | https://alacritty.org |
-| gg | https://github.com/gutmet/gg |
-| bandwhich | https://github.com/imsnif/bandwhich |
-| gping | https://github.com/orf/gping |
-| dog | https://github.com/ogham/dog |
-| coreutils (uutils) | https://github.com/uutils/coreutils |
-| nixpkgs | https://github.com/NixOS/nixpkgs |
-| fenix (Rust overlay) | https://github.com/nix-community/fenix |
-| crane (Rust builder) | https://github.com/ipetkov/crane |
-| cachix (binary cache) | https://cachix.org |
-| nix (package manager) | https://nixos.org/download |
+| Tool | Source | Version (May 2026) |
+|------|--------|---------------------|
+| Rust compiler | https://rustup.rs | **1.95.0** (Edition 2024) |
+| cargo-zigbuild | https://github.com/rust-cross/cargo-zigbuild | 0.22.3 |
+| Zig linker | https://ziglang.org/download | ≥ 0.14 |
+| Kani Verifier | https://github.com/model-checking/kani | **0.67.0** |
+| just | https://github.com/casey/just | 1.51.0 |
+| jj (Jujutsu) | https://github.com/jj-vcs/jj | 0.41.0 |
+| pijul | https://nest.pijul.com/pijul/pijul | 1.0.0-beta |
+| Nushell | https://www.nushell.sh | 0.112.2 |
+| nu-lint | https://crates.io/crates/nu-lint | latest |
+| topiary | https://github.com/tweag/topiary | latest |
+| Asciidoctor | https://asciidoctor.org | latest |
+| Vale | https://vale.sh | latest |
+| proptest | https://github.com/proptest-rs/proptest | 1.11.0 |
+| cargo-fuzz | https://github.com/rust-fuzz/cargo-fuzz | latest |
+| helix | https://helix-editor.com | 25.07.1 |
+| hecs | https://github.com/Ralith/hecs | 0.11.0 |
+| rasn | https://github.com/XAMPPRocky/rasn | 0.28.13 |
+| ripgrep | https://github.com/BurntSushi/ripgrep | 15.1.0 |
+| fd | https://github.com/sharkdp/fd | 10.4.2 |
+| bat | https://github.com/sharkdp/bat | 0.26.1 |
+| eza | https://github.com/eza-community/eza | 0.23.4 |
+| delta | https://github.com/dandavison/delta | 0.19.2 |
+| sd | https://github.com/chmln/sd | 1.1.0 |
+| dust | https://github.com/bootandy/dust | latest |
+| bottom | https://github.com/ClementTsang/bottom | 0.12.3 |
+| procs | https://github.com/dalance/procs | latest |
+| xh | https://github.com/ducaale/xh | latest |
+| zoxide | https://github.com/ajeetdsouza/zoxide | latest |
+| hyperfine | https://github.com/sharkdp/hyperfine | latest |
+| tokei | https://github.com/XAMPPRocky/tokei | latest |
+| ouch | https://github.com/ouch-org/ouch | latest |
+| starship | https://starship.rs | 1.25.1 |
+| zellij | https://zellij.dev | 0.44.2 |
+| alacritty | https://alacritty.org | latest |
+| gg | https://github.com/gutmet/gg | latest |
+| bandwhich | https://github.com/imsnif/bandwhich | latest |
+| gping | https://github.com/orf/gping | latest |
+| dog | https://github.com/ogham/dog | latest |
+| coreutils (uutils) | https://github.com/uutils/coreutils | latest |
+| nixpkgs | https://github.com/NixOS/nixpkgs | 26.05pre981196 |
+| fenix (Rust overlay) | https://github.com/nix-community/fenix | latest |
+| crane (Rust builder) | https://github.com/ipetkov/crane | latest |
+| cachix (binary cache) | https://cachix.org | latest |
+| nix (package manager) | https://nixos.org/download | latest |
+| Ferrocene | https://ferrocene.dev | 25.11.0 (qualified) |
+| Safety-Critical Rust Consortium | https://github.com/rustfoundation/safety-critical-rust-consortium | N/A |
 
 ---
 
-> **End of STANDARDS.md v1.0.0**
+> **End of STANDARDS.md v2.0.0**
 >
 > This document is a living standard. It will be updated as tools evolve,
 > as we learn from project experience, and as the Rust verification
