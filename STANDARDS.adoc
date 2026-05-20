@@ -4607,36 +4607,36 @@ for debugging.
 Not every section applies to every project type. Use this table to
 decide what to keep, adapt, or remove.
 
-[width="100%",cols="20%,8%,8%,8%,10%,17%,14%,15%",options="header",]
+[width="100%",cols="20%,8%,8%,8%,10%,14%,8%,12%,12%",options="header",]
 |===
-|Section |CLI |TUI |GUI |Game |Web/WASM |LLM/AI |Library
-|Part 0: Philosophy |✓ |✓ |✓ |✓ |✓ |✓ |✓
+|Section |CLI |TUI |GUI |Game |Web/WASM |Container |LLM/AI |Library
+|Part 0: Philosophy |✓ |✓ |✓ |✓ |✓ |✓ |✓ |✓
 
-|Part 1: Stack Decision |✓ |✓ |✓ |✓ |✓ |✓ |✓
+|Part 1: Stack Decision |✓ |✓ |✓ |✓ |✓ |✓ |✓ |✓
 
-|Part 2: Repository |✓ |✓ |✓ |✓ |✓ |✓ |✓
+|Part 2: Repository |✓ |✓ |✓ |✓ |✓ |✓ |✓ |✓
 
-|Part 3: Rust Cfg |✓ |✓ |✓ |✓ |✓ |✓ |✓
+|Part 3: Rust Cfg |✓ |✓ |✓ |✓ |✓ |✓ |✓ |✓
 
-|Part 4: DOD/ECS |ECS opt |ECS opt |ECS ✓ |ECS ✓ |limited |data-pipeline
+|Part 4: DOD/ECS |ECS opt |ECS opt |ECS ✓ |ECS ✓ |limited |ECS opt |data-pipeline
 |remove
 
-|Part 5: ASN.1/DER |config |config |config |save-fmt |config |model-data
+|Part 5: ASN.1/DER |config |config |config |save-fmt |config |config |model-data
 |✓
 
-|Part 6: Proof |✓ |✓ |✓ |✓ |✓ |✓ |✓
+|Part 6: Proof |✓ |✓ |✓ |✓ |✓ |✓ |✓ |✓
 
-|Part 7: Cross-compile |✓ |✓ |✓ |✓ |WASM only |server only |lib only
+|Part 7: Cross-compile |✓ |✓ |✓ |✓ |WASM only |✓ |server only |lib only
 
-|Part 8: Build |✓ |✓ |✓ |✓ |✓ |✓ |✓
+|Part 8: Build |✓ |✓ |✓ |✓ |✓ |✓ |✓ |✓
 
-|Part 9: Docs |✓ |✓ |✓ |✓ |✓ |✓ |✓
+|Part 9: Docs |✓ |✓ |✓ |✓ |✓ |✓ |✓ |✓
 
-|Part 10: Git |✓ |✓ |✓ |✓ |✓ |✓ |✓
+|Part 10: Git |✓ |✓ |✓ |✓ |✓ |✓ |✓ |✓
 
-|Part 11: Nushell |✓ |✓ |✓ |✓ |✓ |✓ |✓
+|Part 11: Nushell |✓ |✓ |✓ |✓ |✓ |✓ |✓ |✓
 
-|Part 12: Errors |✓ |✓ |✓ |✓ |✓ |✓ |✓
+|Part 12: Errors |✓ |✓ |✓ |✓ |✓ |✓ |✓ |✓
 |===
 
 ==== 13.2 Adaptation Notes by Type
@@ -4668,6 +4668,48 @@ configuration - ECS: optional (for complex frontend state) - Dedicated
 note: WASM targets cannot use std::thread or std::net. Gate
 platform-specific code behind ++#[++cfg(target++_++arch =
 "`wasm32`")++]++.
+
+*Container-Deployed Application:* - Cross-compilation: use
+`x86_64-unknown-linux-musl` (already in §1.3) — static binary is
+self-contained, zero runtime dependencies - Add a `Containerfile` at the
+repository root:
+----
+FROM scratch
+COPY target/x86_64-unknown-linux-musl/release/${binary} /
+ENTRYPOINT ["/${binary}"]
+----
+- Add a `just container-build` recipe in the `justfile` that calls
+`podman build` or `docker build` — these are *build tools*, not project
+dependencies; do not add them to `Cargo.toml` - For CI-native image
+building (no daemon required, hermetic): use
+`pkgs.dockerTools.buildImage` in `flake.nix` — produces an OCI-compliant
+image directly from the Nix sandbox, satisfying the §1.5.4 mandate that
+CI SHALL NOT install anything outside the Nix sandbox - For registry
+push: add `oci-distribution` as an *optional* dev-dependency in
+`xtask/Cargo.toml` only — not in the project's `Cargo.toml` - ECS:
+optional (same as CLI) - ASN.1/DER: for configuration (same as CLI) -
+Proof: focus on argument parsing, startup logic, configuration
+validation - Dedicated note: the OCI image is a *delivery envelope*
+only — the binary, the build pipeline, and the verification pipeline
+are identical to a native deployment. No OCI library dependencies are
+required in the project crate itself. - FORBIDDEN: `oci-spec-rs`,
+`youki`, `oci-distribution`, `oras-rs`, `netavark`, OverlayFS
+interaction, or cgroups management in project code — these are only
+justified if the project's *purpose* is a container runtime or
+orchestrator (see "Container-Native" distinction below)
+
+*Container-Native Application (orchestrator, runtime, or image
+builder):* - This is a distinct project type from Container-Deployed. -
+Justified additional dependencies: `oci-spec-rs`, `oci-distribution`,
+`oras-rs`, `rustix` / `nix` crate for syscall safety - Youki is an OCI
+runtime you *deploy to*, not a library you embed — only include it as a
+dependency if your binary implements an OCI runtime - Security layer
+(`seccomp`, `cgroups v2`, Linux namespaces) becomes project code, not
+just deployment configuration — document each unsafe block under
+`[FFI_AUDITED]` - All unsafe syscall interactions MUST be
+`[FFI_AUDITED]` per §0.3.3 - This project type is out of scope for the
+generic boilerplate — treat it as a specialisation requiring governance
+board approval to deviate from the standard dependency rules
 
 *LLM/AI:* - ECS: replace with data pipeline patterns (token → tensor →
 prediction) - ASN.1/DER: for model configuration, tokenizer data, prompt
