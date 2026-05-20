@@ -13,7 +13,7 @@ Init a repo: `jj git init --colocate` (keeps `.git/` — GitHub works normally).
 
 | Intent | `jj` command | Notes |
 |---|---|---|
-| Start work | `jj new [BRANCH]` | Creates change on top of `@` |
+| Start work | `jj new [BOOKMARK]` | Creates change on top of `@` |
 | Commit msg | `jj describe -m "msg"` | Idempotent — re-run to amend |
 | Push | `jj git push` | Pushes real git commits |
 | Rebase | `jj rebase -d main` | All descendants auto-rebase |
@@ -28,35 +28,44 @@ Known gaps vs git: no submodules (use `git` directly), no `jj gh submit` (use `g
 
 ## Toolchain: Rust-native replacements
 
-| Classic → Rust | Install |
+Canonical reference: **STANDARDS.adoc §1.4.2 and Appendix C**.
+
+Install all tools with `--locked`. Quick install reference:
+
+| Tool | Install |
 |---|---|
-| `grep` → `rg` (ripgrep) | `cargo install --locked ripgrep` |
-| `find` → `fd` | `cargo install --locked fd-find` |
-| `cat` → `bat` | `cargo install --locked bat` |
-| `sed` → `sd` | `cargo install --locked sd` |
-| `diff` → `delta` | `cargo install --locked git-delta` |
-| `ls` → `eza` | `cargo install --locked eza` |
-| `du` → `dust` | `cargo install --locked dust` |
-| `ps` → `procs` | `cargo install --locked procs` |
-| `top` → `btm` (bottom) | `cargo install --locked bottom` |
-| `cd` → `z` (zoxide) | `cargo install --locked zoxide` |
-| `curl` → `xh` | `cargo install --locked xh` |
-| `dig` → `dog` | `cargo install --locked dog` |
-| `ping` → `gping` | `cargo install --locked gping` |
-| `tar` → `ouch` | `cargo install --locked ouch` |
-| `nethogs` → `bandwhich` | `cargo install --locked bandwhich` |
-| `make` → `just` | `cargo install --locked just` |
-| `tmux` → `zellij` | `cargo install --locked zellij` |
-| `vim` → `hx` (helix) | `cargo install --locked helix` |
+| ripgrep | `cargo install --locked ripgrep` |
+| fd | `cargo install --locked fd-find` |
+| bat | `cargo install --locked bat` |
+| sd | `cargo install --locked sd` |
+| delta | `cargo install --locked git-delta` |
+| eza | `cargo install --locked eza` |
+| dust | `cargo install --locked dust` |
+| procs | `cargo install --locked procs` |
+| bottom | `cargo install --locked bottom` |
+| zoxide | `cargo install --locked zoxide` |
+| xh | `cargo install --locked xh` |
+| just | `cargo install --locked just` |
+| zellij | `cargo install --locked zellij` |
+| helix | `cargo install --locked helix` |
+| jj | `cargo install --locked jujutsu` |
 
 ## Shell: Nushell (0.112.2)
 
-- All scripts: `.nu` extension (never `.sh`)
-- Config: `config/nushell/config.nu`, `config/nushell/env.nu` → `~/.config/nushell/`
-- Key settings: fuzzy completions, sqlite history (100k), rounded tables, OSC 2/7/133 shell integration
-- `$env.EDITOR = "hx"`, `$env.PROPTEST_CASES = "100000"`, `$env.RUSTFLAGS = "-Dwarnings"`
-- `git` aliased to `jj`
-- Prompt: Starship (init: `~/.cache/starship/init.nu`)
+Full alias list: **STANDARDS.adoc §11.1**.
+
+Project-specific aliases (add to `config.nu`):
+
+```nushell
+alias c   = cargo
+alias cxt = cargo xtask
+alias j   = just
+```
+
+Key settings: fuzzy completions, sqlite history (100k), rounded tables,
+OSC 2/7/133 shell integration. `$env.EDITOR = "hx"`,
+`$env.PROPTEST_CASES = "100000"`, `$env.RUSTFLAGS = "-Dwarnings"`.
+Prompt: Starship.
 
 ## Editor: Helix (25.07.1)
 
@@ -66,6 +75,7 @@ Known gaps vs git: no submodules (use `git` directly), no `jj gh submit` (use `g
 ## Build System: just + cargo xtask
 
 - `just` = thin wrapper for discoverability, `cargo xtask` = complex Rust automation
+- Canonical source: **STANDARDS.adoc §8.1**. Agent quick-reference below.
 - Recipes (from STANDARDS Part 8):
   - `just check` → `cargo xtask check` (lint + test + proof + docs + audit)
   - `just lint` → `cargo xtask lint`
