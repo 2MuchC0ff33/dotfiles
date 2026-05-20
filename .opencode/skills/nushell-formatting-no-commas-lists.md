@@ -7,7 +7,7 @@ Commas MUST be omitted between items in list literals. Use whitespace-separated 
 Load this skill when writing list literals (`[1 2 3]`), reviewing array definitions, or creating table literals (`[[col1 col2]; [val1 val2]]`).
 
 ## Source
-STANDARDS.adoc §11.5.2 (lines 4003–4065)
+STANDARDS.adoc §11.5.2 (lines 4061–4123)
 
 ## Key Rules
 

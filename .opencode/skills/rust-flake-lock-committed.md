@@ -7,7 +7,7 @@
 Load this skill when setting up a new project, reviewing PRs that update `flake.lock`, or auditing dependency pinning.
 
 ## Source
-STANDARDS.adoc §1.5 (lines 940–947), §1.5.3 (lines 1018–1036), §1.2 (lines 649–655)
+STANDARDS.adoc §1.5 (lines 932–939), §1.5.3 (lines 1011–1029), §1.2 (lines 649–655)
 
 ## Key Rules
 

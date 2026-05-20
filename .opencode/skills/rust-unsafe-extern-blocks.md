@@ -7,7 +7,7 @@ Rust 2024 edition requires `unsafe extern "C"` syntax for all extern blocks. The
 Load this skill when writing or reviewing FFI declarations, extern blocks, or C ABI bindings in any crate targeting edition 2024.
 
 ## Source
-STANDARDS.adoc §1.4.4.1 (lines 871–876) and §3.1 (lines 1595–1597)
+STANDARDS.adoc §1.4.4.1 (lines 872–877) and §3.1 (lines 1589–1590)
 
 ## Key Rules
 

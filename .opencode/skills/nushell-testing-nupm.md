@@ -7,7 +7,7 @@ SHOULD: Use `nupm test` when working within a nupm-managed project.
 Load this skill when testing within a project that uses nupm (Nushell Package Manager).
 
 ## Source
-STANDARDS.adoc §11.5.12 (lines 4490–4499)
+STANDARDS.adoc §11.5.12 (lines 4548–4557)
 
 ## Key Rules
 

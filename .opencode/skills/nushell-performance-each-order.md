@@ -7,7 +7,7 @@ Use `each` ONLY when order must be preserved or list is very small. Otherwise pr
 Load this skill when deciding between `each` and `par-each` for collection processing.
 
 ## Source
-STANDARDS.adoc §11.5.10 (lines 4392–4398)
+STANDARDS.adoc §11.5.10 (lines 4450–4456)
 
 ## Key Rules
 

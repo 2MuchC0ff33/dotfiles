@@ -7,7 +7,7 @@ Standard `.gitignore` entries for Rust projects: generated `README.md`, build ar
 Load this skill when creating or modifying `.gitignore`, setting up a new Rust project, or reviewing ignored file patterns.
 
 ## Source
-STANDARDS.adoc §2.2 (lines 1263–1300)
+STANDARDS.adoc §2.2 (lines 1257–1294)
 
 ## Key Rules
 

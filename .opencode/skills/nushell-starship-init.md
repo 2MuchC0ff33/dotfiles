@@ -7,7 +7,7 @@ Initialize Starship prompt in Nushell by caching its init script and sourcing it
 Load this skill when configuring the Starship prompt integration in Nushell's `config.nu`.
 
 ## Source
-STANDARDS.adoc §11.1 (lines 3677–3685), §11.4.1 (lines 3746–3811)
+STANDARDS.adoc §11.1 (lines 3735–3743), §11.4.1 (lines 3804–3869)
 
 ## Key Rules
 

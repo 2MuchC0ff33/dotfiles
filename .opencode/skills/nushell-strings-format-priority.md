@@ -7,7 +7,7 @@ String format selection MUST follow a strict priority order: bare words > single
 Load this skill when writing any string literal in Nushell — command arguments, variable assignments, configuration values, error messages, or any text content.
 
 ## Source
-STANDARDS.adoc §11.5.3 (lines 4067–4086)
+STANDARDS.adoc §11.5.3 (lines 4125–4144)
 
 ## Key Rules
 

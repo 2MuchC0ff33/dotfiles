@@ -7,7 +7,7 @@ ALL `.nu` files SHALL pass `nu-lint` in CI. CI SHALL fail on any `nu-lint` error
 Load this skill when setting up CI, writing Nushell scripts, or configuring linting.
 
 ## Source
-STANDARDS.adoc §11.5.11 (lines 4434–4445)
+STANDARDS.adoc §11.5.11 (lines 4492–4503)
 
 ## Key Rules
 

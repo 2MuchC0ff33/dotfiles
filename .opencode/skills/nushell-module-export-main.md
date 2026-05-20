@@ -7,7 +7,7 @@ Use `export def main` when the command name matches the module filename for idio
 Load this skill when creating a Nushell module with a primary entry point.
 
 ## Source
-STANDARDS.adoc §11.5.6 (lines 4188–4193, 4209–4222)
+STANDARDS.adoc §11.5.6 (lines 4246–4251, 4267–4280)
 
 ## Key Rules
 

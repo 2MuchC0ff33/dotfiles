@@ -7,7 +7,7 @@ ALL public (exported) commands MUST have a documented return type in their I/O s
 Load this skill when defining exported commands, writing library/module code, reviewing public API surfaces of `.nu` files, or ensuring command signatures are fully documented.
 
 ## Source
-STANDARDS.adoc §11.5.4 (lines 4088–4125)
+STANDARDS.adoc §11.5.4 (lines 4146–4183)
 
 ## Key Rules
 

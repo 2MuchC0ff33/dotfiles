@@ -7,7 +7,7 @@ Standard `.cargo/config.toml` configuration for all Rust projects: strict compil
 Load this skill when initializing a new Rust project, configuring cross-compilation, or setting up CI build pipelines.
 
 ## Source
-STANDARDS.adoc §1.1 (lines 588–593), §1.2 (lines 648–672), §1.3 (lines 674–714)
+STANDARDS.adoc §1.1 (lines 563–568), §1.2 (lines 648–672), §1.3 (lines 674–717)
 
 ## Key Rules
 
@@ -59,7 +59,7 @@ rustflags = ["-C", "target-feature=+crt-static"]
 [target.x86_64-pc-windows-gnu]
 linker = "zig"
 
-[target.wasm32-wasi]
+[target.wasm32-wasip1]
 linker = "zig"
 
 # ─────────────────────────────────────────

@@ -1,18 +1,17 @@
 # Assert Patterns in Tests
 
 ## Description
-Use `assert` commands from standard library. Use `@example` attributes on non-trivial commands.
+Use `assert` commands from standard library.
 
 ## When to Load
 Load this skill when writing test assertions or adding examples to commands.
 
 ## Source
-STANDARDS.adoc §11.5.12 (lines 4490–4500)
+STANDARDS.adoc §11.5.12 (lines 4548–4558)
 
 ## Key Rules
 
 - SHOULD: Use `assert` commands from the standard library
-- SHOULD: Provide `@example` attributes on non-trivial commands
 - MANDATE: ALL exported commands in shared modules SHALL have tests
 
 ## Rationale
@@ -59,11 +58,5 @@ def test_throws_on_invalid_input [] {
 def test_not_equal [] {
     let result = (process 'input1')
     assert not equal $result (process 'input2')
-}
-
-# Using @example attributes for doc-tests
-# @example 'Returns greeting' { greet 'World' }  # returns 'Hello, World!'
-export def greet [name: string]: string -> string {
-    $'Hello, ($name)!'
 }
 ```

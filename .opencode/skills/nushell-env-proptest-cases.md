@@ -7,7 +7,7 @@ Set `$env.PROPTEST_CASES = "100000"` to configure high default iteration count f
 Load this skill when reviewing or creating environment variable settings in `config.nu` or `env.nu`.
 
 ## Source
-STANDARDS.adoc §11.1 (line 3675)
+STANDARDS.adoc §11.1 (line 3733)
 
 ## Key Rules
 

@@ -7,7 +7,7 @@ Abbreviations in identifiers are FORBIDDEN when a full, readable word form exist
 Load this skill when naming any identifier (variables, commands, parameters, flags, files) and considering shortened forms, or when reviewing existing code for readability issues.
 
 ## Source
-STANDARDS.adoc §11.5.1 (lines 3969–4001)
+STANDARDS.adoc §11.5.1 (lines 4027–4059)
 
 ## Key Rules
 

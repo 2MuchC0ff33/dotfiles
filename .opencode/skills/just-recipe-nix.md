@@ -4,18 +4,18 @@
 Nix environment recipes: hermetic development shell, environment verification, and builds.
 
 ## When to Load
-Load this skill when implementing, modifying, or documenting the `shell`, `deps`, `build`, `cross`, or `cross-one` (Nix) recipes in the justfile.
+Load this skill when implementing, modifying, or documenting the `shell`, `deps`, `build`, `cross-nix`, or `cross-nix-one` (Nix) recipes in the justfile.
 
 ## Source
-STANDARDS.adoc §8.1 (lines 2829–2851)
+STANDARDS.adoc §8.1 (lines 2862–2884)
 
 ## Key Rules
 
 - MANDATE: `shell` MUST run `nix develop .` — enters the hermetic Nix development shell defined in `flake.nix`.
 - MANDATE: `deps` MUST run `nix flake check` — verifies flake integrity (all outputs build successfully).
 - MANDATE: `build` MUST run `nix build .` — builds the default package for the current platform.
-- MANDATE: `cross` (Nix section) MUST run `nix build .#all` — builds all configured targets via Nix.
-- MANDATE: `cross-one TARGET` (Nix section) MUST run `nix build .#{{TARGET}}` — builds a single named target.
+- MANDATE: `cross-nix` (Nix section) MUST run `nix build .#all` — builds all configured targets via Nix.
+- MANDATE: `cross-nix-one TARGET` (Nix section) MUST run `nix build .#{{TARGET}}` — builds a single named target.
 - MANDATE: `ci` MUST run `nix build .#checks` — builds all CI check derivations (equivalent to the full pipeline).
 - SHOULD: Use Nix recipes as the primary development workflow; legacy setup is only for non-Nix users.
 - SHOULD: Run `just deps` (nix flake check) after any change to `flake.nix` or `flake.lock`.
@@ -40,11 +40,11 @@ build:
     nix build .
 
 # Cross-compile for all targets
-cross:
+cross-nix:
     nix build .#all
 
 # Cross-compile for one target
-cross-one TARGET:
+cross-nix-one TARGET:
     nix build .#{{TARGET}}
 
 # CI check (equivalent to full pipeline)
@@ -57,8 +57,8 @@ Usage:
 just shell              # Enter Nix dev shell
 just deps               # Verify flake integrity
 just build              # Build for current platform
-just cross              # Cross-compile for all targets
-just cross-one x86_64-pc-windows-gnu  # Build for specific target
+just cross-nix              # Cross-compile for all targets
+just cross-nix-one x86_64-pc-windows-gnu  # Build for specific target
 just ci                 # Run CI check derivations
 ```
 

@@ -7,7 +7,7 @@ Enable OSC 7 shell integration sequences to advertise the current working direct
 Load this skill when configuring `$env.config.shell_integration.osc7` in `config.nu`.
 
 ## Source
-STANDARDS.adoc §11.1 (line 3600)
+STANDARDS.adoc §11.1 (line 3658)
 
 ## Key Rules
 

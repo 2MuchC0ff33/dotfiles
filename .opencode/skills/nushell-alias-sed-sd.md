@@ -7,7 +7,7 @@ Replace `sed` (stream editor) with `sd`, a Rust-native find-and-replace tool wit
 Load this skill when reviewing or creating Nushell aliases in `config.nu`.
 
 ## Source
-STANDARDS.adoc §11.1 (line 3641)
+STANDARDS.adoc §11.1 (line 3699)
 
 ## Key Rules
 

@@ -7,7 +7,7 @@ Every function does exactly one thing. If a function's name contains "and", it i
 Load this skill when writing new functions, reviewing PRs for single-responsibility violations, or refactoring functions that have grown to do multiple things.
 
 ## Source
-STANDARDS.adoc §0.1.3 (lines 106–107)
+STANDARDS.adoc §0.1.3 (lines 103–104)
 
 ## Key Rules
 

@@ -7,7 +7,7 @@ No source file exceeds 500 lines. If a file exceeds 500 lines, a justification c
 Load this skill when creating new source files, reviewing PRs for file size compliance, or refactoring files that have grown too large.
 
 ## Source
-STANDARDS.adoc §0.1.3 (line 104)
+STANDARDS.adoc §0.1.3 (line 101)
 
 ## Key Rules
 

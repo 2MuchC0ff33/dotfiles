@@ -7,7 +7,7 @@ Private helper commands should be left un-exported (intentionally private). Only
 Load this skill when organizing code within a module and deciding what to export.
 
 ## Source
-STANDARDS.adoc §11.5.6 (lines 4188–4198, 4215–4217)
+STANDARDS.adoc §11.5.6 (lines 4246–4256, 4273–4275)
 
 ## Key Rules
 

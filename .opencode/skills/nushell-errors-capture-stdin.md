@@ -7,7 +7,7 @@ Capture `$in` with `let` when it is used multiple times to avoid consuming the p
 Load this skill when processing pipeline input (`$in`) that needs to be referenced more than once.
 
 ## Source
-STANDARDS.adoc §11.5.7 (lines 4255–4266)
+STANDARDS.adoc §11.5.7 (lines 4313–4324)
 
 ## Key Rules
 

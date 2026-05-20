@@ -7,7 +7,7 @@ All command flags (both long and short) MUST follow kebab-case naming for the lo
 Load this skill when defining command signatures with `--flag` parameters, designing CLI interfaces for Nushell commands, or reviewing flag naming in existing command definitions.
 
 ## Source
-STANDARDS.adoc §11.5.1 (lines 3969–4001)
+STANDARDS.adoc §11.5.1 (lines 4027–4059)
 
 ## Key Rules
 

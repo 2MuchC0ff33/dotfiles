@@ -10,7 +10,7 @@ Load this skill when writing or editing any `.adoc` file content.
 
 ## Source
 
-STANDARDS.adoc §9.6 (lines 3253–3255)
+STANDARDS.adoc §9.6 (lines 3293–3295)
 
 ## Key Rules
 

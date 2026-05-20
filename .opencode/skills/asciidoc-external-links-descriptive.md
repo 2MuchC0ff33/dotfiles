@@ -10,7 +10,7 @@ Load this skill when adding external hyperlinks (URLs to external sites) in any 
 
 ## Source
 
-STANDARDS.adoc §9.6 (lines 3261 and 3264)
+STANDARDS.adoc §9.6 (lines 3301 and 3304)
 
 ## Key Rules
 

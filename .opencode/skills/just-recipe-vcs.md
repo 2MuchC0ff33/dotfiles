@@ -7,7 +7,7 @@ Version control recipes wrapping jj (Jujutsu) for common operations.
 Load this skill when implementing, modifying, or documenting the `status`, `log`, `diff`, `undo`, `new`, `describe`, or `push` recipes in the justfile.
 
 ## Source
-STANDARDS.adoc §8.1 (lines 2789–2815)
+STANDARDS.adoc §8.1 (lines 2822–2848)
 
 ## Key Rules
 

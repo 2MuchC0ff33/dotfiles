@@ -10,7 +10,7 @@ Load this skill when writing or reviewing section headings in any `.adoc` file.
 
 ## Source
 
-STANDARDS.adoc §9.5 (lines 3233–3249)
+STANDARDS.adoc §9.5 (lines 3275–3291)
 
 ## Key Rules
 

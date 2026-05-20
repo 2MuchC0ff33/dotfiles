@@ -7,7 +7,7 @@ MANDATE: ALL exported commands in shared modules SHALL have tests.
 Load this skill when adding new exported commands to modules or writing tests.
 
 ## Source
-STANDARDS.adoc §11.5.12 (lines 4490–4501, 4504–4526)
+STANDARDS.adoc §11.5.12 (lines 4548–4559, 4562–4584)
 
 ## Key Rules
 

@@ -7,7 +7,7 @@ Prefer pipelines over imperative loops in ALL cases. Use functional composition 
 Load this skill when writing any Nushell command that transforms, filters, or aggregates data.
 
 ## Source
-STANDARDS.adoc §11.5.5 (lines 4127–4186)
+STANDARDS.adoc §11.5.5 (lines 4185–4244)
 
 ## Key Rules
 

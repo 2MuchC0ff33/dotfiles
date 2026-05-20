@@ -7,7 +7,7 @@ PascalCase naming is FORBIDDEN in all Nushell identifiers: commands, variables, 
 Load this skill when reviewing any identifier in `.nu` files, auditing naming convention compliance, or when migrating code from languages that use PascalCase (C#, TypeScript classes, etc.).
 
 ## Source
-STANDARDS.adoc §11.5.1 (lines 3969–4001)
+STANDARDS.adoc §11.5.1 (lines 4027–4059)
 
 ## Key Rules
 

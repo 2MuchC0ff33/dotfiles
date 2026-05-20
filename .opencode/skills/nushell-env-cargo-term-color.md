@@ -7,7 +7,7 @@ Force Cargo to always emit colorized output, even when output is piped or redire
 Load this skill when reviewing or creating environment variable settings in `config.nu` or `env.nu`.
 
 ## Source
-STANDARDS.adoc §11.1 (line 3670)
+STANDARDS.adoc §11.1 (line 3728)
 
 ## Key Rules
 

@@ -7,7 +7,7 @@ Complete check pipeline recipe that runs lint, test, proof, docs, and audit in s
 Load this skill when implementing, modifying, or documenting the `check` recipe in the justfile, or when understanding the full CI pipeline.
 
 ## Source
-STANDARDS.adoc §8.1 (lines 2693–2695)
+STANDARDS.adoc §8.1 (lines 2726–2728)
 
 ## Key Rules
 

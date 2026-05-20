@@ -10,7 +10,7 @@ Load this skill when creating or restructuring documentation directories.
 
 ## Source
 
-STANDARDS.adoc §9.3 (lines 3205–3208) and §9.2 (lines 3164–3184)
+STANDARDS.adoc §9.3 (lines 3247–3250) and §9.2 (lines 3203–3223)
 
 ## Key Rules
 

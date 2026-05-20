@@ -7,7 +7,7 @@ Every `parse` function MUST have a round-trip property test. Every `serialize` f
 Load this skill when writing proptest harnesses for parse/serialize functions, adding property-based tests to the test suite, or reviewing test coverage for serialization boundaries.
 
 ## Source
-STANDARDS.adoc §6.3 (lines 2563–2597)
+STANDARDS.adoc §6.3 (lines 2592–2626)
 
 ## Key Rules
 

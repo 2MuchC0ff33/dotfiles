@@ -10,7 +10,7 @@ Load this skill when creating or reviewing any `.adoc` documentation page.
 
 ## Source
 
-STANDARDS.adoc §9.4 (lines 3215–3231)
+STANDARDS.adoc §9.4 (lines 3257–3273)
 
 ## Key Rules
 

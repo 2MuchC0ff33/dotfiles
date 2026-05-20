@@ -7,7 +7,7 @@
 Load this skill when discarding a change that is no longer needed, cleaning up experimental branches, or reverting work without losing history.
 
 ## Source
-STANDARDS.adoc §10.2.4 (lines 3443–3444)
+STANDARDS.adoc §10.2.4 (lines 3479–3480)
 
 ## Key Rules
 

@@ -7,7 +7,7 @@
 Load this skill when setting the commit message for a change, amending a commit message, or adding detail to a change before pushing.
 
 ## Source
-STANDARDS.adoc §10.2.4 (lines 3425–3426, 3433–3434)
+STANDARDS.adoc §10.2.4 (lines 3461–3462, 3469–3470)
 
 ## Key Rules
 

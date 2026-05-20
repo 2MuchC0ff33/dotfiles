@@ -7,7 +7,7 @@ No trailing whitespace is permitted on any line in any `.nu` source file.
 Load this skill when editing any `.nu` file, configuring editor settings for Nushell development, setting up lint/format tools, or reviewing diffs before commit.
 
 ## Source
-STANDARDS.adoc §11.5.2 (lines 4003–4065)
+STANDARDS.adoc §11.5.2 (lines 4061–4123)
 
 ## Key Rules
 

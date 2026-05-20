@@ -7,13 +7,12 @@ Temp files created with `^mktemp`, not predictable paths. Temp files cleaned up 
 Load this skill when creating or using temporary files.
 
 ## Source
-STANDARDS.adoc §11.5.8 (lines 4307–4325)
+STANDARDS.adoc §11.5.8 (lines 4365–4383)
 
 ## Key Rules
 
 - HIGH — MANDATE: Temp files created with `^mktemp`, not predictable paths
 - HIGH — MANDATE: Temp files cleaned up in `try`/`catch` or equivalent
-- CRITICAL — FORBIDDEN: Hardcoded secrets/tokens/credentials in source code
 
 ## Rationale
 

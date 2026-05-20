@@ -7,7 +7,7 @@ SHOULD: `topiary` (tree-sitter formatter) used for automated formatting of Nushe
 Load this skill when setting up project formatting or CI formatting checks.
 
 ## Source
-STANDARDS.adoc §11.5.11 (lines 4434–4444)
+STANDARDS.adoc §11.5.11 (lines 4492–4502)
 
 ## Key Rules
 

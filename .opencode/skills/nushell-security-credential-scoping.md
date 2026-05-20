@@ -7,7 +7,7 @@ Credentials scoped with `with-env`, not set on `$env` directly. Secrets read fro
 Load this skill when handling any credentials, tokens, API keys, or secrets.
 
 ## Source
-STANDARDS.adoc §11.5.8 (lines 4307–4327, 4341–4347)
+STANDARDS.adoc §11.5.8 (lines 4365–4385, 4399–4405)
 
 ## Key Rules
 

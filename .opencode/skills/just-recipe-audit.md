@@ -7,7 +7,7 @@ Security audit recipes: vulnerability scanning and dependency freshness checking
 Load this skill when implementing, modifying, or documenting the `audit` or `outdated` recipes in the justfile.
 
 ## Source
-STANDARDS.adoc §8.1 (lines 2765–2771)
+STANDARDS.adoc §8.1 (lines 2798–2804)
 
 ## Key Rules
 

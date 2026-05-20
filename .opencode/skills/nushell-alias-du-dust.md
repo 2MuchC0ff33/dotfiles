@@ -7,7 +7,7 @@ Replace Nushell's built-in disk usage reporting with `dust`, a Rust-native `du` 
 Load this skill when reviewing or creating Nushell aliases in `config.nu`.
 
 ## Source
-STANDARDS.adoc §11.1 (line 3638)
+STANDARDS.adoc §11.1 (line 3696)
 
 ## Key Rules
 

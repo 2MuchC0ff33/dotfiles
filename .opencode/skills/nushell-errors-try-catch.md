@@ -7,7 +7,7 @@ Fallible operations MUST be wrapped in `try`/`catch`. `catch` blocks MUST includ
 Load this skill when performing operations that can fail (file I/O, network, external commands, parsing).
 
 ## Source
-STANDARDS.adoc §11.5.7 (lines 4255–4272, 4288–4296)
+STANDARDS.adoc §11.5.7 (lines 4313–4330, 4346–4354)
 
 ## Key Rules
 

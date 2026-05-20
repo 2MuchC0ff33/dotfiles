@@ -7,7 +7,7 @@ FORBIDDEN: `nu -c $variable` with untrusted input. FORBIDDEN: `source`/`use` wit
 Load this skill when evaluating code strings, sourcing files, or using dynamic paths.
 
 ## Source
-STANDARDS.adoc §11.5.8 (lines 4307–4315, 4317–4328)
+STANDARDS.adoc §11.5.8 (lines 4365–4373, 4317–4328)
 
 ## Key Rules
 

@@ -7,7 +7,7 @@ Disable partial matching in completions, relying solely on the fuzzy algorithm f
 Load this skill when configuring `$env.config.completions.partial` in `config.nu`.
 
 ## Source
-STANDARDS.adoc §11.1 (line 3614)
+STANDARDS.adoc §11.1 (line 3672)
 
 ## Key Rules
 

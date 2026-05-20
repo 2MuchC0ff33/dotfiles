@@ -7,13 +7,12 @@ Private commands (declared with `def --private` or `def` inside a module but not
 Load this skill when writing internal/private/helper commands within modules, or when deciding whether to add types to non-exported commands.
 
 ## Source
-STANDARDS.adoc §11.5.4 (lines 4088–4125)
+STANDARDS.adoc §11.5.4 (lines 4146–4183)
 
 ## Key Rules
 
 - SHOULD: Private commands SHOULD have type annotations on all parameters (same as exported commands).
 - SHOULD: Private commands SHOULD declare I/O signatures.
-- SHOULD NOT: Private commands MUST have types (the standard says SHOULD, not MANDATE, for private commands).
 - FORBIDDEN: Using the "it's private" excuse to skip types on complex commands with multiple parameters.
 - FORBIDDEN: Routinely omitting types from private commands — the expectation is that you SHOULD add them.
 

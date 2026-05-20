@@ -7,7 +7,7 @@ The `run_command()` utility for strict command execution — any failure is a ha
 Load this skill when using, modifying, or understanding the `run_command()` function in `xtask/src/utils/shell.rs`.
 
 ## Source
-STANDARDS.adoc §8.3 (lines 3071–3111)
+STANDARDS.adoc §8.3 (lines 3113–3155)
 
 ## Key Rules
 
@@ -69,7 +69,7 @@ run_command("cargo", &["fmt", "--all", "--check"],
     "Format check failed. Run `just fmt` to fix.")?;
 
 // Multi-arg command
-run_command("cargo", &["kani", "--enable-unstable", "--restrict-vtable"],
+run_command("cargo", &["kani", "--default-unwind", "100", "--output-format", "terse"],
     "Kani proof verification failed.")?;
 
 // Chained from task module

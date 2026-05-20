@@ -7,7 +7,7 @@ CI integration: `nu-lint check scripts/ src/` with exit code enforcement.
 Load this skill when setting up CI pipelines for Nushell projects.
 
 ## Source
-STANDARDS.adoc §11.5.11 (lines 4434–4488)
+STANDARDS.adoc §11.5.11 (lines 4492–4546)
 
 ## Key Rules
 

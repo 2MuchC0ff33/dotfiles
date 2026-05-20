@@ -7,7 +7,7 @@ Use `reduce` instead of `mut` accumulator + `for` loop patterns for aggregation 
 Load this skill when aggregating, summing, or building collections from lists.
 
 ## Source
-STANDARDS.adoc §11.5.5 (lines 4127–4138, 4143–4145)
+STANDARDS.adoc §11.5.5 (lines 4185–4196, 4201–4203)
 
 ## Key Rules
 

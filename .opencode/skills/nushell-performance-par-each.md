@@ -7,7 +7,7 @@ MANDATE: Use `par-each` for I/O-bound work (file reads, HTTP, network). Use `par
 Load this skill when processing collections in performance-sensitive code paths or when I/O operations are involved.
 
 ## Source
-STANDARDS.adoc §11.5.10 (lines 4392–4411, 4414–4431)
+STANDARDS.adoc §11.5.10 (lines 4450–4469, 4472–4489)
 
 ## Key Rules
 

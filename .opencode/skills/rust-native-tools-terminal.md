@@ -7,7 +7,7 @@ Shell and terminal replacements: nushell→bash/zsh, starship→oh-my-zsh, zelli
 Load this skill when setting up a new development environment, configuring shell, terminal multiplexer, editor, or VCS tooling.
 
 ## Source
-STANDARDS.adoc §1.4.3 (lines 814–847), §1.4.5 (lines 917–938), §1.1 (lines 595–606)
+STANDARDS.adoc §1.4.3 (lines 815–848), §1.4.5 (lines 908–929), §1.1 (lines 570–581)
 
 ## Key Rules
 

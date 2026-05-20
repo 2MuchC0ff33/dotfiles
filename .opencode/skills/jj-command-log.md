@@ -7,7 +7,7 @@
 Load this skill when reviewing commit history, understanding the DAG structure, finding change/commit IDs, checking what bookmarks exist, or verifying the result of a rebase/squash/split operation.
 
 ## Source
-STANDARDS.adoc §10.2.4 (lines 3420–3422)
+STANDARDS.adoc §10.2.4 (lines 3456–3458)
 
 ## Key Rules
 

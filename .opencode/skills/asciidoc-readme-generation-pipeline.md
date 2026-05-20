@@ -10,7 +10,7 @@ Load this skill when setting up the README build pipeline, generating README.md,
 
 ## Source
 
-STANDARDS.adoc §9.8 (lines 3300–3314)
+STANDARDS.adoc §9.8 (lines 3342–3356)
 
 ## Key Rules
 

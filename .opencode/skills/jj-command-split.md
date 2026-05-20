@@ -7,7 +7,7 @@
 Load this skill when a single change contains unrelated modifications that should be separate commits, or when preparing a clean PR with distinct logical changes.
 
 ## Source
-STANDARDS.adoc §10.2.4 (lines 3441–3442)
+STANDARDS.adoc §10.2.4 (lines 3477–3478)
 
 ## Key Rules
 

@@ -7,7 +7,7 @@ Anti-pattern: Space before `|params|` in closure. Use `{|x| ...}` NOT `{ |x| ...
 Load this skill when writing closures (blocks with parameters) in any Nushell expression.
 
 ## Source
-STANDARDS.adoc §11.5.9 (lines 4362–4374)
+STANDARDS.adoc §11.5.9 (lines 4420–4432)
 
 ## Key Rules
 

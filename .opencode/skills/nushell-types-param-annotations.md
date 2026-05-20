@@ -7,7 +7,7 @@ ALL exported (public) commands MUST have type annotations on ALL parameters. Eve
 Load this skill when defining any `def` command without `--warnings` or `--private`, when exporting commands from modules, when designing command signatures, or when reviewing existing command definitions for type safety.
 
 ## Source
-STANDARDS.adoc §11.5.4 (lines 4088–4125)
+STANDARDS.adoc §11.5.4 (lines 4146–4183)
 
 ## Key Rules
 

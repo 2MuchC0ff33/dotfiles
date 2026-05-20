@@ -7,7 +7,7 @@ Use implicit return (last expression evaluates as the return value) instead of `
 Load this skill when defining functions that produce output.
 
 ## Source
-STANDARDS.adoc §11.5.5 (lines 4140, 4165–4173)
+STANDARDS.adoc §11.5.5 (lines 4198, 4223–4231)
 
 ## Key Rules
 

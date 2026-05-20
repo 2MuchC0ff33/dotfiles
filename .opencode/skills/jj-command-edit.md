@@ -7,7 +7,7 @@
 Load this skill when you need to inspect or modify an old commit, check out a specific historical state, or perform "stash"-like operations by switching to another change.
 
 ## Source
-STANDARDS.adoc §10.2.4 (lines 3446–3447)
+STANDARDS.adoc §10.2.4 (lines 3482–3483)
 
 ## Key Rules
 

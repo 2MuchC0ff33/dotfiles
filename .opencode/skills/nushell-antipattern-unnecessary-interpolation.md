@@ -7,7 +7,7 @@ Anti-pattern: Unnecessary string interpolation. Use simplest format.
 Load this skill when formatting strings in Nushell.
 
 ## Source
-STANDARDS.adoc §11.5.9 (lines 4362–4376)
+STANDARDS.adoc §11.5.9 (lines 4420–4434)
 
 ## Key Rules
 

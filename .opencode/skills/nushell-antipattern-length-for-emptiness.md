@@ -7,7 +7,7 @@ Anti-pattern: Length checks for emptiness. Use `is-empty` / `is-not-empty`.
 Load this skill when checking if a list, string, or table is empty.
 
 ## Source
-STANDARDS.adoc §11.5.9 (lines 4362–4389)
+STANDARDS.adoc §11.5.9 (lines 4420–4447)
 
 ## Key Rules
 

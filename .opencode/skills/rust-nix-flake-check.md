@@ -7,7 +7,7 @@
 Load this skill when setting up CI pipelines, verifying flake.nix correctness, or enforcing hermetic build guarantees.
 
 ## Source
-STANDARDS.adoc §1.5.4 (lines 1038–1053), §1.5.6 (lines 1097–1127)
+STANDARDS.adoc §1.5.4 (lines 1031–1046), §1.5.6 (lines 1090–1120)
 
 ## Key Rules
 

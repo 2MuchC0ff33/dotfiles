@@ -7,7 +7,7 @@ All constants declared with `const` MUST use SCREAMING_SNAKE_CASE (all uppercase
 Load this skill when declaring new constants with `const`, defining configuration values, setting static lookup tables, or reviewing constant naming in `.nu` files.
 
 ## Source
-STANDARDS.adoc §11.5.1 (lines 3969–4001)
+STANDARDS.adoc §11.5.1 (lines 4027–4059)
 
 ## Key Rules
 

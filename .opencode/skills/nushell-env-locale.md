@@ -7,7 +7,7 @@ Set `$env.LANG` and `$env.LC_ALL` to `"en_US.UTF-8"` for consistent UTF-8 locale
 Load this skill when reviewing or creating environment variable settings in `config.nu` or `env.nu`.
 
 ## Source
-STANDARDS.adoc §11.1 (lines 3671–3672)
+STANDARDS.adoc §11.1 (lines 3729–3730)
 
 ## Key Rules
 

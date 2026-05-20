@@ -7,7 +7,7 @@ Standard dotfiles directory layout mapping `config/` subdirectories to `~/.confi
 Load this skill when creating or modifying configuration files under `config/`, adding new tool configurations, or verifying the dotfiles directory structure conforms to the standard.
 
 ## Source
-STANDARDS.adoc §2.1 (lines 1131–1261)
+STANDARDS.adoc §2.1 (lines 1126–1255)
 
 ## Key Rules
 

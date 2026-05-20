@@ -7,13 +7,15 @@ Replace `dig` (DNS lookup) with `dog`, a Rust-native DNS client with colorized, 
 Load this skill when reviewing or creating Nushell aliases in `config.nu`.
 
 ## Source
-STANDARDS.adoc §11.1 (line 3646)
+STANDARDS.adoc §11.1 (line 3704)
 
 ## Key Rules
 
 - MANDATE: `alias dig = dog` MUST be present in `config.nu`.
 - SHOULD: Use `dog` for DNS queries instead of `dig`.
 - FORBIDDEN: Omitting this alias, leaving the traditional `dig` (colorless, verbose output).
+
+> NOTE: `dog` is low-maintenance (last release 2022); verify before relying on it.
 
 ## Rationale
 

@@ -7,7 +7,7 @@ Enforce case-sensitive matching in tab completions for precision.
 Load this skill when configuring `$env.config.completions.case_sensitive` in `config.nu`.
 
 ## Source
-STANDARDS.adoc §11.1 (line 3612)
+STANDARDS.adoc §11.1 (line 3728)
 
 ## Key Rules
 

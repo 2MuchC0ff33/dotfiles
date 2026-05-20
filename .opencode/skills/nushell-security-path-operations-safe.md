@@ -7,7 +7,7 @@
 Load this skill when performing `rm` or destructive file operations with user-controllable paths.
 
 ## Source
-STANDARDS.adoc §11.5.8 (lines 4307–4321)
+STANDARDS.adoc §11.5.8 (lines 4365–4379)
 
 ## Key Rules
 

@@ -7,7 +7,7 @@ All Nushell commands (defined with `def`, `extern`, etc.) MUST use kebab-case na
 Load this skill when defining new Nushell commands, reviewing existing command names, or auditing naming consistency in `.nu` files.
 
 ## Source
-STANDARDS.adoc §11.5.1 (lines 3969–4001)
+STANDARDS.adoc §11.5.1 (lines 4027–4059)
 
 ## Key Rules
 

@@ -7,15 +7,15 @@ Closure parameters use `{|x| ...}` with NO space before the opening pipe and NO 
 Load this skill when writing closures passed to `each`, `where`, `reduce`, `all`, `any`, `sort-by`, `filter`, `map`, or any higher-order function in Nushell.
 
 ## Source
-STANDARDS.adoc §11.5.2 (lines 4003–4065)
+STANDARDS.adoc §11.5.2 (lines 4061–4123)
 
 ## Key Rules
 
 - MANDATE: No space between `{` and `|params|`: `{|x| $x * 2}`.
-- MANDATE: No space between `|params|` and the closure body: `{|x| $x * 2}` NOT `{|x| $x * 2}` (the relevant part is the pipe-bar).
+- MANDATE: No space between `|params|` and the closure body: `{|x| $x * 2}` NOT `{|x|  $x * 2}`.
 - MANDATE: Single space after the opening brace's pipe section before the body expression begins, if a single expression follows.
 - FORBIDDEN: Space before the opening pipe: `{ |x| $x * 2}`.
-- FORBIDDEN: Space after the closing pipe before the body: `{|x| $x * 2}`.
+- FORBIDDEN: Space after the closing pipe before the body: `{|x|  $x * 2}`.
 - FORBIDDEN: `{  |x| ... }` (double space before pipe).
 
 ## Rationale

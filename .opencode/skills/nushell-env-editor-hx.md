@@ -7,7 +7,7 @@ Set `$env.EDITOR` and `$env.VISUAL` to `"hx"` (Helix) as the default terminal ed
 Load this skill when reviewing or creating environment variable settings in `config.nu` or `env.nu`.
 
 ## Source
-STANDARDS.adoc §11.1 (lines 3673–3674)
+STANDARDS.adoc §11.1 (lines 3731–3732)
 
 ## Key Rules
 

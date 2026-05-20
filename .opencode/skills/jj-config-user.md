@@ -1,13 +1,13 @@
 # jj-config-user
 
 ## Description
-Configure `~/.jj/config.toml` with user identity (name, email), default change description, and editor settings.
+Configure `~/.config/jj/config.toml` with user identity (name, email), default change description, and editor settings.
 
 ## When to Load
 Load this skill when setting up jj on a new machine, configuring the global user identity, or changing the default editor for commit descriptions and conflict resolution.
 
 ## Source
-STANDARDS.adoc §10.2.3 (lines 3373–3384)
+STANDARDS.adoc §10.2.3 (lines 3413–3424)
 
 ## Key Rules
 
@@ -15,13 +15,13 @@ STANDARDS.adoc §10.2.3 (lines 3373–3384)
 - MANDATE: Set `[ui] default-description = "wip"` — every new change starts with "wip" as the default description, forcing explicit description before push.
 - MANDATE: Set `[ui] editor = "hx"` (Helix) as the default editor per the toolchain standard.
 - MANDATE: Set `[ui] diff-editor = "hx"` for interactive conflict resolution.
-- SHOULD: Use a global `~/.jj/config.toml` for user-level settings; use repository-level `.jj/config.toml` for project-specific overrides.
+- SHOULD: Use a global `~/.config/jj/config.toml` for user-level settings; use repository-level `.jj/config.toml` for project-specific overrides.
 - FORBIDDEN: Do NOT omit the `[user]` section — jj will refuse to create commits without a configured user.
 
 ## Example
 
 ```toml
-# ~/.jj/config.toml
+# ~/.config/jj/config.toml
 [user]
 name = "A. Developer"
 email = "dev@example.com"

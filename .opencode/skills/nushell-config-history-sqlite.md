@@ -7,7 +7,7 @@ Store Nushell command history in SQLite format for durability, performance, and 
 Load this skill when configuring `$env.config.history.file_format` in `config.nu`.
 
 ## Source
-STANDARDS.adoc §11.1 (line 3607)
+STANDARDS.adoc §11.1 (line 3665)
 
 ## Key Rules
 

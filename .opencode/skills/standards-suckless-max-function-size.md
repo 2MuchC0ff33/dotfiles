@@ -7,7 +7,7 @@ No function exceeds 40 lines (one terminal screen). Functions longer than 40 lin
 Load this skill when writing new functions, reviewing PRs for function length compliance, or refactoring overly long functions.
 
 ## Source
-STANDARDS.adoc §0.1.3 (line 105)
+STANDARDS.adoc §0.1.3 (line 102)
 
 ## Key Rules
 

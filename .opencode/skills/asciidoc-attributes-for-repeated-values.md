@@ -10,7 +10,7 @@ Load this skill when writing documentation that references the same product name
 
 ## Source
 
-STANDARDS.adoc §9.6 (line 3262)
+STANDARDS.adoc §9.6 (line 3302)
 
 ## Key Rules
 

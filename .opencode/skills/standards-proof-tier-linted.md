@@ -7,7 +7,7 @@
 Load this skill when annotating functions with `[LINTED]`, adding top-level orchestration code, or determining the minimum proof tier for a function.
 
 ## Source
-STANDARDS.adoc §0.3.3 (line 488), §12.2 (lines 4562–4564)
+STANDARDS.adoc §0.3.3 (line 459), §12.2 (lines 4562–4564)
 
 ## Key Rules
 

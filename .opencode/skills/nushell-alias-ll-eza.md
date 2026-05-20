@@ -7,7 +7,7 @@ Define `ll` alias for a detailed eza listing including hidden files: `eza --long
 Load this skill when reviewing or creating Nushell aliases in `config.nu`.
 
 ## Source
-STANDARDS.adoc §11.1 (line 3633)
+STANDARDS.adoc §11.1 (line 3691)
 
 ## Key Rules
 

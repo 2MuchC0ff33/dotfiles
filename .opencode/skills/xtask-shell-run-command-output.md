@@ -7,7 +7,7 @@ The `run_command_output()` utility for executing commands and capturing stdout a
 Load this skill when using, modifying, or understanding the `run_command_output()` function in `xtask/src/utils/shell.rs`, or when a task needs to capture and process command output.
 
 ## Source
-STANDARDS.adoc §8.3 (lines 3113–3141)
+STANDARDS.adoc §8.3 (lines 3155–3183)
 
 ## Key Rules
 

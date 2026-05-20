@@ -7,7 +7,7 @@ Short alias `c` for `cargo` to reduce keystrokes for the most-used Rust build to
 Load this skill when reviewing or creating project-specific Nushell aliases in `config.nu`.
 
 ## Source
-STANDARDS.adoc §11.1 (line 3661)
+STANDARDS.adoc §11.1 (line 3719)
 
 ## Key Rules
 

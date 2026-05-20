@@ -7,7 +7,7 @@ Anti-pattern: Missing field access without `?`. Use `$rec.field?` for optional f
 Load this skill when accessing record fields that may not exist.
 
 ## Source
-STANDARDS.adoc §11.5.9 (lines 4362–4386)
+STANDARDS.adoc §11.5.9 (lines 4420–4444)
 
 ## Key Rules
 

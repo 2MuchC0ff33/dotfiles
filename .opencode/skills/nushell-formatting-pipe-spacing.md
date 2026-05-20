@@ -7,7 +7,7 @@ Exactly one space before and after each pipe `|` operator. No consecutive spaces
 Load this skill when writing any Nushell pipeline with `|`, reviewing pipeline formatting, or configuring automated formatting tools.
 
 ## Source
-STANDARDS.adoc §11.5.2 (lines 4003–4065)
+STANDARDS.adoc §11.5.2 (lines 4061–4123)
 
 ## Key Rules
 

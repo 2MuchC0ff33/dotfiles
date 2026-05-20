@@ -7,7 +7,7 @@ Synchronize history to disk after every command, ensuring no entries are lost on
 Load this skill when configuring `$env.config.history.sync_on_each_command` in `config.nu`.
 
 ## Source
-STANDARDS.adoc §11.1 (line 3606)
+STANDARDS.adoc §11.1 (line 3664)
 
 ## Key Rules
 

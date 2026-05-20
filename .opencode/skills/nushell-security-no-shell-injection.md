@@ -7,7 +7,7 @@ FORBIDDEN: `^sh -c`, `^bash -c`, `^cmd.exe /C` with interpolated user input. FOR
 Load this skill when invoking shell commands or using `run-external` with any user-controllable input.
 
 ## Source
-STANDARDS.adoc §11.5.8 (lines 4307–4314, 4317–4328)
+STANDARDS.adoc §11.5.8 (lines 4365–4372, 4375–4386)
 
 ## Key Rules
 

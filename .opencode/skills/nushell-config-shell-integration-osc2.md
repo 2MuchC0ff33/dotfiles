@@ -7,7 +7,7 @@ Enable OSC 2 shell integration sequences to set the terminal window title automa
 Load this skill when configuring `$env.config.shell_integration.osc2` in `config.nu`.
 
 ## Source
-STANDARDS.adoc §11.1 (line 3599)
+STANDARDS.adoc §11.1 (line 3657)
 
 ## Key Rules
 

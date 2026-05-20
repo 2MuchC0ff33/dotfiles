@@ -7,7 +7,7 @@ Built-in commands preferred over external for small data (<1000 items). External
 Load this skill when choosing between Nushell builtins and external commands for data processing.
 
 ## Source
-STANDARDS.adoc §11.5.10 (lines 4392–4406)
+STANDARDS.adoc §11.5.10 (lines 4450–4464)
 
 ## Key Rules
 

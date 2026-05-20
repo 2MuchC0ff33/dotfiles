@@ -7,7 +7,7 @@ Install Jujutsu (jj) via `cargo install --locked jujutsu` at version 0.41.0 (May
 Load this skill when setting up a new development environment, adding jj to CI, or verifying the installed jj version matches the pinned standard.
 
 ## Source
-STANDARDS.adoc §10.2.1 (lines 3353–3358)
+STANDARDS.adoc §10.2.1 (lines 3395–3400)
 
 ## Key Rules
 

@@ -7,7 +7,7 @@ Fuzz testing recipe that runs all fuzz targets via xtask (5 minutes per target).
 Load this skill when implementing, modifying, or documenting the `fuzz` recipe in the justfile, or when running fuzz testing.
 
 ## Source
-STANDARDS.adoc §8.1 (lines 2725–2727)
+STANDARDS.adoc §8.1 (lines 2758–2760)
 
 ## Key Rules
 

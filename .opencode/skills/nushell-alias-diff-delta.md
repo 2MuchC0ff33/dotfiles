@@ -7,7 +7,7 @@ Replace `diff` with `delta`, a syntax-highlighting, side-by-side pager for diffs
 Load this skill when reviewing or creating Nushell aliases in `config.nu`.
 
 ## Source
-STANDARDS.adoc §11.1 (line 3644)
+STANDARDS.adoc §11.1 (line 3702)
 
 ## Key Rules
 

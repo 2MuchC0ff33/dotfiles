@@ -7,7 +7,7 @@ Use `export-env` blocks for environment setup instead of modifying `$env` at the
 Load this skill when defining environment variables, PATH modifications, or shell setup in modules.
 
 ## Source
-STANDARDS.adoc §11.5.6 (lines 4188–4194, 4252)
+STANDARDS.adoc §11.5.6 (lines 4246–4252, 4310)
 
 ## Key Rules
 

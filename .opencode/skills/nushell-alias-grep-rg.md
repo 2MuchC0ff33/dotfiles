@@ -7,7 +7,7 @@ Replace Nushell's built-in `grep` with `rg` (ripgrep), a hyper-fast Rust-native 
 Load this skill when reviewing or creating Nushell aliases in `config.nu`.
 
 ## Source
-STANDARDS.adoc §11.1 (line 3637)
+STANDARDS.adoc §11.1 (line 3695)
 
 ## Key Rules
 

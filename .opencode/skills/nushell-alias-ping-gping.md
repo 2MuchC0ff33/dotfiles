@@ -7,7 +7,7 @@ Replace `ping` with `gping`, a Rust-native ping tool with real-time graphing and
 Load this skill when reviewing or creating Nushell aliases in `config.nu`.
 
 ## Source
-STANDARDS.adoc §11.1 (line 3647)
+STANDARDS.adoc §11.1 (line 3705)
 
 ## Key Rules
 

@@ -7,7 +7,7 @@ Replace `curl` with `xh`, a Rust-native HTTP client with a friendlier, colorized
 Load this skill when reviewing or creating Nushell aliases in `config.nu`.
 
 ## Source
-STANDARDS.adoc §11.1 (line 3645)
+STANDARDS.adoc §11.1 (line 3703)
 
 ## Key Rules
 

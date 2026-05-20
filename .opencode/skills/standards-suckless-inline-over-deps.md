@@ -7,7 +7,7 @@ If you can implement a helper in fewer than 20 lines without a dependency, do it
 Load this skill when considering adding a new crate dependency, reviewing PRs that add dependencies, or evaluating whether to inline a small utility function.
 
 ## Source
-STANDARDS.adoc §0.1.3 (lines 120–121)
+STANDARDS.adoc §0.1.3 (lines 117–118)
 
 ## Key Rules
 

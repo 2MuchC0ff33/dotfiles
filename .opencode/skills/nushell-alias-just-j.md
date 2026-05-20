@@ -7,7 +7,7 @@ Short alias `j` for `just`, the project's command runner (Makefile alternative).
 Load this skill when reviewing or creating project-specific Nushell aliases in `config.nu`.
 
 ## Source
-STANDARDS.adoc §11.1 (line 3663)
+STANDARDS.adoc §11.1 (line 3721)
 
 ## Key Rules
 

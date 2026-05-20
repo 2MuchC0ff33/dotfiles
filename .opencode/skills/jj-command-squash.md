@@ -7,7 +7,7 @@
 Load this skill when you have a small fix or incremental change that you want to combine with its parent, cleaning up the commit history before review or push.
 
 ## Source
-STANDARDS.adoc §10.2.4 (lines 3439–3440)
+STANDARDS.adoc §10.2.4 (lines 3475–3476)
 
 ## Key Rules
 

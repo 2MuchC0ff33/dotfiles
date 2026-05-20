@@ -7,7 +7,7 @@ Every error variant is a struct with named fields (no stringly-typed errors). Ca
 Load this skill when defining new error types, reviewing error enum definitions, or refactoring stringly-typed error handling.
 
 ## Source
-STANDARDS.adoc §12.1 (lines 4536–4546)
+STANDARDS.adoc §3.3 (lines 4536–4546)
 
 ## Key Rules
 

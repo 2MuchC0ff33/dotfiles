@@ -134,13 +134,13 @@ flake.nix             # Nix flake
 
 ## Skills System: `.opencode/skills/`
 
-This repo includes **247 atomic skill files** at
+This repo includes **249 atomic skill files** at
 `.opencode/skills/` that opencode agents can load for granular
 STANDARDS.adoc adherence. Each skill covers ONE rule/pattern.
 
 | Category | Skills | Prefix | Use When... |
 |---|---|---|---|
-| Nushell Config | 41 | `nushell-config-*`, `nushell-alias-*`, `nushell-env-*`, `nushell-starship-*` | Writing/editing `config.nu`, setting aliases, env vars |
+| Nushell Config | 43 | `nushell-config-*`, `nushell-alias-*`, `nushell-env-*`, `nushell-starship-*` | Writing/editing `config.nu`, setting aliases, env vars |
 | Nushell Naming | 9 | `nushell-naming-*` | Naming commands, variables, files |
 | Nushell Formatting | 7 | `nushell-formatting-*` | Formatting `.nu` files |
 | Nushell Strings | 3 | `nushell-strings-*` | String literal formatting |
@@ -167,7 +167,7 @@ STANDARDS.adoc adherence. Each skill covers ONE rule/pattern.
 | Proof Tiers | 5 | `standards-proof-tier-*` | Proof annotations |
 | Error Taxonomy | 6 | `standards-error-*` | Error type design |
 | Formal Verification | 5 | `standards-proof-*` | Kani/proptest/fuzz |
-| **TOTAL** | **247** | | |
+| **TOTAL** | **249** | | |
 
 Load a skill via the skill tool:
 

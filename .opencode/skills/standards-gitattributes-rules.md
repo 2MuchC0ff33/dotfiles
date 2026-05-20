@@ -7,7 +7,7 @@ Strict `.gitattributes` rules enforced by git: LF line endings for all source fi
 Load this skill when creating or modifying `.gitattributes`, setting up a new Rust project, or reviewing line ending and export behavior.
 
 ## Source
-STANDARDS.adoc §2.3 (lines 1302–1362)
+STANDARDS.adoc §2.3 (lines 1296–1356)
 
 ## Key Rules
 

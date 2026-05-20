@@ -7,7 +7,7 @@ The 5-layer Proof Pyramid: Kani model checking → Property-based testing (propt
 Load this skill when setting up CI pipeline, designing verification strategy for a module, evaluating proof coverage, or debugging a CI failure across proof layers.
 
 ## Source
-STANDARDS.adoc §0.3.2 (lines 422–457), §6.1 (lines 2337–2338)
+STANDARDS.adoc §0.3.2 (lines 421–456), §6.1 (lines 2367–2368)
 
 ## Key Rules
 
@@ -49,7 +49,7 @@ STANDARDS.adoc §0.3.2 (lines 422–457), §6.1 (lines 2337–2338)
 // 2. Static analysis: cargo clippy --all-targets --all-features -- -Dwarnings
 // 3. Fuzzing: cargo fuzz run <target> -- -max_total_time=300  (5 min)
 // 4. Proptest: cargo test --test proptest  (10,000+ cases per property)
-// 5. Kani: cargo kani --enable-unstable --restrict-vtable --default-unwind 100
+// 5. Kani: cargo kani --default-unwind 100 --output-format terse
 ```
 
 ## Example
@@ -77,7 +77,7 @@ jobs:
       - run: cargo test --test proptest -- --include-ignored
 
       # Layer 5: Kani model checking
-      - run: cd proofs && cargo kani --enable-unstable --default-unwind 100
+      - run: cd proofs && cargo kani --default-unwind 100 --output-format terse
         timeout-minutes: 60
 ```
 

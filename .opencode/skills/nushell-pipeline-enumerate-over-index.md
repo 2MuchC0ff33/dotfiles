@@ -7,7 +7,7 @@ Use `enumerate` for indexed iteration instead of manual counter variables.
 Load this skill when iterating with positional indices or counters.
 
 ## Source
-STANDARDS.adoc §11.5.5 (lines 4127–4135)
+STANDARDS.adoc §11.5.5 (lines 4185–4193)
 
 ## Key Rules
 

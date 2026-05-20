@@ -7,7 +7,7 @@ Anti-pattern: Forgetting `export` in modules. Use `export def` for public API.
 Load this skill when defining commands intended for external use within a module.
 
 ## Source
-STANDARDS.adoc §11.5.9 (lines 4362–4383)
+STANDARDS.adoc §11.5.9 (lines 4420–4441)
 
 ## Key Rules
 

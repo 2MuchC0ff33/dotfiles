@@ -7,7 +7,7 @@ Core development tool replacements: ripgrep→grep, fd→find, bat→cat, sd→s
 Load this skill when setting up a new development machine, configuring the developer environment, or evaluating tool choices.
 
 ## Source
-STANDARDS.adoc §1.4.2 (lines 752–812), §1.4.4 (lines 849–867)
+STANDARDS.adoc §1.4.2 (lines 753–813), §1.4.4 (lines 850–868)
 
 ## Key Rules
 

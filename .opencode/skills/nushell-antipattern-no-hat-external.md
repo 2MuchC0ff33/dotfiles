@@ -7,7 +7,7 @@ Anti-pattern: Not prefixing external commands with `^`. Use `^cmd` when builtin 
 Load this skill when invoking external commands that share names with Nushell builtins.
 
 ## Source
-STANDARDS.adoc §11.5.9 (lines 4362–4387)
+STANDARDS.adoc §11.5.9 (lines 4420–4445)
 
 ## Key Rules
 

@@ -7,7 +7,7 @@ Anti-pattern: Missing type annotations. Always annotate parameters + I/O signatu
 Load this skill when defining any `def` command.
 
 ## Source
-STANDARDS.adoc §11.5.9 (lines 4362–4373)
+STANDARDS.adoc §11.5.9 (lines 4420–4431)
 
 ## Key Rules
 

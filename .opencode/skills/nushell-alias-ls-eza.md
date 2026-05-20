@@ -7,7 +7,7 @@ Replace Nushell's built-in `ls` with `eza`, a modern Rust-native `ls` replacemen
 Load this skill when reviewing or creating Nushell aliases in `config.nu`.
 
 ## Source
-STANDARDS.adoc §11.1 (line 3632)
+STANDARDS.adoc §11.1 (line 3690)
 
 ## Key Rules
 

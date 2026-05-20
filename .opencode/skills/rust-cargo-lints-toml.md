@@ -11,10 +11,10 @@ STANDARDS.adoc §3.1 (lines 1556–1701)
 
 ## Key Rules
 
-- **MANDATE**: All lints SHALL be declared in `[lints.rust]`, `[lints.clippy]`, and deny groups — never in `lib.rs`.
+- **MANDATE**: All lints SHALL be declared in `[lints.rust]` and `[lints.clippy]` — never in `lib.rs`.
 - **MANDATE**: `unsafe_code` SHALL be `"forbid"` (removed only with governance approval for FFI).
 - **MANDATE**: No `#![allow(...)]`, `#![warn(...)]`, `#![deny(...)]`, `#![forbid(...)]` in any `.rs` file.
-- **MANDATE**: Deny groups (`[lints.rust.deny]` and `[lints.clippy.deny]`) SHALL be defined separately.
+- **MANDATE**: All lint levels (including `"deny"`) SHALL be set directly in `[lints.rust]` and `[lints.clippy]` — no separate deny subsections.
 - **MANDATE**: Clippy: `all`, `pedantic`, `nursery`, `cargo` SHALL be at `"warn"`.
 - **MANDATE**: `unwrap_used`, `expect_used`, `panic` SHALL be at `"warn"` — no silent panics.
 - **MANDATE**: `indexing_slicing` SHALL be `"warn"` — use `.get()` or prove bounds.
@@ -63,6 +63,19 @@ ambiguous_glob_imported_traits  = "warn"
 dependency_on_unit_never_type_fallback = "deny"
 never_type_fallback_flowing_into_unsafe = "deny"
 
+# ─────────────────────────────────────────
+# DENY: Hard errors (merged into [lints.rust])
+# ─────────────────────────────────────────
+const_err                       = "deny"
+illegal_floating_point_literal_pattern = "deny"
+improper_ctypes                 = "deny"
+invalid_macro_export_arguments  = "deny"
+nonsensical_open_options        = "deny"
+pointer_structural_match        = "deny"
+private_bounds                  = "deny"
+unconditional_recursion         = "deny"
+static_mut_refs                 = "deny"
+
 [lints.clippy]
 all      = "warn"
 pedantic = "warn"
@@ -100,28 +113,16 @@ same_name_method          = "warn"
 significant_drop_tightening = "warn"
 
 # ─────────────────────────────────────────
-# DENY: Hard errors
+# DENY: Hard errors (merged into [lints.clippy])
 # ─────────────────────────────────────────
-[lints.rust.deny]
-const_err                   = true
-illegal_floating_point_literal_pattern = true
-improper_ctypes             = true
-invalid_macro_export_arguments = true
-nonsensical_open_options    = true
-pointer_structural_match    = true
-private_bounds              = true
-unconditional_recursion     = true
-static_mut_refs             = true
-
-[lints.clippy.deny]
-cargo_common_metadata       = true
-multiple_unsafe_ops_per_scope = true
-panic_in_result_fn          = true
-print_stderr                = true
-print_stdout                = true
-unnecessary_self_imports    = true
-unused_async                = true
-wildcard_dependencies       = true
+cargo_common_metadata       = "deny"
+multiple_unsafe_ops_per_scope = "deny"
+panic_in_result_fn          = "deny"
+print_stderr                = "deny"
+print_stdout                = "deny"
+unnecessary_self_imports    = "deny"
+unused_async                = "deny"
+wildcard_dependencies       = "deny"
 ```
 
 ## What NOT to Do

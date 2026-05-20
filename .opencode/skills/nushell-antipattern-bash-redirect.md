@@ -7,7 +7,7 @@ Anti-pattern: Bash-style redirection (`>`). Use `save` / `save --append`.
 Load this skill when writing output to files.
 
 ## Source
-STANDARDS.adoc §11.5.9 (lines 4362–4371)
+STANDARDS.adoc §11.5.9 (lines 4420–4429)
 
 ## Key Rules
 

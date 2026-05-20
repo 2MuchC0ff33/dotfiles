@@ -7,7 +7,7 @@ CI check recipe that builds all Nix check derivations.
 Load this skill when implementing, modifying, or documenting the `ci` recipe in the justfile, or when understanding the CI configuration.
 
 ## Source
-STANDARDS.adoc §8.1 (lines 2849–2851)
+STANDARDS.adoc §8.1 (lines 2882–2884)
 
 ## Key Rules
 

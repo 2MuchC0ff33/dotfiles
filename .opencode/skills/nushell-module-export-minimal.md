@@ -7,7 +7,7 @@ ONLY necessary definitions are `export`-ed. Keep the public API surface minimal.
 Load this skill when defining a Nushell module.
 
 ## Source
-STANDARDS.adoc §11.5.6 (lines 4188–4204)
+STANDARDS.adoc §11.5.6 (lines 4246–4262)
 
 ## Key Rules
 

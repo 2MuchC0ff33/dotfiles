@@ -10,7 +10,7 @@ Load this skill when annotating or explaining code examples, configuration snipp
 
 ## Source
 
-STANDARDS.adoc §9.6 (line 3258)
+STANDARDS.adoc §9.6 (line 3298)
 
 ## Key Rules
 

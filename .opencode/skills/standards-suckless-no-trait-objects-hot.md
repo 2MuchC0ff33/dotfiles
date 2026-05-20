@@ -7,7 +7,7 @@ Trait objects (`dyn Trait`) SHOULD be avoided in performance-sensitive paths bec
 Load this skill when designing polymorphic APIs, reviewing code that uses `dyn Trait`, or optimizing hot paths with dispatch overhead.
 
 ## Source
-STANDARDS.adoc §0.1.3 (lines 117–119)
+STANDARDS.adoc §0.1.3 (lines 114–116)
 
 ## Key Rules
 

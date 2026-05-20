@@ -7,7 +7,7 @@ Use `each` over `for` for list transformations. `each` returns a list (non-null)
 Load this skill when transforming every element of a list.
 
 ## Source
-STANDARDS.adoc §11.5.5 (lines 4127–4133, 4175–4185)
+STANDARDS.adoc §11.5.5 (lines 4185–4191, 4233–4243)
 
 ## Key Rules
 

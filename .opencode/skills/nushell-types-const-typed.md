@@ -7,7 +7,7 @@ ALL constants declared with `const` MUST include an explicit type annotation.
 Load this skill when declaring any new `const` binding, reviewing existing constant declarations, or enforcing type safety in module-level configuration.
 
 ## Source
-STANDARDS.adoc §11.5.4 (lines 4088–4125)
+STANDARDS.adoc §11.5.4 (lines 4146–4183)
 
 ## Key Rules
 

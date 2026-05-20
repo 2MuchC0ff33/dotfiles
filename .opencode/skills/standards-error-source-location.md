@@ -7,7 +7,7 @@ Every error MUST include source location (file and line number) of where it was 
 Load this skill when creating error types, adding error creation sites, or debugging errors that lack location context.
 
 ## Source
-STANDARDS.adoc §12.1 (line 4538)
+STANDARDS.adoc §3.3 (line 4538)
 
 ## Key Rules
 

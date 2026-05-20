@@ -7,7 +7,7 @@ Unsafe operations inside an `unsafe fn` MUST be wrapped in explicit `unsafe { }`
 Load this skill when writing or reviewing `unsafe fn` definitions, auditing unsafe code, or migrating code from pre-2024 editions.
 
 ## Source
-STANDARDS.adoc §1.4.4.1 (lines 871–876) and §3.1 (lines 1601–1603)
+STANDARDS.adoc §1.4.4.1 (lines 872–877) and §3.1 (lines 1595–1596)
 
 ## Key Rules
 

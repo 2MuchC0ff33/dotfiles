@@ -7,7 +7,7 @@
 Load this skill when `jj status` shows files under "Conflicts:", after a rebase or merge produces conflicts, or when preparing to push a change that has conflicts.
 
 ## Source
-STANDARDS.adoc §10.2.4 (lines 3460–3461)
+STANDARDS.adoc §10.2.4 (lines 3496–3497)
 
 ## Key Rules
 

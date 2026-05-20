@@ -7,7 +7,7 @@ Double quotes (`"..."`) are FORBIDDEN when single quotes (`'...'`) suffice. Doub
 Load this skill when writing any string literal and considering quote style, reviewing existing code for unnecessary double quotes, or teaching Nushell quoting semantics.
 
 ## Source
-STANDARDS.adoc §11.5.3 (lines 4067–4086)
+STANDARDS.adoc §11.5.3 (lines 4125–4144)
 
 ## Key Rules
 

@@ -7,7 +7,7 @@ Wrap long table cell contents at word boundaries instead of truncating or clippi
 Load this skill when configuring `$env.config.table.trim` in `config.nu`.
 
 ## Source
-STANDARDS.adoc §11.1 (lines 3621–3624)
+STANDARDS.adoc §11.1 (lines 3679–3682)
 
 ## Key Rules
 

@@ -7,7 +7,7 @@ Clippy lint recipe with strict settings — all warnings are errors.
 Load this skill when implementing, modifying, or documenting the `clippy` recipe in the justfile.
 
 ## Source
-STANDARDS.adoc §8.1 (lines 2741–2743)
+STANDARDS.adoc §8.1 (lines 2774–2776)
 
 ## Key Rules
 

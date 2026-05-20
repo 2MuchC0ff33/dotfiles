@@ -7,7 +7,7 @@ Anti-pattern: Missing `--stdin` in shebang. Use `#!/usr/bin/env -S nu --stdin`.
 Load this skill when creating `.nu` scripts intended for direct execution.
 
 ## Source
-STANDARDS.adoc §11.5.9 (lines 4362–4382)
+STANDARDS.adoc §11.5.9 (lines 4420–4440)
 
 ## Key Rules
 

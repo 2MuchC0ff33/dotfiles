@@ -7,7 +7,7 @@ Anti-pattern: Manual null checks. Use `default 'fallback'`.
 Load this skill when handling potentially null values or providing fallback defaults.
 
 ## Source
-STANDARDS.adoc §11.5.9 (lines 4362–4379)
+STANDARDS.adoc §11.5.9 (lines 4420–4437)
 
 ## Key Rules
 

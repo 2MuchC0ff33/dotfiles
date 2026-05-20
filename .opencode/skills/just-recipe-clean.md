@@ -7,7 +7,7 @@ Clean build artifacts recipe for a fresh workspace state.
 Load this skill when implementing, modifying, or documenting the `clean` recipe in the justfile.
 
 ## Source
-STANDARDS.adoc §8.1 (lines 2869–2872)
+STANDARDS.adoc §8.1 (lines 2902–2905)
 
 ## Key Rules
 

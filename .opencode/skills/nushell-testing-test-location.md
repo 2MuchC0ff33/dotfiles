@@ -7,7 +7,7 @@ Tests SHALL be placed in a `tests/` subdirectory relative to the module. Files n
 Load this skill when creating test files for Nushell modules.
 
 ## Source
-STANDARDS.adoc §11.5.12 (lines 4490–4496)
+STANDARDS.adoc §11.5.12 (lines 4548–4554)
 
 ## Key Rules
 

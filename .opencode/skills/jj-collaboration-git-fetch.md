@@ -7,7 +7,7 @@
 Load this skill when syncing with upstream changes before continuing work, updating your branch with the latest main, or at the start of a work session to ensure you're working from the latest state.
 
 ## Source
-STANDARDS.adoc §10.2.4 (lines 3451–3452)
+STANDARDS.adoc §10.2.4 (lines 3487–3488)
 
 ## Key Rules
 

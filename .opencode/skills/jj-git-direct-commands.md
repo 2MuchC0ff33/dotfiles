@@ -7,7 +7,7 @@ Known edge cases where `jj` cannot handle an operation and direct `git` commands
 Load this skill when encountering an operation that jj does not support, troubleshooting a jj error that mentions using git directly, or managing submodules, signed tags, protocol-specific operations, or email-based patch workflows.
 
 ## Source
-STANDARDS.adoc §10.1 (lines 3322–3349), §10.2.7 (lines 3501–3516)
+STANDARDS.adoc §10.1 (lines 3362–3389), §10.2.7 (lines 3544–3559)
 
 ## Key Rules
 

@@ -7,7 +7,7 @@ Enable OSC 133 shell integration sequences for semantic prompt marking (prompt s
 Load this skill when configuring `$env.config.shell_integration.osc133` in `config.nu`.
 
 ## Source
-STANDARDS.adoc §11.1 (line 3601)
+STANDARDS.adoc §11.1 (line 3659)
 
 ## Key Rules
 

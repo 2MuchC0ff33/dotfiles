@@ -7,7 +7,7 @@ Re-exports use `export use` to flatten a submodule's names into the parent names
 Load this skill when re-exporting symbols from submodules into a parent module's public API.
 
 ## Source
-STANDARDS.adoc §11.5.6 (lines 4188–4200, 4250)
+STANDARDS.adoc §11.5.6 (lines 4246–4258, 4308)
 
 ## Key Rules
 

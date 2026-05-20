@@ -7,7 +7,7 @@ Standard `flake.nix` structure for all Rust projects: hermetic development envir
 Load this skill when initializing a new project's Nix flake, setting up a hermetic build environment, or reviewing a flake.nix for correctness.
 
 ## Source
-STANDARDS.adoc §1.2 (lines 649–655), §1.5 (lines 941–990), §1.5.1 (lines 949–990)
+STANDARDS.adoc §1.2 (lines 649–655), §1.5 (lines 933–983), §1.5.1 (lines 941–983)
 
 ## Key Rules
 
@@ -57,6 +57,7 @@ STANDARDS.adoc §1.2 (lines 649–655), §1.5 (lines 941–990), §1.5.1 (lines 
             asciidoctor
             pandoc
             vale
+            cargo-deny
           ];
         };
       });

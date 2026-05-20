@@ -7,7 +7,7 @@
 Load this skill when using the `glob` command to match files.
 
 ## Source
-STANDARDS.adoc §11.5.10 (lines 4392–4400, 4410–4411)
+STANDARDS.adoc §11.5.10 (lines 4450–4458, 4468–4469)
 
 ## Key Rules
 

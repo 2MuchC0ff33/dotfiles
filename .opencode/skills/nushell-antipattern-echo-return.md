@@ -7,7 +7,7 @@ Anti-pattern: Using `echo` for return values. Use implicit return (last expressi
 Load this skill when writing `def` commands that produce output values.
 
 ## Source
-STANDARDS.adoc §11.5.9 (lines 4362–4367, 4165–4173)
+STANDARDS.adoc §11.5.9 (lines 4420–4425, 4223–4231)
 
 ## Key Rules
 

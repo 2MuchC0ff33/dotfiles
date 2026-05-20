@@ -7,7 +7,7 @@ Anti-pattern: Missing command documentation. Always add `#` doc comments + `@exa
 Load this skill when defining any `def` command, especially exported ones.
 
 ## Source
-STANDARDS.adoc §11.5.9 (lines 4362–4378)
+STANDARDS.adoc §11.5.9 (lines 4420–4436)
 
 ## Key Rules
 

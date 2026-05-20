@@ -7,7 +7,7 @@ Use `default` for optional/fallback values instead of manual null checks with `i
 Load this skill when handling potentially null values or providing fallback defaults.
 
 ## Source
-STANDARDS.adoc §11.5.7 (lines 4255–4265, 4298–4304)
+STANDARDS.adoc §11.5.7 (lines 4313–4323, 4356–4362)
 
 ## Key Rules
 

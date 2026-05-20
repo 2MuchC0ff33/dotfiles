@@ -7,7 +7,7 @@ Render Nushell tables with rounded corners using Unicode box-drawing characters.
 Load this skill when configuring `$env.config.table.mode` in `config.nu`.
 
 ## Source
-STANDARDS.adoc §11.1 (line 3619)
+STANDARDS.adoc §11.1 (line 3677)
 
 ## Key Rules
 

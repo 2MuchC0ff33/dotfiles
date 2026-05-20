@@ -7,7 +7,7 @@ Lint recipe that runs clippy, format check, and no_std compliance check.
 Load this skill when implementing, modifying, or documenting the `lint` recipe in the justfile, or when understanding code quality enforcement.
 
 ## Source
-STANDARDS.adoc §8.1 (lines 2697–2699)
+STANDARDS.adoc §8.1 (lines 2730–2732)
 
 ## Key Rules
 

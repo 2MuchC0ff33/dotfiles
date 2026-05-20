@@ -7,7 +7,7 @@ Cross-compilation recipes: build for all configured targets or a single target.
 Load this skill when implementing, modifying, or documenting the `cross` or `cross-one` recipes in the justfile.
 
 ## Source
-STANDARDS.adoc §8.1 (lines 2777–2783)
+STANDARDS.adoc §8.1 (lines 2810–2816)
 
 ## Key Rules
 

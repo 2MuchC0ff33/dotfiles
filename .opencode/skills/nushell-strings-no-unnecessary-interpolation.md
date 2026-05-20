@@ -7,7 +7,7 @@ String interpolation is FORBIDDEN when the string contains no interpolated varia
 Load this skill when writing string literals that do not contain `($variable)` or `($expression)` references, or when reviewing code for unnecessary `$"..."` or `$'...'` usage.
 
 ## Source
-STANDARDS.adoc §11.5.3 (lines 4067–4086)
+STANDARDS.adoc §11.5.3 (lines 4125–4144)
 
 ## Key Rules
 

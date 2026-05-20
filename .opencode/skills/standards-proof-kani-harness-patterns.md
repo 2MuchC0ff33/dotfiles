@@ -7,7 +7,7 @@ Three standard Kani proof harness patterns: unwrap-safety proof (function never 
 Load this skill when writing Kani proof harnesses, setting up the proofs crate, or verifying function correctness with model checking.
 
 ## Source
-STANDARDS.adoc §6.2 (lines 2402–2483)
+STANDARDS.adoc §6.2 (lines 2371–2483)
 
 ## Key Rules
 

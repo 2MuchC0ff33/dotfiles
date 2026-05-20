@@ -7,7 +7,7 @@ Anti-pattern: Confusing pipeline input vs parameters. Use `$in` for pipeline inp
 Load this skill when defining commands that accept either pipeline input or positional arguments.
 
 ## Source
-STANDARDS.adoc §11.5.9 (lines 4362–4384)
+STANDARDS.adoc §11.5.9 (lines 4420–4442)
 
 ## Key Rules
 

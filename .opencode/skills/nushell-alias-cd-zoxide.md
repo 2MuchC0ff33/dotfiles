@@ -7,7 +7,7 @@ Replace `cd` directory change with `z` (zoxide), a smarter directory jumper that
 Load this skill when reviewing or creating Nushell aliases in `config.nu`.
 
 ## Source
-STANDARDS.adoc §11.1 (line 3642)
+STANDARDS.adoc §11.1 (line 3700)
 
 ## Key Rules
 

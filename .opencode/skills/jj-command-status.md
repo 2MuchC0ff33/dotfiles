@@ -7,7 +7,7 @@
 Load this skill when you need to understand the current state of your working copy, check for conflicts, see what files are modified, or verify which parent change you're working on top of.
 
 ## Source
-STANDARDS.adoc §10.2.4 (lines 3417–3418)
+STANDARDS.adoc §10.2.4 (lines 3453–3454)
 
 ## Key Rules
 

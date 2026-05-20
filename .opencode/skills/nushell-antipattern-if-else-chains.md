@@ -7,7 +7,7 @@ Anti-pattern: `if-else` chains for branching. Use `match` for multi-branch.
 Load this skill when branching on multiple conditions or values.
 
 ## Source
-STANDARDS.adoc §11.5.9 (lines 4362–4381)
+STANDARDS.adoc §11.5.9 (lines 4420–4439)
 
 ## Key Rules
 

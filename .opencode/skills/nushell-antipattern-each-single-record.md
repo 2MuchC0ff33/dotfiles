@@ -7,7 +7,7 @@ Anti-pattern: Using `each` on single records. Use `items {|key, val| ...}`.
 Load this skill when iterating over record fields.
 
 ## Source
-STANDARDS.adoc §11.5.9 (lines 4362–4385)
+STANDARDS.adoc §11.5.9 (lines 4420–4443)
 
 ## Key Rules
 

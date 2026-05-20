@@ -10,7 +10,7 @@ Load this skill when linking between sections within a page or between pages in 
 
 ## Source
 
-STANDARDS.adoc §9.6 (line 3260)
+STANDARDS.adoc §9.6 (line 3300)
 
 ## Key Rules
 

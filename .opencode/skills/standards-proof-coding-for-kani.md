@@ -7,7 +7,7 @@ Code must be written in a style amenable to Kani model-checking: statically know
 Load this skill when writing code that will be formally verified with Kani, reviewing code for Kani-proof compatibility, or refactoring existing code to be Kani-amenable.
 
 ## Source
-STANDARDS.adoc §6.2.3 (lines 2486–2508)
+STANDARDS.adoc §6.2.3 (lines 2517–2539)
 
 ## Key Rules
 

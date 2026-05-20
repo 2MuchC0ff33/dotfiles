@@ -7,7 +7,7 @@ Reference for Nushell's complex type annotation syntax including records, lists,
 Load this skill when defining type annotations for records, lists, tables, optional values, nested structures, or any type more complex than a primitive (`int`, `string`, `bool`, etc.).
 
 ## Source
-STANDARDS.adoc §11.5.4 (lines 4088–4125)
+STANDARDS.adoc §11.5.4 (lines 4146–4183)
 
 ## Key Rules
 

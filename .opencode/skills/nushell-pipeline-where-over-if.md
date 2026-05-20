@@ -7,7 +7,7 @@ Use `where` for filtering lists instead of manual `if` checks inside `each` or `
 Load this skill when filtering a list, table, or record collection.
 
 ## Source
-STANDARDS.adoc §11.5.5 (lines 4127–4134, 4154–4163)
+STANDARDS.adoc §11.5.5 (lines 4185–4192, 4212–4221)
 
 ## Key Rules
 

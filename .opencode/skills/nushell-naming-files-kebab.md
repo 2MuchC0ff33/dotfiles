@@ -7,14 +7,14 @@ All `.nu` script files and module paths MUST use kebab-case naming.
 Load this skill when creating new `.nu` files, organizing scripts into modules, importing files with `use` or `source`, or designing a file hierarchy for a Nushell project.
 
 ## Source
-STANDARDS.adoc §11.5.1 (lines 3969–4001)
+STANDARDS.adoc §11.5.1 (lines 4027–4059)
 
 ## Key Rules
 
-- MANDATE: All `.nu` file names MUST be kebab-case: `utils.nu`, `db-migrate.nu`, `config-validate.nu`.
+- MANDATE: All `.nu` file names MUST be kebab-case: `utils.nu` → `util-helpers.nu`, `db-migrate.nu`, `config-validate.nu`.
 - MANDATE: Module directories should also use kebab-case if they form part of the module path.
 - MANDATE: File names should describe the primary export or purpose in 1–3 hyphen-separated words.
-- FORBIDDEN: snake_case in file names: `utils.nu`, `db_migrate.nu`, `config_validate.nu`.
+- FORBIDDEN: snake_case in file names: `util_helpers.nu`, `db_migrate.nu`, `config_validate.nu`.
 - FORBIDDEN: camelCase in file names: `dbMigrate.nu`, `configValidate.nu`.
 - FORBIDDEN: PascalCase in file names: `DbMigrate.nu`, `ConfigValidate.nu`.
 - FORBIDDEN: File names with spaces or special characters beyond hyphens.

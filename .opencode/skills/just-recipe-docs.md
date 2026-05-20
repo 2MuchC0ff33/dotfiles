@@ -7,7 +7,7 @@ Documentation build recipes: Rust API docs, AsciiDoc docs, and xtask-driven doc 
 Load this skill when implementing, modifying, or documenting the `docs`, `docs-open`, or `docs-adoc` recipes in the justfile.
 
 ## Source
-STANDARDS.adoc §8.1 (lines 2749–2759)
+STANDARDS.adoc §8.1 (lines 2782–2792)
 
 ## Key Rules
 

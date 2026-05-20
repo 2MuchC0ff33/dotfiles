@@ -7,7 +7,7 @@ Legacy setup recipes for non-Nix users: tool installation and environment verifi
 Load this skill when implementing, modifying, or documenting the `setup-legacy` or `deps-legacy` recipes in the justfile, or when setting up the project without Nix.
 
 ## Source
-STANDARDS.adoc §8.1 (lines 2857–2863)
+STANDARDS.adoc §8.1 (lines 2890–2896)
 
 ## Key Rules
 

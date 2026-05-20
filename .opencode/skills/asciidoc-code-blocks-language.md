@@ -10,7 +10,7 @@ Load this skill when writing code examples, command-line sessions, or input/outp
 
 ## Source
 
-STANDARDS.adoc §9.6 (lines 3256–3257)
+STANDARDS.adoc §9.6 (lines 3296–3297)
 
 ## Key Rules
 

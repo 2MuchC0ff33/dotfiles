@@ -7,7 +7,7 @@ Anti-pattern: `mut` accumulator + `for`. Use pipeline (`reduce`, `math sum`, `wh
 Load this skill when accumulating values or building collections across iterations.
 
 ## Source
-STANDARDS.adoc §11.5.9 (lines 4362–4369, 4145–4163)
+STANDARDS.adoc §11.5.9 (lines 4420–4427, 4203–4221)
 
 ## Key Rules
 

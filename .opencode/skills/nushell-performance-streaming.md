@@ -7,7 +7,7 @@
 Load this skill when processing large files that may exceed available memory.
 
 ## Source
-STANDARDS.adoc §11.5.10 (lines 4392–4410)
+STANDARDS.adoc §11.5.10 (lines 4450–4468)
 
 ## Key Rules
 

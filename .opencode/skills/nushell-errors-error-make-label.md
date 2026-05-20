@@ -7,7 +7,7 @@ Custom errors MUST include `label` with `span` when source metadata exists. Bare
 Load this skill when raising custom errors via `error make`.
 
 ## Source
-STANDARDS.adoc §11.5.7 (lines 4255–4269, 4276–4296)
+STANDARDS.adoc §11.5.7 (lines 4313–4327, 4334–4354)
 
 ## Key Rules
 

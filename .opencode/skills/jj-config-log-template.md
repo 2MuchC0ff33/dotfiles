@@ -1,13 +1,13 @@
 # jj-config-log-template
 
 ## Description
-Configure `~/.jj/config.toml` [templates] section with a compact one-line log format showing change_id, commit_id, bookmarks, description, and empty indicator.
+Configure `~/.config/jj/config.toml` [templates] section with a compact one-line log format showing change_id, commit_id, bookmarks, description, and empty indicator.
 
 ## When to Load
 Load this skill when setting up jj for the first time, customizing the `jj log` output format, or matching log output to a team standard.
 
 ## Source
-STANDARDS.adoc §10.2.3 (lines 3402–3406)
+STANDARDS.adoc §10.2.3 (lines 3442–3446)
 
 ## Key Rules
 
@@ -19,7 +19,7 @@ STANDARDS.adoc §10.2.3 (lines 3402–3406)
 ## Example
 
 ```toml
-# ~/.jj/config.toml — Log template
+# ~/.config/jj/config.toml — Log template
 
 [templates]
 log = """

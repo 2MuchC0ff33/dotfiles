@@ -7,7 +7,7 @@ Use the `gh` CLI (GitHub CLI) to create pull requests since jj has no native `jj
 Load this skill when creating a pull request on GitHub from a jj-managed repository, reviewing PR status from the CLI, or managing GitHub-specific workflows (issues, releases, checks).
 
 ## Source
-STANDARDS.adoc §10.2.7 (lines 3512–3513)
+STANDARDS.adoc §10.2.7 (lines 3555–3556)
 
 ## Key Rules
 

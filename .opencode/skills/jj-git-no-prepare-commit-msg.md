@@ -7,7 +7,7 @@ jj's model has no `prepare-commit-msg` hook equivalent because `jj new` creates 
 Load this skill when migrating from git hooks that leveraged `prepare-commit-msg` (e.g., for automatic ticket number insertion, template generation, or sign-off lines), or when setting up a jj project that previously relied on commit-msg hooks.
 
 ## Source
-STANDARDS.adoc §10.2.7 (lines 3509–3510)
+STANDARDS.adoc §10.2.7 (lines 3552–3553)
 
 ## Key Rules
 

@@ -7,7 +7,7 @@ Comprehensive reference for all language features enabled by Rust Edition 2024 (
 Load this skill when writing new code that can leverage edition 2024 features, reviewing code for idiomatic edition-2024 patterns, or evaluating whether a feature is available.
 
 ## Source
-STANDARDS.adoc §1.4.4.1 (lines 869–914) and §3.1 (lines 1476–1486)
+STANDARDS.adoc §1.4.4.1 (lines 870–906) and §3.1 (lines 1470–1486)
 
 ## Key Rules
 
@@ -15,8 +15,6 @@ STANDARDS.adoc §1.4.4.1 (lines 869–914) and §3.1 (lines 1476–1486)
 - **MANDATE**: `cfg_select!` SHALL replace `cfg-if` crate usage.
 - **SHOULD**: Prefer `if let` chains over nested `if let Some(x) = ... { if let ... }`.
 - **SHOULD**: Prefer `if let` guards over `match` + nested conditions.
-- **SHOULD**: Use `core::hint::cold_path` in error/unlikely branches.
-- **SHOULD**: Use `core::range::RangeInclusive` for range operations.
 - **FORBIDDEN**: Adding feature flags for features that are edition-gated.
 
 ## Stable Feature Reference
@@ -38,10 +36,6 @@ STANDARDS.adoc §1.4.4.1 (lines 869–914) and §3.1 (lines 1476–1486)
 | Precise capturing | 1.82.0+ (default 2024) | `impl Trait + use<'a, T>` for explicit lifetime capture |
 | Trait upcasting | 1.86.0 | `dyn SubTrait` → `dyn SuperTrait` coercion |
 | Naked functions | 1.88.0 | Full control over function assembly |
-| `core::range` module | 1.95.0 | New range types e.g. `RangeInclusive` |
-| `core::hint::cold_path` | 1.95.0 | Hint compiler that path is cold |
-| `bool: TryFrom<integer>` | 1.95.0 | Safe integer-to-bool conversion |
-| `Vec::push_mut`, `Vec::insert_mut` | 1.95.0 | In-place mutation of elements |
 | Generic const arg inference | 1.89.0 | Infer const generic arguments |
 
 ## Example
@@ -59,12 +53,6 @@ if let Some(x) = get_optional()
 match result {
     Some(val) if let Ok(parsed) = val.parse::<i32>() => parsed,
     _ => 0,
-}
-
-// cold_path hint
-if core::hint::cold_path() {
-    // Error handling — unlikely branch
-    handle_error();
 }
 
 // cfg_select! (built-in, no cfg-if crate)

@@ -7,7 +7,7 @@ Limit Nushell command history to 100,000 entries to balance recall capacity with
 Load this skill when configuring `$env.config.history.max_size` in `config.nu`.
 
 ## Source
-STANDARDS.adoc §11.1 (line 3605)
+STANDARDS.adoc §11.1 (line 3663)
 
 ## Key Rules
 

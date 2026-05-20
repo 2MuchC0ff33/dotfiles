@@ -7,7 +7,7 @@
 Load this skill when starting work on a new feature or fix, creating a new change in the commit DAG, or branching off from an existing branch.
 
 ## Source
-STANDARDS.adoc §10.2.4 (lines 3413–3415, 3428–3429)
+STANDARDS.adoc §10.2.4 (lines 3449–3451, 3464–3465)
 
 ## Key Rules
 

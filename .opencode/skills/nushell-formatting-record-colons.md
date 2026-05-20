@@ -7,7 +7,7 @@ In record literals, exactly one space MUST follow each colon after a key name.
 Load this skill when writing record literals (`{key: value}`), defining configuration records, creating data structures with key-value pairs, or formatting command return records.
 
 ## Source
-STANDARDS.adoc §11.5.2 (lines 4003–4065)
+STANDARDS.adoc §11.5.2 (lines 4061–4123)
 
 ## Key Rules
 

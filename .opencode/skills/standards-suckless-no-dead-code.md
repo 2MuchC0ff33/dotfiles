@@ -7,7 +7,7 @@ No dead code, no commented-out code, no `todo!()` or `unimplemented!()` in commi
 Load this skill when reviewing PRs for dead code detection, cleaning up unused functions/variables, or before committing changes.
 
 ## Source
-STANDARDS.adoc §0.1.3 (lines 108–109)
+STANDARDS.adoc §0.1.3 (lines 105–106)
 
 ## Key Rules
 

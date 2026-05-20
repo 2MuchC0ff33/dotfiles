@@ -7,7 +7,7 @@ Format recipes: apply formatting (`fmt`) or check formatting without modifying (
 Load this skill when implementing, modifying, or documenting the `fmt` or `fmt-check` recipes in the justfile.
 
 ## Source
-STANDARDS.adoc §8.1 (lines 2733–2739)
+STANDARDS.adoc §8.1 (lines 2766–2772)
 
 ## Key Rules
 

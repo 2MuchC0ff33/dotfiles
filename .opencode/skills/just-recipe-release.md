@@ -7,7 +7,7 @@ Release preparation recipe: full check pipeline, README generation, and version 
 Load this skill when implementing, modifying, or documenting the `release` recipe in the justfile, or when preparing a new project release.
 
 ## Source
-STANDARDS.adoc §8.1 (lines 2821–2823); xtask release module (lines 2995–3068)
+STANDARDS.adoc §8.1 (lines 2854–2856); xtask release module (lines 3037–3111)
 
 ## Key Rules
 
@@ -36,7 +36,7 @@ release VERSION:
     cargo xtask release --version {{VERSION}}
 ```
 
-The xtask release module (lines 2995–3068) implements:
+The xtask release module (lines 3037–3111) implements:
 ```rust
 pub fn run(version: &str, dry_run: bool) -> Result<()> {
     if dry_run {

@@ -1,13 +1,13 @@
 # Skill Name: Root Directory Files
 
 ## Description
-Standard set of root-level files required in every project: `justfile`, `flake.nix`, `README.adoc`, `STANDARDS.adoc`, `.gitignore`, `.gitattributes`, `Cargo.toml`, `Cargo.lock`, `CONTRIBUTING.adoc`, `CHANGELOG.adoc`, `SECURITY.adoc`, `SUPPORT.adoc`.
+Standard set of root-level files required in every project: `justfile`, `flake.nix`, `README.adoc`, `STANDARDS.adoc`, `.gitignore`, `.gitattributes`, `Cargo.toml`, `Cargo.lock`, `deny.toml`, `CONTRIBUTING.adoc`, `CHANGELOG.adoc`, `SECURITY.adoc`, `SUPPORT.adoc`.
 
 ## When to Load
 Load this skill when initializing a new project repository, verifying root directory completeness, or adding missing root-level files.
 
 ## Source
-STANDARDS.adoc §2.1 (lines 1250–1260)
+STANDARDS.adoc §2.1 (lines 1245–1255)
 
 ## Key Rules
 
@@ -16,6 +16,7 @@ STANDARDS.adoc §2.1 (lines 1250–1260)
 - MANDATE: `README.adoc` is the source of truth (never `README.md` in source)
 - MANDATE: `STANDARDS.adoc` is present as the project standards document
 - MANDATE: `.gitignore` and `.gitattributes` define repository boundaries and file handling
+- MANDATE: `deny.toml` is present for cargo-deny dependency auditing
 - SHOULD: `CONTRIBUTING.adoc` documents contribution guidelines
 - SHOULD: `CHANGELOG.adoc` tracks version history
 - SHOULD: `SECURITY.adoc` documents security policies
@@ -33,6 +34,7 @@ project/
 ├── flake.lock             # Nix flake lockfile
 ├── Cargo.toml             # Rust package manifest
 ├── Cargo.lock             # ALWAYS committed
+├── deny.toml              # cargo-deny dependency audit config
 ├── .gitignore             # File exclusion rules
 ├── .gitattributes         # Line ending and diff rules
 ├── README.adoc            # Source of truth documentation

@@ -7,7 +7,7 @@ Disable "quick" completion mode to ensure full, accurate completions rather than
 Load this skill when configuring `$env.config.completions.quick` in `config.nu`.
 
 ## Source
-STANDARDS.adoc §11.1 (line 3613)
+STANDARDS.adoc §11.1 (line 3671)
 
 ## Key Rules
 

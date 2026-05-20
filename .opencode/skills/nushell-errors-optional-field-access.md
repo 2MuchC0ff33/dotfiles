@@ -7,12 +7,11 @@ Use `?` for optional field access (`$record.field?`) to safely access potentiall
 Load this skill when accessing fields on records that may not have the field present.
 
 ## Source
-STANDARDS.adoc §11.5.7 (lines 4255–4272, 4302–4304)
+STANDARDS.adoc §11.5.7 (lines 4313–4330, 4360–4362)
 
 ## Key Rules
 
 - SHOULD: Use `?` for optional field access: `$record.field?`
-- FORBIDDEN: Bare `error make {msg: '...'}` without `label` when span is available
 
 ## Rationale
 

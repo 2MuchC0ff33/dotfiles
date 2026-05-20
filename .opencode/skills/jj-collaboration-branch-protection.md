@@ -7,7 +7,7 @@ Branch protection rules enforced at the GitHub hosting layer: `main` is protecte
 Load this skill when configuring repository settings, preparing a PR for merge, understanding why a push was rejected, or onboarding a team to the standard's collaboration model.
 
 ## Source
-STANDARDS.adoc §10.4 (lines 3564–3581)
+STANDARDS.adoc §10.4 (lines 3607–3624)
 
 ## Key Rules
 

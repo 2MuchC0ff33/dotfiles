@@ -7,7 +7,7 @@ All environment variables accessed via `$env.*` MUST use SCREAMING_SNAKE_CASE (a
 Load this skill when setting environment variables, accessing `$env.*` values, defining process environment overrides, or configuring shell environment in `env.nu` or `config.nu`.
 
 ## Source
-STANDARDS.adoc §11.5.1 (lines 3969–4001)
+STANDARDS.adoc §11.5.1 (lines 4027–4059)
 
 ## Key Rules
 

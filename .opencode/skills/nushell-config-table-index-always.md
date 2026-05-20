@@ -7,7 +7,7 @@ Always show row index numbers in table output for easier reference and navigatio
 Load this skill when configuring `$env.config.table.index_mode` in `config.nu`.
 
 ## Source
-STANDARDS.adoc §11.1 (line 3620)
+STANDARDS.adoc §11.1 (line 3678)
 
 ## Key Rules
 

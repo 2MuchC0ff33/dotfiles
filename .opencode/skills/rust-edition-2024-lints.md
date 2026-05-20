@@ -7,7 +7,7 @@ Comprehensive lint matrix for Rust 2024 edition migration and enforcement. These
 Load this skill when migrating a crate from edition 2021 to 2024, setting up a new crate's lint configuration, or debugging edition-related compilation issues.
 
 ## Source
-STANDARDS.adoc §3.1 (lines 1591–1635)
+STANDARDS.adoc §3.1 (lines 1585–1629)
 
 ## Key Rules
 

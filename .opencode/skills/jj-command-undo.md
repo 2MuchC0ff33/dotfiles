@@ -7,7 +7,7 @@
 Load this skill after any unintended operation — accidental abandon, wrong rebase, incorrect squash, mistaken describe, or any other modification to the repo state.
 
 ## Source
-STANDARDS.adoc §10.2.4 (lines 3431–3432)
+STANDARDS.adoc §10.2.4 (lines 3467–3468)
 
 ## Key Rules
 

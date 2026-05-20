@@ -7,7 +7,7 @@ ALL exported commands MUST declare an I/O signature using the `: input_type -> o
 Load this skill when defining any exported command, reviewing command definitions for completeness, or ensuring type safety across pipeline boundaries.
 
 ## Source
-STANDARDS.adoc §11.5.4 (lines 4088–4125)
+STANDARDS.adoc §11.5.4 (lines 4146–4183)
 
 ## Key Rules
 

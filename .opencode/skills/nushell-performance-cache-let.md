@@ -7,12 +7,11 @@ Expensive results cached in `let` bindings, never recomputed.
 Load this skill when using the same computed value multiple times.
 
 ## Source
-STANDARDS.adoc §11.5.10 (lines 4392–4399, 4422–4431)
+STANDARDS.adoc §11.5.10 (lines 4450–4457, 4480–4489)
 
 ## Key Rules
 
 - MANDATE: Expensive results cached in `let` bindings, never recomputed
-- FORBIDDEN: Unbounded `glob` without `--depth`
 
 ## Rationale
 

@@ -7,7 +7,7 @@ The `scripts/` directory contains Nushell-only scripts (.nu extension, never .sh
 Load this skill when creating new scripts, migrating shell scripts to Nushell, or verifying the scripts directory structure.
 
 ## Source
-STANDARDS.adoc §2.1 (lines 1245–1249)
+STANDARDS.adoc §2.1 (lines 1240–1244)
 
 ## Key Rules
 

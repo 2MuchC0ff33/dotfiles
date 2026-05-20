@@ -7,7 +7,7 @@ Anti-pattern: String-parsing external command output. Use structured commands (`
 Load this skill when processing output from external commands or files.
 
 ## Source
-STANDARDS.adoc §11.5.9 (lines 4362–4372)
+STANDARDS.adoc §11.5.9 (lines 4420–4430)
 
 ## Key Rules
 

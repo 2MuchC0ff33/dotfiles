@@ -7,7 +7,7 @@ Standard module pattern for xtask task implementations — one module per subcom
 Load this skill when creating or modifying a task module under `xtask/src/tasks/`, such as `check.rs`, `lint.rs`, `test.rs`, `proof.rs`, `fuzz.rs`, `docs.rs`, `audit.rs`, `release.rs`, `cross.rs`, `nostd.rs`, `msrv.rs`, or `verify.rs`.
 
 ## Source
-STANDARDS.adoc §8.2 (lines 2960–2993, 2995–3068)
+STANDARDS.adoc §8.2 (lines 3005–3038, 3037–3110)
 
 ## Key Rules
 
@@ -66,11 +66,8 @@ pub fn run() -> Result<()> {
         "cargo",
         &[
             "kani",
-            "--enable-unstable",
-            "--restrict-vtable",
             "--default-unwind", "100",
             "--output-format", "terse",
-            "--concrete-playback",
         ],
         "Kani proof verification failed. See Kani output above for details.",
     )?;

@@ -7,7 +7,7 @@
 Load this skill when writing library code, reviewing dependencies for anyhow usage, or determining correct error handling patterns for library vs binary code.
 
 ## Source
-STANDARDS.adoc §12.1 (lines 4544–4545)
+STANDARDS.adoc §3.3 (lines 4544–4545)
 
 ## Key Rules
 

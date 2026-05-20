@@ -7,7 +7,7 @@ Anti-pattern: `env` changes in regular `def`. Use `def --env` to propagate envir
 Load this skill when defining commands that modify environment variables.
 
 ## Source
-STANDARDS.adoc §11.5.9 (lines 4362–4375)
+STANDARDS.adoc §11.5.9 (lines 4420–4433)
 
 ## Key Rules
 

@@ -7,7 +7,7 @@ Utility tool replacements: zoxide→cd, hyperfine→time, tokei→cloc, ouch→t
 Load this skill when setting up a development machine, replacing classic utilities with Rust-native alternatives, or evaluating tool compatibility.
 
 ## Source
-STANDARDS.adoc §1.4.2 (lines 784–812), §1.4.5 (lines 917–938)
+STANDARDS.adoc §1.4.2 (lines 785–813), §1.4.5 (lines 908–929)
 
 ## Key Rules
 

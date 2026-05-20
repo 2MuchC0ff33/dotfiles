@@ -7,7 +7,7 @@ Project root SHALL contain a `.nu-lint.toml` configuration with all rule groups.
 Load this skill when setting up a new Nushell project or configuring linter rules.
 
 ## Source
-STANDARDS.adoc §11.5.11 (lines 4434–4478)
+STANDARDS.adoc §11.5.11 (lines 4492–4536)
 
 ## Key Rules
 

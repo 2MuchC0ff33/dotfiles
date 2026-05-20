@@ -7,7 +7,7 @@ Submodules use `export module` to preserve namespace and avoid name collisions.
 Load this skill when organizing code across multiple module files.
 
 ## Source
-STANDARDS.adoc §11.5.6 (lines 4188–4199, 4248)
+STANDARDS.adoc §11.5.6 (lines 4246–4257, 4306)
 
 ## Key Rules
 

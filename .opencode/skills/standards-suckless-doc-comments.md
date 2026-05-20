@@ -7,7 +7,7 @@ Every public item MUST have a doc comment explaining what it is, what it does, a
 Load this skill when writing new public API, reviewing PRs for documentation completeness, or adding missing doc comments.
 
 ## Source
-STANDARDS.adoc §0.1.3 (lines 110–111)
+STANDARDS.adoc §0.1.3 (lines 107–108)
 
 ## Key Rules
 

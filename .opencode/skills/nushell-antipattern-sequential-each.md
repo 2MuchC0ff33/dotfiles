@@ -7,7 +7,7 @@ Anti-pattern: Using `each` when `par-each` would work. Use `par-each` for I/O an
 Load this skill when processing collections with I/O (file reads, HTTP, network) or CPU-bound operations.
 
 ## Source
-STANDARDS.adoc §11.5.9 (lines 4362–4377)
+STANDARDS.adoc §11.5.9 (lines 4420–4435)
 
 ## Key Rules
 

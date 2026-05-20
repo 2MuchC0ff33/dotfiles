@@ -7,7 +7,7 @@ MANDATE: User-provided paths validated with `path expand` + prefix check. FORBID
 Load this skill when accepting file paths from user input, command-line arguments, or external sources.
 
 ## Source
-STANDARDS.adoc §11.5.8 (lines 4307–4320)
+STANDARDS.adoc §11.5.8 (lines 4365–4378)
 
 ## Key Rules
 

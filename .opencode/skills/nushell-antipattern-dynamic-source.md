@@ -7,7 +7,7 @@ Anti-pattern: Dynamic `source`/`use` paths. Use `const`, never `let`.
 Load this skill when using `source` or `use` with variable paths.
 
 ## Source
-STANDARDS.adoc §11.5.9 (lines 4362–4370, 4223–4229)
+STANDARDS.adoc §11.5.9 (lines 4420–4428, 4281–4287)
 
 ## Key Rules
 

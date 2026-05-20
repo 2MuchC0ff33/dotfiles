@@ -7,7 +7,7 @@ jj has no native email-based workflow (no `jj format-patch` or `jj am`). Use `gi
 Load this skill when submitting patches to email-based projects (Linux kernel, Git, some open-source projects), applying patches from mailing lists, or participating in patch-based code review workflows.
 
 ## Source
-STANDARDS.adoc §10.2.7 (lines 3514–3515)
+STANDARDS.adoc §10.2.7 (lines 3557–3558)
 
 ## Key Rules
 
@@ -20,7 +20,7 @@ STANDARDS.adoc §10.2.7 (lines 3514–3515)
 ## Example
 
 ```bash
-# Generate patches from jh-managed commits
+# Generate patches from jj-managed commits
 # First, make sure changes are materialized
 jj git push --dry-run
 # or

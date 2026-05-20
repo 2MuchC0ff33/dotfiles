@@ -7,7 +7,7 @@ Isolate history per-session so concurrent shell instances don't interleave histo
 Load this skill when configuring `$env.config.history.isolation` in `config.nu`.
 
 ## Source
-STANDARDS.adoc §11.1 (line 3608)
+STANDARDS.adoc §11.1 (line 3666)
 
 ## Key Rules
 

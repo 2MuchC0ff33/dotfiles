@@ -7,7 +7,7 @@ Glob patterns from user input must be validated (no unintended expansion). `--de
 Load this skill when accepting glob patterns or using the `glob` command with user-controlled or unconstrained input.
 
 ## Source
-STANDARDS.adoc §11.5.8 (lines 4307–4323)
+STANDARDS.adoc §11.5.8 (lines 4365–4381)
 
 ## Key Rules
 

@@ -7,7 +7,7 @@ Use fuzzy matching algorithm for tab completions, accepting matches even when ch
 Load this skill when configuring `$env.config.completions.algorithm` in `config.nu`.
 
 ## Source
-STANDARDS.adoc §11.1 (line 3615)
+STANDARDS.adoc §11.1 (line 3673)
 
 ## Key Rules
 

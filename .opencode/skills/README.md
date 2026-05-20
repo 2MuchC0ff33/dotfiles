@@ -2,7 +2,7 @@
 
 ## Overview
 
-This directory contains **247 atomic skill files** for opencode agents working on this repository.
+This directory contains **249 atomic skill files** for opencode agents working on this repository.
 Each skill covers one specific rule, pattern, or convention from `STANDARDS.adoc` (v2.0.0).
 
 ## How to Load Skills
@@ -27,7 +27,7 @@ For example, to load the skill for fuzzy completions:
 
 ## Skill Reference
 
-### Nushell Configuration (41 skills)
+### Nushell Configuration (43 skills)
 
 | Skill | STANDARDS § | Description |
 |---|---|---|
@@ -62,6 +62,8 @@ For example, to load the skill for fuzzy completions:
 | `nushell-alias-curl-xh` | §11.1 | `curl = xh` |
 | `nushell-alias-dig-dog` | §11.1 | `dig = dog` |
 | `nushell-alias-ping-gping` | §11.1 | `ping = gping` |
+| `nushell-alias-gui-jj-log` | §11.1 | `gui = jj log` alias |
+| `nushell-alias-net-bandwhich` | §11.1 | `net = bandwhich` alias |
 | `nushell-alias-tar-ouch` | §11.1 | `tar = ouch` |
 | `nushell-alias-cargo-c` | §11.1 | `c = cargo` |
 | `nushell-alias-xtask-cxt` | §11.1 | `cxt = cargo xtask` |
@@ -211,7 +213,7 @@ For example, to load the skill for fuzzy completions:
 |---|---|---|
 | `nushell-linting-nu-lint-mandate` | §11.5.11 | nu-lint in CI mandate |
 | `nushell-linting-nu-lint-toml` | §11.5.11 | .nu-lint.toml configuration |
-| `nushell-linting-nu-lint-toml-reference` | §11.5.11 | Full .nu-lint.toml reference |
+| `nushell-linting-nu-lint-reference` | §11.5.11 | Full .nu-lint.toml reference |
 | `nushell-linting-topiary` | §11.5.11 | topiary formatting |
 | `nushell-linting-ci-integration` | §11.5.11 | CI integration for nu-lint |
 
@@ -232,7 +234,7 @@ For example, to load the skill for fuzzy completions:
 | `jj-install-cargo` | §10.2.1 | Install via `cargo install` |
 | `jj-init-colocate` | §10.2.2 | `jj git init --colocate` |
 | `jj-config-user` | §10.2.3 | User name, email, editor |
-| `jj-config-git-settings` | §10.2.3 | Git backend: auto-local-branch, rebase, push-conflict |
+| `jj-config-git-settings` | §10.2.3 | Git backend: auto-local-bookmark, rebase, push-conflict |
 | `jj-config-colors` | §10.2.3 | Diff color configuration |
 | `jj-config-log-template` | §10.2.3 | Compact log template |
 | `jj-command-new` | §10.2.4 | `jj new [BRANCH]` |

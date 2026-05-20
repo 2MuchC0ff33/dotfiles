@@ -7,7 +7,7 @@ Force Nushell to render errors with rich, colorful diagnostics using `error_styl
 Load this skill when creating or reviewing `$env.config.error_style` in `config.nu` or any Nushell configuration file.
 
 ## Source
-STANDARDS.adoc §11.1 (line 3596)
+STANDARDS.adoc §11.1 (line 3654)
 
 ## Key Rules
 

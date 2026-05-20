@@ -7,7 +7,7 @@ Git submodules are not supported in jj. Use direct `git submodule` commands for 
 Load this skill when a project uses git submodules and you need to clone, update, commit, or otherwise manage submodule state within a jj-managed repository.
 
 ## Source
-STANDARDS.adoc §10.2.7 (lines 3506–3507)
+STANDARDS.adoc §10.2.7 (lines 3549–3550)
 
 ## Key Rules
 

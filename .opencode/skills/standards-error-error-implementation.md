@@ -7,7 +7,7 @@ Every error type MUST implement `std::error::Error` with a proper `source()` cha
 Load this skill when defining new error types, implementing `std::error::Error` trait, or setting up error source chains.
 
 ## Source
-STANDARDS.adoc §12.1 (line 4542)
+STANDARDS.adoc §3.3 (line 4542)
 
 ## Key Rules
 

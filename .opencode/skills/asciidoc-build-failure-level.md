@@ -10,7 +10,7 @@ Load this skill when configuring CI build pipelines, setting up asciidoctor buil
 
 ## Source
 
-STANDARDS.adoc §9.1 (lines 3153–3155)
+STANDARDS.adoc §9.1 (lines 3190–3192)
 
 ## Key Rules
 

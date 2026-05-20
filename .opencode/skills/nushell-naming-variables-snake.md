@@ -7,7 +7,7 @@ All variables, parameters, `let` bindings, `mut` bindings, and function paramete
 Load this skill when declaring variables (`let`, `mut`), defining command parameters, binding loop variables, or reviewing any identifier that holds a value in `.nu` scripts.
 
 ## Source
-STANDARDS.adoc §11.5.1 (lines 3969–4001)
+STANDARDS.adoc §11.5.1 (lines 4027–4059)
 
 ## Key Rules
 

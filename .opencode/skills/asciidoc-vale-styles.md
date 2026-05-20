@@ -10,7 +10,7 @@ Load this skill when creating, modifying, or reviewing Vale style files for proj
 
 ## Source
 
-STANDARDS.adoc §9.2 (lines 3185–3193) and §9.7 (lines 3272–3298)
+STANDARDS.adoc §9.2 (lines 3224–3232) and §9.7 (lines 3314–3340)
 
 ## Key Rules
 

@@ -7,7 +7,7 @@ When a record literal contains multiple key-value pairs or spans ~80+ characters
 Load this skill when defining record literals with more than 2–3 key-value pairs, writing configuration records, constructing return values from commands, or formatting nested data structures in `.nu` files.
 
 ## Source
-STANDARDS.adoc §11.5.2 (lines 4003–4065)
+STANDARDS.adoc §11.5.2 (lines 4061–4123)
 
 ## Key Rules
 

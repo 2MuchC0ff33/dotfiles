@@ -7,7 +7,7 @@ Replace Nushell's built-in `ps` with `procs`, a Rust-native process viewer with 
 Load this skill when reviewing or creating Nushell aliases in `config.nu`.
 
 ## Source
-STANDARDS.adoc §11.1 (line 3639)
+STANDARDS.adoc §11.1 (line 3697)
 
 ## Key Rules
 

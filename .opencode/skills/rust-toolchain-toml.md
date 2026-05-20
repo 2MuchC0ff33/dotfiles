@@ -7,7 +7,7 @@ Every project SHALL lock `rust-toolchain.toml` to an exact Rust version (1.95.0)
 Load this skill when initializing a new Rust project, updating the Rust toolchain version, or configuring cross-compilation targets.
 
 ## Source
-STANDARDS.adoc §1.2 (lines 648–655), §1.5.2 (lines 992–1016)
+STANDARDS.adoc §1.2 (lines 648–655), §1.5.2 (lines 985–1009)
 
 ## Key Rules
 

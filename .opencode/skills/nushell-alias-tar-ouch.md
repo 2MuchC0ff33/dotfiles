@@ -7,7 +7,7 @@ Replace `tar` with `ouch`, a Rust-native compression tool that handles multiple 
 Load this skill when reviewing or creating Nushell aliases in `config.nu`.
 
 ## Source
-STANDARDS.adoc §11.1 (line 3648)
+STANDARDS.adoc §11.1 (line 3706)
 
 ## Key Rules
 

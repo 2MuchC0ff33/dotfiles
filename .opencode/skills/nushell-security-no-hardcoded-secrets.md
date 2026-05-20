@@ -7,7 +7,7 @@ FORBIDDEN: Hardcoded secrets/tokens/credentials in source code.
 Load this skill when writing any code that handles API keys, tokens, passwords, or credentials.
 
 ## Source
-STANDARDS.adoc §11.5.8 (lines 4307–4315)
+STANDARDS.adoc §11.5.8 (lines 4365–4373)
 
 ## Key Rules
 

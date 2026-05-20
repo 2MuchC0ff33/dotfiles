@@ -7,7 +7,7 @@ Release pipeline phases: check → README conversion → cross-compile → versi
 Load this skill when implementing, modifying, or understanding the release pipeline in `xtask/src/tasks/release.rs`.
 
 ## Source
-STANDARDS.adoc §8.2 (lines 2995–3068)
+STANDARDS.adoc §8.2 (lines 3037–3110)
 
 ## Key Rules
 

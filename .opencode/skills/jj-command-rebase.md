@@ -7,7 +7,7 @@
 Load this skill when moving a change to a newer base, updating feature branches after changes to main, pulling updates from a remote, or restructuring the commit DAG.
 
 ## Source
-STANDARDS.adoc §10.2.4 (lines 3436–3437)
+STANDARDS.adoc §10.2.4 (lines 3472–3473)
 
 ## Key Rules
 

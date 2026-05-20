@@ -7,7 +7,7 @@ Short alias `cxt` for `cargo xtask`, the project's complex Rust automation frame
 Load this skill when reviewing or creating project-specific Nushell aliases in `config.nu`.
 
 ## Source
-STANDARDS.adoc §11.1 (line 3662)
+STANDARDS.adoc §11.1 (line 3720)
 
 ## Key Rules
 

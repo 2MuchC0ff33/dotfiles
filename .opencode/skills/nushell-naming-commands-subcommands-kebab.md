@@ -7,7 +7,7 @@ Sub-commands (nested commands dispatched by a parent) MUST use kebab-case for ea
 Load this skill when defining sub-commands via `def "parent child"`, reviewing command hierarchies, or designing CLI command trees in Nushell.
 
 ## Source
-STANDARDS.adoc §11.5.1 (lines 3969–4001)
+STANDARDS.adoc §11.5.1 (lines 4027–4059)
 
 ## Key Rules
 

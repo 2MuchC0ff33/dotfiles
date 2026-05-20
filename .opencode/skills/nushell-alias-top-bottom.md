@@ -7,7 +7,7 @@ Replace Nushell's process monitor with `btm` (bottom), a cross-platform TUI syst
 Load this skill when reviewing or creating Nushell aliases in `config.nu`.
 
 ## Source
-STANDARDS.adoc §11.1 (line 3640)
+STANDARDS.adoc §11.1 (line 3698)
 
 ## Key Rules
 

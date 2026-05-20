@@ -10,7 +10,7 @@ Load this skill when drafting or editing prose content in any `.adoc` file.
 
 ## Source
 
-STANDARDS.adoc §9.6 (lines 3264–3269)
+STANDARDS.adoc §9.6 (lines 3304–3309)
 
 ## Key Rules
 

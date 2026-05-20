@@ -7,7 +7,7 @@ Test recipes: default test runner, verbose output, and single-test execution.
 Load this skill when implementing, modifying, or documenting the `test`, `test-verbose`, or `test-one` recipes in the justfile.
 
 ## Source
-STANDARDS.adoc §8.1 (lines 2701–2711)
+STANDARDS.adoc §8.1 (lines 2734–2744)
 
 ## Key Rules
 

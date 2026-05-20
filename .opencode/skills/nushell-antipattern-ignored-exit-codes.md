@@ -7,7 +7,7 @@ Anti-pattern: Ignoring external command exit codes. Use `complete` for fallible 
 Load this skill when running external commands where success/failure matters.
 
 ## Source
-STANDARDS.adoc §11.5.9 (lines 4362–4388)
+STANDARDS.adoc §11.5.9 (lines 4420–4446)
 
 ## Key Rules
 

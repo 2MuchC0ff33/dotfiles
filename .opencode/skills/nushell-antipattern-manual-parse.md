@@ -7,7 +7,7 @@ Anti-pattern: Manual structured data parsing. Use `from json` / `open` (native p
 Load this skill when reading or parsing structured data files (JSON, YAML, TOML, CSV).
 
 ## Source
-STANDARDS.adoc §11.5.9 (lines 4362–4380)
+STANDARDS.adoc §11.5.9 (lines 4420–4438)
 
 ## Key Rules
 

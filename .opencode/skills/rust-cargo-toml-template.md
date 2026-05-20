@@ -7,7 +7,7 @@ Mandatory Cargo.toml template for all Rust projects: edition 2024, rust-version 
 Load this skill when creating a new Rust crate, migrating an existing crate to edition 2024, or reviewing a Cargo.toml for compliance.
 
 ## Source
-STANDARDS.adoc §3.1 (lines 1435–1554)
+STANDARDS.adoc §3.1 (lines 1429–1554)
 
 ## Key Rules
 

@@ -7,7 +7,7 @@ Every function that accepts `&[u8]` from external sources MUST have a fuzz targe
 Load this skill when writing fuzz targets for I/O boundaries, adding parsing functions that accept raw byte slices, or reviewing fuzz coverage for external input handling.
 
 ## Source
-STANDARDS.adoc §6.4 (lines 2599–2620)
+STANDARDS.adoc §6.4 (lines 2628–2649)
 
 ## Key Rules
 
@@ -15,6 +15,7 @@ STANDARDS.adoc §6.4 (lines 2599–2620)
 - MANDATE: CI runs each fuzz target for minimum 5 minutes (300 seconds)
 - MANDATE: Fuzz targets MUST NOT panic on ANY input (return errors gracefully)
 - MANDATE: Fuzz targets live in `fuzz/fuzz_targets/`
+- MANDATE: `cargo-fuzz` requires a nightly toolchain; `fuzz/rust-toolchain.toml` SHALL set `channel = "nightly"`
 - SHOULD: Test both valid and invalid input patterns
 - SHOULD: Use `libfuzzer_sys::fuzz_target!` macro
 - FORBIDDEN: Public `&[u8]`-accepting functions without fuzz targets

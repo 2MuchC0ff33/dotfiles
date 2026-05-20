@@ -7,7 +7,7 @@ Provide `@example` attributes on non-trivial commands for doc-tests.
 Load this skill when defining commands that would benefit from usage examples.
 
 ## Source
-STANDARDS.adoc §11.5.12 (lines 4490–4501, 4504–4511)
+STANDARDS.adoc §11.5.12 (lines 4548–4559, 4562–4569)
 
 ## Key Rules
 

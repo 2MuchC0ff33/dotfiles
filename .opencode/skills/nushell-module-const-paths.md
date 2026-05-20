@@ -7,7 +7,7 @@
 Load this skill when using `source` or `use` with file paths.
 
 ## Source
-STANDARDS.adoc §11.5.6 (lines 4188–4195, 4202–4204, 4223–4229)
+STANDARDS.adoc §11.5.6 (lines 4246–4253, 4260–4262, 4281–4287)
 
 ## Key Rules
 

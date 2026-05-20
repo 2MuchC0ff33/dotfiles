@@ -7,7 +7,7 @@ Alias `git` to `jj` (Jujutsu), the primary version control tool, which is git-co
 Load this skill when reviewing or creating Nushell aliases in `config.nu`.
 
 ## Source
-STANDARDS.adoc §11.1 (line 3643), §10 (lines 3318–3584)
+STANDARDS.adoc §11.1 (line 3701), §10 (lines 3360–3642)
 
 ## Key Rules
 

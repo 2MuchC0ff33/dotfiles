@@ -7,7 +7,7 @@ Complete `.nu-lint.toml` reference with all groups and rules.
 Load this skill when configuring or auditing `.nu-lint.toml` settings.
 
 ## Source
-STANDARDS.adoc §11.5.11 (lines 4434–4478)
+STANDARDS.adoc §11.5.11 (lines 4492–4536)
 
 ## Key Rules
 

@@ -7,7 +7,7 @@ Property-based testing recipe with high iteration count for thorough randomized 
 Load this skill when implementing, modifying, or documenting the `proptest` recipe in the justfile, or when running property-based tests.
 
 ## Source
-STANDARDS.adoc §8.1 (lines 2721–2723)
+STANDARDS.adoc §8.1 (lines 2754–2756)
 
 ## Key Rules
 

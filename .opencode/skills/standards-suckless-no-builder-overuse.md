@@ -7,7 +7,7 @@ Builder patterns are FORBIDDEN when a constructor with named fields suffices. Th
 Load this skill when designing a new type with construction logic, reviewing PRs that introduce builder patterns, or refactoring unnecessary builders.
 
 ## Source
-STANDARDS.adoc §0.1.3 (lines 115–116)
+STANDARDS.adoc §0.1.3 (lines 112–113)
 
 ## Key Rules
 

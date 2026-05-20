@@ -7,7 +7,7 @@ Default just recipe that lists all available recipes in display order.
 Load this skill when implementing, modifying, or documenting the `default` recipe in the justfile.
 
 ## Source
-STANDARDS.adoc §8.1 (lines 2685–2687)
+STANDARDS.adoc §8.1 (lines 2718–2720)
 
 ## Key Rules
 

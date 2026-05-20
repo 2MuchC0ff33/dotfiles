@@ -7,7 +7,7 @@ The `nix develop .` entry point provides a hermetic development shell with all r
 Load this skill when setting up a project's Nix development shell, adding tools to the dev shell, or onboarding new contributors.
 
 ## Source
-STANDARDS.adoc §1.5 (lines 940–990), §1.5.1 (lines 949–990), §1.5.4 (lines 1038–1053)
+STANDARDS.adoc §1.5 (lines 932–983), §1.5.1 (lines 941–983), §1.5.4 (lines 1031–1046)
 
 ## Key Rules
 
@@ -16,6 +16,7 @@ STANDARDS.adoc §1.5 (lines 940–990), §1.5.1 (lines 949–990), §1.5.4 (line
 - **MANDATE**: The dev shell SHALL include `just` (command runner).
 - **MANDATE**: The dev shell SHALL include `zig` (cross-compilation linker).
 - **MANDATE**: The dev shell SHALL include `asciidoctor`, `pandoc`, and `vale` (documentation tools).
+- **MANDATE**: The dev shell SHALL include `cargo-deny` (dependency auditing).
 - **SHOULD**: Include additional tooling as needed (e.g., kani, wasm-pack, cargo-zigbuild).
 - **FORBIDDEN**: Installing any of these tools outside the Nix sandbox in CI.
 
@@ -29,6 +30,7 @@ STANDARDS.adoc §1.5 (lines 940–990), §1.5.1 (lines 949–990), §1.5.4 (line
 | `asciidoctor` | `pkgs.asciidoctor` | AsciiDoc document build |
 | `pandoc` | `pkgs.pandoc` | Document format conversion |
 | `vale` | `pkgs.vale` | Prose linter for documentation |
+| `cargo-deny` | `pkgs.cargo-deny` | Dependency license/audit checking |
 
 ## Dev Shell Definition
 
@@ -41,6 +43,7 @@ devShells.default = pkgs.mkShell {
     asciidoctor
     pandoc
     vale
+    cargo-deny
   ];
 
   # Additional environment variables for the dev shell

@@ -7,7 +7,7 @@ External commands whose exit code matters MUST use `complete` to capture exit co
 Load this skill when running external commands (`^cmd`) where the result must be validated.
 
 ## Source
-STANDARDS.adoc §11.5.7 (lines 4255–4270, 4276–4286)
+STANDARDS.adoc §11.5.7 (lines 4313–4328, 4334–4344)
 
 ## Key Rules
 

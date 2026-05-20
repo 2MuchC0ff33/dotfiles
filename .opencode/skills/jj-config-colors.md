@@ -1,13 +1,13 @@
 # jj-config-colors
 
 ## Description
-Configure `~/.jj/config.toml` [colors] section for delta-inspired diff highlighting in jj's output.
+Configure `~/.config/jj/config.toml` [colors] section for delta-inspired diff highlighting in jj's output.
 
 ## When to Load
 Load this skill when customizing jj's terminal output colors, debugging unreadable diffs, or matching jj's visual style to your terminal theme.
 
 ## Source
-STANDARDS.adoc §10.2.3 (lines 3394–3400)
+STANDARDS.adoc §10.2.3 (lines 3434–3440)
 
 ## Key Rules
 
@@ -24,7 +24,7 @@ STANDARDS.adoc §10.2.3 (lines 3394–3400)
 ## Example
 
 ```toml
-# ~/.jj/config.toml — Color configuration
+# ~/.config/jj/config.toml — Color configuration
 
 [colors]
 diff-header = "bold cyan"

@@ -10,7 +10,7 @@ Load this skill when creating or editing any table in an `.adoc` file.
 
 ## Source
 
-STANDARDS.adoc §9.6 (line 3259)
+STANDARDS.adoc §9.6 (line 3299)
 
 ## Key Rules
 

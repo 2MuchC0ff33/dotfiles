@@ -7,7 +7,7 @@ External commands prefixed with `^` when name conflicts with builtins to avoid a
 Load this skill when invoking external commands that share names with Nushell builtins.
 
 ## Source
-STANDARDS.adoc §11.5.8 (lines 4307–4328, 4350–4360)
+STANDARDS.adoc §11.5.8 (lines 4365–4386, 4408–4418)
 
 ## Key Rules
 

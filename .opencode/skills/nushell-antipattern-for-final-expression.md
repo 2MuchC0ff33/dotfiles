@@ -7,7 +7,7 @@ Anti-pattern: Using `for` as the final expression in a command (returns null). U
 Load this skill when iterating over a list to produce a transformed result.
 
 ## Source
-STANDARDS.adoc §11.5.9 (lines 4362–4368, 4175–4185)
+STANDARDS.adoc §11.5.9 (lines 4420–4426, 4233–4243)
 
 ## Key Rules
 

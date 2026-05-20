@@ -7,7 +7,7 @@ The xtask main.rs entry point with clap dispatch for all subcommands.
 Load this skill when creating, modifying, or understanding the xtask binary entry point (`xtask/src/main.rs`), or when adding a new subcommand.
 
 ## Source
-STANDARDS.adoc §8.2 (lines 2877–2957)
+STANDARDS.adoc §8.2 (lines 2922–3002)
 
 ## Key Rules
 

@@ -7,7 +7,7 @@ Every error enum MUST be annotated with `#[non_exhaustive]` to allow adding new 
 Load this skill when defining new error enums, reviewing public error types for API stability, or extending an existing error enum with new variants.
 
 ## Source
-STANDARDS.adoc §12.1 (line 4539)
+STANDARDS.adoc §3.3 (line 4539)
 
 ## Key Rules
 

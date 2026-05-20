@@ -7,7 +7,7 @@
 Load this skill when defining invariant violation types, adding runtime invariant checks, or distinguishing between recoverable errors and unrecoverable bugs.
 
 ## Source
-STANDARDS.adoc §12.3 (lines 4571–4600)
+STANDARDS.adoc §3.3 (lines 4571–4600)
 
 ## Key Rules
 

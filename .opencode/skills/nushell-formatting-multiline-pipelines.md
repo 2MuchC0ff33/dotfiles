@@ -7,7 +7,7 @@ When a pipeline exceeds ~80 characters or contains nested records/lists, format 
 Load this skill when formatting pipelines that are too long for a single line, when pipelines contain complex closures or nested structures, or when reviewing multi-line pipeline formatting.
 
 ## Source
-STANDARDS.adoc §11.5.2 (lines 4003–4065)
+STANDARDS.adoc §11.5.2 (lines 4061–4123)
 
 ## Key Rules
 

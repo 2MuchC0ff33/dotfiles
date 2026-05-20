@@ -7,7 +7,7 @@ Set `$env.RUSTFLAGS = "-Dwarnings"` to promote all compiler warnings to errors d
 Load this skill when reviewing or creating environment variable settings in `config.nu` or `env.nu`.
 
 ## Source
-STANDARDS.adoc §11.1 (line 3669), §3 (lines 1433–1854)
+STANDARDS.adoc §11.1 (line 3727), §3 (lines 1427–1883)
 
 ## Key Rules
 

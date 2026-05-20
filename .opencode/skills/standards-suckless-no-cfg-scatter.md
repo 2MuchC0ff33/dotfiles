@@ -7,7 +7,7 @@ Conditional compilation (`#[cfg]`) for platform-specific code is FORBIDDEN witho
 Load this skill when writing platform-specific code, reviewing PRs that use `#[cfg]`, or refactoring scattered conditional compilation.
 
 ## Source
-STANDARDS.adoc §0.1.3 (lines 112–114)
+STANDARDS.adoc §0.1.3 (lines 109–111)
 
 ## Key Rules
 

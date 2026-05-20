@@ -7,7 +7,7 @@ All unsafe attributes (`no_mangle`, `export_name`, `link_section`) MUST use the 
 Load this skill when writing or reviewing any attribute that controls linkage, symbol names, or section placement.
 
 ## Source
-STANDARDS.adoc §1.4.4.1 (lines 871–876) and §3.1 (lines 1598–1600)
+STANDARDS.adoc §1.4.4.1 (lines 872–877) and §3.1 (lines 1592–1593)
 
 ## Key Rules
 

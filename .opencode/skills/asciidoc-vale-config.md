@@ -10,7 +10,7 @@ Load this skill when setting up or modifying Vale prose linting configuration fo
 
 ## Source
 
-STANDARDS.adoc §9.7 (lines 3272–3298)
+STANDARDS.adoc §9.7 (lines 3314–3340)
 
 ## Key Rules
 
