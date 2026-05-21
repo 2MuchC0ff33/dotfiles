@@ -656,16 +656,18 @@ ____
 
 [width="100%",cols="30%,33%,37%",options="header",]
 |===
+| Coding Agent | opencode | 1.15.5
 |Layer |Source |Pinning
 |System tools (zig, asciidoctor, pandoc, vale, cmake, etc.) |nixpkgs via
 `flake.nix` |`flake.lock` (merkle tree of ALL transitive deps)
 
 |Rust toolchain (rustc, cargo, clippy, rustfmt, etc.) |fenix overlay via
-`rust-toolchain.toml` |Exact version (e.g. `"1.95.0"`)
+`rust-toolchain.toml` |Exact version (e.g. 0`"1.95.0"`)
 
 |Project binary |`crane.buildPackage` in Nix sandbox |`Cargo.lock`
 {plus} `flake.lock` (dual merkle)
 |===
+
 
 *MANDATE:* All `cargo install` SHALL use `--locked`. *MANDATE:*
 `cargo install` is FORBIDDEN in CI — CI builds happen inside Nix
@@ -832,9 +834,7 @@ system, mouse support, session management.
 drop-in. GPU-accelerated. Note: requires `cmake`, `freetype`,
 `fontconfig` system packages. |`cargo install --locked alacritty`
 
-|*helix* (`hx`) |`vim` / `neovim` |Full drop-in. Built-in LSP,
-tree-sitter, file picker. No plugin system (by design).
-|`cargo install --locked helix`
+|*helix* (`hx`) |`vim` / `neovim` |Full drop-in. Built-in LSP, tree-sitter, file picker. No plugin system (by design). |`cargo install --locked helix`
 
 |*just* (`just`) |`make` |Full drop-in (command runner). Simpler syntax,
 no Makefile quirks. |`cargo install --locked just`
@@ -843,8 +843,7 @@ no Makefile quirks. |`cargo install --locked just`
 git-compatible. Automatic rebase, undo, no staging area.
 |`cargo install --locked jujutsu`
 
-|*gg* (`gg`) |`gitui` / git TUI |TUI for jj — interactive log, diff, and
-operation browser. |`cargo install --locked gg`
+|*gg* (`gg`) |`gitui` / git TUI |TUI for jj — interactive log, diff, and operation browser. |`cargo install --locked gg`
 |===
 
 ===== 1.4.4 Essential Short List
@@ -3642,6 +3641,8 @@ The `xtask release` task documents this as a manual post-step.
 
 === Part 11: Nushell Configuration & Scripts
 
+Nushell is the default login shell for all users.
+
 ____
 *Nushell version:* 0.112{plus} (April 2026)
 ____
@@ -4618,6 +4619,16 @@ The four proof tiers for quick reference:
 
 === Part 13: Project Type Adaptation Guide
 
+// --- End of Project Type Adaptation Guide ---
+
+=== Part 14: AI Coding Agent Standard (opencode)
+
+This section introduces, mandates, and norms the usage of opencode as the universal AI coding agent for all projects under this repository and related environments. All project and system configuration should follow the opencode JSON schema, and new skills must be documented in SKILL.md format in either project or global config skill directories.
+
+opencode version: 1.15.5 (https://opencode.ai)
+
+See Appendix C for source/reference.
+
 ==== 13.1 How To Trim the Framework
 
 Not every section applies to every project type. Use this table to
@@ -4837,6 +4848,7 @@ every build is validated
 |cargo-fuzz |https://github.com/rust-fuzz/cargo-fuzz |latest
 
 |helix |https://helix-editor.com |25.07.1
+|opencode |https://opencode.ai |1.15.5
 
 |hecs |https://github.com/Ralith/hecs |0.11.0
 

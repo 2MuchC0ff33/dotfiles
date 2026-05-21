@@ -1,0 +1,65 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+  "autoupdate": false,
+  "instructions": ["AGENTS.md", "STANDARDS.adoc"],
+  "permission": {
+    "edit": "ask",
+    "bash": {
+      "": "ask",
+      "cargo ": "allow",
+      "just ": "allow",
+      "jj ": "allow",
+      "nix ": "allow",
+      "nu scripts/check-deps.nu": "allow",
+      "nu scripts/migrate-skills.nu": "allow",
+      "rm ": "deny"
+    },
+    "skill": {
+      "nushell-": "allow",
+      "jj-": "allow",
+      "asciidoc-": "allow",
+      "just-recipe-": "allow",
+      "xtask-": "allow",
+      "rust-": "allow",
+      "standards-": "allow",
+      "": "deny"
+    },
+    "read": "allow",
+    "webfetch": "allow",
+    "websearch": "allow"
+  },
+  "agent": {
+    "plan": {
+      "mode": "primary",
+      "description": "Read-only planning and analysis. No file edits. No bash.",
+      "permission": { "edit": "deny", "bash": "deny" }
+    },
+    "build": {
+      "mode": "primary",
+      "description": "Full implementation agent. Edits and bash allowed.",
+      "permission": { "edit": "allow", "bash": "allow" }
+    },
+    "audit": {
+      "mode": "subagent",
+      "description": "Standards compliance reviewer. Read-only.",
+      "permission": { "edit": "deny", "bash": "deny" }
+    },
+    "proof-review": {
+      "mode": "subagent",
+      "description": "Proof tier annotation review per STANDARDS.adoc §0.3.3.",
+      "permission": { "edit": "deny", "bash": "deny" }
+    }
+  },
+  "lsp": {
+    "rust-analyzer": {
+      "command": ["rust-analyzer"],
+      "extensions": [".rs"]
+    }
+  },
+  "formatter": {
+    "rustfmt": {
+      "command": ["rustfmt", "--edition", "2024"],
+      "extensions": [".rs"]
+    }
+  }
+}

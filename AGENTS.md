@@ -40,7 +40,7 @@ Install all tools with `--locked`. Quick install reference:
 | sd | `cargo install --locked sd` |
 | delta | `cargo install --locked git-delta` |
 | eza | `cargo install --locked eza` |
-| dust | `cargo install --locked dust` |
+| dust | `cargo install --locked du-dust` |
 | procs | `cargo install --locked procs` |
 | bottom | `cargo install --locked bottom` |
 | zoxide | `cargo install --locked zoxide` |
@@ -48,9 +48,12 @@ Install all tools with `--locked`. Quick install reference:
 | just | `cargo install --locked just` |
 | zellij | `cargo install --locked zellij` |
 | helix | `cargo install --locked helix` |
-| jj | `cargo install --locked jujutsu` |
+| jj | `cargo install --locked --bin jj jj-cli` |
 
 ## Shell: Nushell (0.112.2)
+
+> **Privilege escalation**: This system uses `doas` not `sudo`.
+> Never use `sudo` on this system. Always use `doas <command>`.
 
 Full alias list: **STANDARDS.adoc §11.1**.
 
@@ -131,12 +134,17 @@ flake.nix             # Nix flake
 | 9 | AsciiDoc Documentation Standard | 3146–3317 |
 | 10 | Version Control (jj workflow) | 3318–3584 |
 | 11 | Nushell Configuration & Scripts | 3585–4530 |
+| 14 | AI Coding Agent Standard (opencode) | 4629 |
 
 ## Skills System: `.opencode/skills/`
 
 This repo includes **249 atomic skill files** at
 `.opencode/skills/` that opencode agents can load for granular
 STANDARDS.adoc adherence. Each skill covers ONE rule/pattern.
+
+## AI Coding Agent: opencode
+
+opencode is the universal AI agent for coding and standards enforcement across all environments governed by this repository. All new agents, agents.json, and configuration must comply with the OpenCode config standard and skill system, as described in STANDARDS.adoc Part 14. See also the global skills in ~/.config/opencode/skills/ for best practices and reusable skill modules for any new project.
 
 | Category | Skills | Prefix | Use When... |
 |---|---|---|---|

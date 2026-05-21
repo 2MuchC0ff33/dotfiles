@@ -60,6 +60,9 @@ components include:
 
 |===
 | Category | Tool | Version
+| AI Coding Agent
+| opencode
+| 1.15.10+
 
 | Shell
 | Nushell
