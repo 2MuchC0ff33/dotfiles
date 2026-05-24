@@ -101,12 +101,20 @@ for the full rationale.
 == Getting Started
 
 [horizontal]
-Clone:: `jj git clone {repo-url}` or `git clone {repo-url}`
-Bootstrap:: `nu scripts/dev-setup.nu` or `nix develop .`
-Verify:: `nu scripts/check-deps.nu` or `nix flake check`
+Clone::     `jj git clone {repo-url}` or `git clone {repo-url}`
+Bootstrap:: `nu scripts/dev-setup.nu`
+Enter::     `nix develop --command /bin/sh` or `just shell-sh`
+Verify::    `nu scripts/check-deps.nu`
 
-These steps install the Rust toolchain, Nushell, Helix, jj, and all supporting
-utilities at the versions specified in the standard.
+NOTE: Interactive `nix develop` is blocked on Alpine/musl (Nix stdenv
+uses a glibc-linked bash as `NIX_BUILD_SHELL`).
+Use `nix develop --command /bin/sh -c "<cmd>"` for one-off commands.
+All `just` recipes route through `nix develop --command` automatically.
+
+These steps install the Rust toolchain (fenix 1.95.0), Nushell, Helix,
+jj, and all supporting utilities at the versions specified in the standard.
+All §1.4.2 tools are provided by `pkgsCross.musl64` Nix derivations with
+store paths hardcoded in `config/nushell/env.nu`.
 
 '''''
 

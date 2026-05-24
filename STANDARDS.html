@@ -1401,7 +1401,7 @@ version.</p>
 <tr>
 <th class="tableblock halign-left valign-top">Coding Agent</th>
 <th class="tableblock halign-left valign-top">opencode</th>
-<th class="tableblock halign-left valign-top">1.15.5</th>
+<th class="tableblock halign-left valign-top">1.15.10</th>
 </tr>
 </thead>
 <tbody>
@@ -2266,6 +2266,24 @@ cannot read host state</p></td>
 <p><strong>MANDATE:</strong> Before accepting any non-hermetic build step, prove that Nix
 sandbox cannot express it. If Nix CAN express it, the Nix expression is
 mandatory.</p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="alpine-musl-nix-constraint">1.5.7 Alpine/musl Constraint</h5>
+<div class="paragraph">
+<p>On Alpine Linux (musl libc), interactive <code>nix develop</code> is blocked.
+The Nix <code>stdenv</code> uses a glibc-linked bash as <code>NIX_BUILD_SHELL</code>
+which cannot execute on musl without a glibc compatibility layer.</p>
+</div>
+<div class="paragraph">
+<p>MANDATE: On Alpine/musl hosts, use <code>nix develop --command /bin/sh -c "&lt;cmd&gt;"</code>
+for all non-interactive tool invocations.
+MANDATE: All <code>justfile</code> recipes MUST route through
+<code>nix develop --command /bin/sh -c</code> on Alpine/musl.
+MANDATE: Section 1.4.2 replacement tools MUST be provided via <code>pkgsCross.musl64</code>
+Nix derivations on Alpine/musl hosts.
+SHOULD: Hardcode nix store paths in <code>config/nushell/env.nu</code> so tools
+are available to all shell sessions without entering <code>nix develop</code>.</p>
 </div>
 <hr>
 </div>
@@ -5342,51 +5360,113 @@ if ($"($env.HOME)/.cache/starship/init.nu" | path exists) {
 </div>
 </div>
 <div class="sect3">
-<h4 id="_11_2_scriptscheck_deps_nu_replaced_by_nix">11.2 scripts/check-deps.nu (Replaced by Nix)</h4>
+<h4 id="_11_2_scriptscheck_deps_nu_replaced_by_nix_host_path">11.2 scripts/check-deps.nu (Replaced by Nix + host PATH)</h4>
 <div class="paragraph">
-<p><code>scripts/check-deps.nu</code> is replaced by <code>nix flake check</code>, which verifies
-the full environment integrity at the Nix level. A thin shim remains for
-backwards compatibility:</p>
+<p><code>scripts/check-deps.nu</code> verifies both Nix environment integrity and host
+tool accessibility (dual check). On Alpine/musl, <code>nix develop</code> is blocked
+(glibc bash), so host PATH tools are checked explicitly. The <code>env.nu</code> is
+sourced for P10 nix store tool paths.</p>
 </div>
 <div class="listingblock">
 <div class="content">
 <pre class="highlight"><code class="language-nushell" data-lang="nushell">#!/usr/bin/env nu
 # check-deps.nu
-# Thin wrapper around nix flake check.
-# The canonical deps check is: nix flake check
+# Verifies development environment integrity.
+# Primary check: nix flake check (validates hermetic environment).
+# Secondary check: confirms all section 1.4.2 tools are present on host PATH.
+# Note: On Alpine/musl, nix develop is blocked (glibc bash).
+# Note: nu -c does NOT source env.nu -- sourced explicitly below for
+# nix store tool paths (P10 decommission).
 
-def main [] {
+if ($nu.env-path | path exists) {
+    source ($nu.env-path)
+}
+
+def main []: nothing -&gt; nothing {
     print "Checking development environment via Nix..."
-    let result = (^nix flake check o+e&gt;| complete)
-    if $result.exit_code != 0 {
-        error make {msg: $"Environment check failed: ($result.stderr)"}
+
+    let nix_result = (^nix flake check o+e&gt;| complete)
+    if $nix_result.exit_code != 0 {
+        error make {msg: $"nix flake check failed:\n($nix_result.stderr)"}
     }
+    print $"(ansi green)nix flake check: PASS(ansi reset)"
+
+    # All section 1.4.2 tools -- confirmed present on host
+    let tools = [nu rg fd bat delta sd dust procs btm eza xh jj just zoxide starship cargo oc]
+
+    let results = ($tools | each {|t|
+        let result = (^which $t o+e&gt;| complete)
+        {
+            tool: $t
+            pass: ($result.exit_code == 0)
+            path: ($result.stdout | str trim)
+        }
+    })
+
+    $results | table
+
+    let failures = ($results | where not pass)
+    if ($failures | length) &gt; 0 {
+        error make {
+            msg: $"Missing tools on PATH: ($failures | get tool | str join ', ')"
+        }
+    }
+
     print $"(ansi green)All environment checks passed.(ansi reset)"
 }</code></pre>
 </div>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_11_3_scriptsdev_setup_nu_replaced_by_nix">11.3 scripts/dev-setup.nu (Replaced by Nix)</h4>
+<h4 id="_11_3_scriptsdev_setup_nu_nix_validation">11.3 scripts/dev-setup.nu (Nix validation)</h4>
 <div class="paragraph">
-<p><code>scripts/dev-setup.nu</code> is replaced by <code>nix develop .</code>, which provides a
-hermetic development shell. A thin shim remains for backwards
-compatibility:</p>
+<p><code>scripts/dev-setup.nu</code> validates that Nix is installed and the flake
+configuration is sound. It does NOT enter <code>nix develop .</code> (blocked on
+Alpine/musl due to glibc bash). Output is advisory: prints Nix version,
+runs <code>nix flake check --no-build</code>, and provides usage instructions.</p>
 </div>
 <div class="listingblock">
 <div class="content">
 <pre class="highlight"><code class="language-nushell" data-lang="nushell">#!/usr/bin/env nu
 # dev-setup.nu
-# Thin wrapper around nix develop.
-# The canonical setup is: nix develop .
+# Sets up the hermetic development environment via Nix.
+# Primary check: confirms Nix is installed and flake inputs are current.
+# Note: On Alpine/musl, interactive 'nix develop' is blocked (glibc bash).
+# Use 'nix develop --command &lt;cmd&gt;' or host tools directly.
 
-def main [] {
+def main []: nothing -&gt; nothing {
     print "Setting up development environment via Nix..."
-    let result = (^nix develop . o+e&gt;| complete)
-    if $result.exit_code != 0 {
-        error make {msg: $"Environment setup failed: ($result.stderr)"}
+
+    let nix_check = (^which nix o+e&gt;| complete)
+    if $nix_check.exit_code != 0 {
+        print $"(ansi red)Nix not found.(ansi reset)"
+        print "Install Nix on Alpine:"
+        print "  doas apk add nix"
+        print "See: https://nixos.org/download"
+        error make {msg: "Nix not installed -- cannot proceed"}
     }
-    print $"(ansi green)Development environment ready. Run 'nix develop .' to enter.(ansi reset)"
+
+    let nix_version = (^nix --version | str trim)
+    print $"Nix found: ($nix_version)"
+
+    print "Verifying flake integrity..."
+    let check_result = (^nix flake check --no-build o+e&gt;| complete)
+    if $check_result.exit_code != 0 {
+        print $"(ansi yellow)Warning: nix flake check failed:(ansi reset)"
+        print $check_result.stderr
+        print "Environment may need attention -- continuing anyway."
+    } else {
+        print $"(ansi green)nix flake check: PASS(ansi reset)"
+    }
+
+    print ""
+    print $"(ansi green)Development environment ready.(ansi reset)"
+    print ""
+    print "Run commands via nix develop:"
+    print "  nix develop --command &lt;cmd&gt;"
+    print "  nix develop --command /bin/sh"
+    print ""
+    print "Or use host tools directly."
 }</code></pre>
 </div>
 </div>
@@ -6353,7 +6433,7 @@ Proof tier annotations follow the system defined in <a href="#the-proof-pyramid"
 <p>This section introduces, mandates, and norms the usage of opencode as the universal AI coding agent for all projects under this repository and related environments. All project and system configuration should follow the opencode JSON schema, and new skills must be documented in SKILL.md format in either project or global config skill directories.</p>
 </div>
 <div class="paragraph">
-<p>opencode version: 1.15.5 (<a href="https://opencode.ai" class="bare">https://opencode.ai</a>)</p>
+<p>opencode version: 1.15.10 (<a href="https://opencode.ai" class="bare">https://opencode.ai</a>)</p>
 </div>
 <div class="paragraph">
 <p>See Appendix C for source/reference.</p>
@@ -6815,7 +6895,7 @@ every build is validated</p>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">opencode</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><a href="https://opencode.ai" class="bare">https://opencode.ai</a></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">1.15.5</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1.15.10</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">hecs</p></td>
@@ -6999,7 +7079,7 @@ is enormous freedom. Build well.</p>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2026-05-22 05:41:49 UTC
+Last updated 2026-05-25 02:28:11 UTC
 </div>
 </div>
 </body>

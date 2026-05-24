@@ -656,7 +656,7 @@ ____
 
 [width="100%",cols="30%,33%,37%",options="header",]
 |===
-| Coding Agent | opencode | 1.15.5
+| Coding Agent | opencode | 1.15.10
 |Layer |Source |Pinning
 |System tools (zig, asciidoctor, pandoc, vale, cmake, etc.) |nixpkgs via
 `flake.nix` |`flake.lock` (merkle tree of ALL transitive deps)
@@ -1117,6 +1117,22 @@ cannot read host state
 *MANDATE:* Before accepting any non-hermetic build step, prove that Nix
 sandbox cannot express it. If Nix CAN express it, the Nix expression is
 mandatory.
+
+[#alpine-musl-nix-constraint]
+===== 1.5.7 Alpine/musl Constraint
+
+On Alpine Linux (musl libc), interactive `nix develop` is blocked.
+The Nix `stdenv` uses a glibc-linked bash as `NIX_BUILD_SHELL`
+which cannot execute on musl without a glibc compatibility layer.
+
+MANDATE: On Alpine/musl hosts, use `nix develop --command /bin/sh -c "<cmd>"`
+for all non-interactive tool invocations.
+MANDATE: All `justfile` recipes MUST route through
+`nix develop --command /bin/sh -c` on Alpine/musl.
+MANDATE: Section 1.4.2 replacement tools MUST be provided via `pkgsCross.musl64`
+Nix derivations on Alpine/musl hosts.
+SHOULD: Hardcode nix store paths in `config/nushell/env.nu` so tools
+are available to all shell sessions without entering `nix develop`.
 
 '''''
 
@@ -3744,49 +3760,111 @@ if ($"($env.HOME)/.cache/starship/init.nu" | path exists) {
 }
 ----
 
-==== 11.2 scripts/check-deps.nu (Replaced by Nix)
+==== 11.2 scripts/check-deps.nu (Replaced by Nix + host PATH)
 
-`scripts/check-deps.nu` is replaced by `nix flake check`, which verifies
-the full environment integrity at the Nix level. A thin shim remains for
-backwards compatibility:
+`scripts/check-deps.nu` verifies both Nix environment integrity and host
+tool accessibility (dual check). On Alpine/musl, `nix develop` is blocked
+(glibc bash), so host PATH tools are checked explicitly. The `env.nu` is
+sourced for P10 nix store tool paths.
 
 [source,nushell]
 ----
 #!/usr/bin/env nu
 # check-deps.nu
-# Thin wrapper around nix flake check.
-# The canonical deps check is: nix flake check
+# Verifies development environment integrity.
+# Primary check: nix flake check (validates hermetic environment).
+# Secondary check: confirms all section 1.4.2 tools are present on host PATH.
+# Note: On Alpine/musl, nix develop is blocked (glibc bash).
+# Note: nu -c does NOT source env.nu -- sourced explicitly below for
+# nix store tool paths (P10 decommission).
 
-def main [] {
+if ($nu.env-path | path exists) {
+    source ($nu.env-path)
+}
+
+def main []: nothing -> nothing {
     print "Checking development environment via Nix..."
-    let result = (^nix flake check o+e>| complete)
-    if $result.exit_code != 0 {
-        error make {msg: $"Environment check failed: ($result.stderr)"}
+
+    let nix_result = (^nix flake check o+e>| complete)
+    if $nix_result.exit_code != 0 {
+        error make {msg: $"nix flake check failed:\n($nix_result.stderr)"}
     }
+    print $"(ansi green)nix flake check: PASS(ansi reset)"
+
+    # All section 1.4.2 tools -- confirmed present on host
+    let tools = [nu rg fd bat delta sd dust procs btm eza xh jj just zoxide starship cargo oc]
+
+    let results = ($tools | each {|t|
+        let result = (^which $t o+e>| complete)
+        {
+            tool: $t
+            pass: ($result.exit_code == 0)
+            path: ($result.stdout | str trim)
+        }
+    })
+
+    $results | table
+
+    let failures = ($results | where not pass)
+    if ($failures | length) > 0 {
+        error make {
+            msg: $"Missing tools on PATH: ($failures | get tool | str join ', ')"
+        }
+    }
+
     print $"(ansi green)All environment checks passed.(ansi reset)"
 }
 ----
 
-==== 11.3 scripts/dev-setup.nu (Replaced by Nix)
+==== 11.3 scripts/dev-setup.nu (Nix validation)
 
-`scripts/dev-setup.nu` is replaced by `nix develop .`, which provides a
-hermetic development shell. A thin shim remains for backwards
-compatibility:
+`scripts/dev-setup.nu` validates that Nix is installed and the flake
+configuration is sound. It does NOT enter `nix develop .` (blocked on
+Alpine/musl due to glibc bash). Output is advisory: prints Nix version,
+runs `nix flake check --no-build`, and provides usage instructions.
 
 [source,nushell]
 ----
 #!/usr/bin/env nu
 # dev-setup.nu
-# Thin wrapper around nix develop.
-# The canonical setup is: nix develop .
+# Sets up the hermetic development environment via Nix.
+# Primary check: confirms Nix is installed and flake inputs are current.
+# Note: On Alpine/musl, interactive 'nix develop' is blocked (glibc bash).
+# Use 'nix develop --command <cmd>' or host tools directly.
 
-def main [] {
+def main []: nothing -> nothing {
     print "Setting up development environment via Nix..."
-    let result = (^nix develop . o+e>| complete)
-    if $result.exit_code != 0 {
-        error make {msg: $"Environment setup failed: ($result.stderr)"}
+
+    let nix_check = (^which nix o+e>| complete)
+    if $nix_check.exit_code != 0 {
+        print $"(ansi red)Nix not found.(ansi reset)"
+        print "Install Nix on Alpine:"
+        print "  doas apk add nix"
+        print "See: https://nixos.org/download"
+        error make {msg: "Nix not installed -- cannot proceed"}
     }
-    print $"(ansi green)Development environment ready. Run 'nix develop .' to enter.(ansi reset)"
+
+    let nix_version = (^nix --version | str trim)
+    print $"Nix found: ($nix_version)"
+
+    print "Verifying flake integrity..."
+    let check_result = (^nix flake check --no-build o+e>| complete)
+    if $check_result.exit_code != 0 {
+        print $"(ansi yellow)Warning: nix flake check failed:(ansi reset)"
+        print $check_result.stderr
+        print "Environment may need attention -- continuing anyway."
+    } else {
+        print $"(ansi green)nix flake check: PASS(ansi reset)"
+    }
+
+    print ""
+    print $"(ansi green)Development environment ready.(ansi reset)"
+    print ""
+    print "Run commands via nix develop:"
+    print "  nix develop --command <cmd>"
+    print "  nix develop --command /bin/sh"
+    print ""
+    print "Or use host tools directly."
 }
 ----
 
@@ -4625,7 +4703,7 @@ The four proof tiers for quick reference:
 
 This section introduces, mandates, and norms the usage of opencode as the universal AI coding agent for all projects under this repository and related environments. All project and system configuration should follow the opencode JSON schema, and new skills must be documented in SKILL.md format in either project or global config skill directories.
 
-opencode version: 1.15.5 (https://opencode.ai)
+opencode version: 1.15.10 (https://opencode.ai)
 
 See Appendix C for source/reference.
 
@@ -4848,7 +4926,7 @@ every build is validated
 |cargo-fuzz |https://github.com/rust-fuzz/cargo-fuzz |latest
 
 |helix |https://helix-editor.com |25.07.1
-|opencode |https://opencode.ai |1.15.5
+|opencode |https://opencode.ai |1.15.10
 
 |hecs |https://github.com/Ralith/hecs |0.11.0
 
