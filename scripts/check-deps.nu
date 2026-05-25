@@ -20,24 +20,26 @@ def main []: nothing -> nothing {
     }
     print $"(ansi green)nix flake check: PASS(ansi reset)"
 
-    # All §1.4.2 tools — confirmed present on host at ~/.cargo/bin/
-    # After P10 decommission, these will resolve to nix store paths instead.
     let tools = [nu rg fd bat delta sd dust procs btm eza xh jj just zoxide starship cargo oc]
 
-    # LSP servers
+<<<<<<< conflict 1 of 1
++++++++ xrsoxtns 32b05cb1 (rebased revision)
     let lsp_tools = [rust-analyzer taplo nixd]
-
-    # Formatters
     let fmt_tools = [topiary nixfmt]
-
-    # Linters
     let lint_tools = [nu-lint vale]
-
-    # MCP infrastructure — Node.js 22 LTS (npx) and uv
     let mcp_tools = [node npx uv]
     let all_tools = ($tools ++ $lsp_tools ++ $fmt_tools ++ $lint_tools ++ $mcp_tools)
 
     let results = ($all_tools | each {|t|
+%%%%%%% diff from: kulvnuyz bd32f56b "feat(mcp): add Node.js + uv to Nix devShell, configure MCP servers" (rebased revision)
+\\\\\\\        to: nwpwoxut 00cc16a7 "fix(p14): complete migration cleanup" (parents of rebased revision)
+-    # MCP infrastructure — Node.js 22 LTS (npx) and uv
+-    let mcp_tools = [node npx uv]
+-    let all_tools = ($tools ++ $mcp_tools)
+-
+-    let results = ($all_tools | each {|t|
++    let results = ($tools | each {|t|
+>>>>>>> conflict 1 of 1 ends
         let result = (^which $t o+e>| complete)
         {
             tool: $t

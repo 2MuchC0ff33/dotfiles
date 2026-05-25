@@ -1,0 +1,9 @@
+config/nushell/secrets.nu
+secrets.nu
+*.swp
+*.swo
+*~
+.DS_Store
+node_modules
+target
+.env

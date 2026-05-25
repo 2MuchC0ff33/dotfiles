@@ -666,6 +666,8 @@ ____
 
 |Project binary |`crane.buildPackage` in Nix sandbox |`Cargo.lock`
 {plus} `flake.lock` (dual merkle)
+<<<<<<<<< conflict 1 of 2
++++++++++ xrsoxtns 32b05cb1 (rebased revision)
 
 |MCP Runtime |Node.js 22 LTS (npm/npx) |22.x |`pkgs.nodejs_22` in
 `flake.nix`
@@ -691,6 +693,14 @@ ____
 |Linter (Nushell) |nu-lint |1.1.2 |cargo install (not in flake)
 
 |Linter (Prose) |vale |3.14.2 |`pkgs.vale` in flake
+%%%%%%%%% diff from: kulvnuyz bd32f56b "feat(mcp): add Node.js + uv to Nix devShell, configure MCP servers" (rebased revision)
+\\\\\\\\\        to: nwpwoxut 00cc16a7 "fix(p14): complete migration cleanup" (parents of rebased revision)
+-
+-|MCP Runtime |Node.js 22 LTS (npm/npx) |22.x |`pkgs.nodejs_22` in
+-`flake.nix`
+-
+-|MCP Package Manager |uv |latest |`pkgs.uv` in `flake.nix`
+>>>>>>>>> conflict 1 of 2 ends
 |===
 
 
@@ -4728,6 +4738,8 @@ opencode version: 1.15.10 (https://opencode.ai)
 
 See Appendix C for source/reference.
 
+<<<<<<<<< conflict 2 of 2
++++++++++ xrsoxtns 32b05cb1 (rebased revision)
 [#opencode-mcp-servers]
 ==== 14.8 MCP Server Configuration
 
@@ -4925,6 +4937,79 @@ in `~/.config/nushell/env.nu` per §1.5.7.
 
 === Part 13: Project Type Adaptation Guide
 
+%%%%%%%%% diff from: kulvnuyz bd32f56b "feat(mcp): add Node.js + uv to Nix devShell, configure MCP servers" (rebased revision)
+\\\\\\\\\        to: nwpwoxut 00cc16a7 "fix(p14): complete migration cleanup" (parents of rebased revision)
+-[#opencode-mcp-servers]
+-==== 14.8 MCP Server Configuration
+-
+-opencode integrates with Model Context Protocol (MCP) servers to extend
+-agent capabilities with external tools and services.
+-MCP servers run as local processes (via `npx`) or connect to remote
+-endpoints.
+-
+-MANDATE: Node.js (npx) and uv MUST be provided via the Nix flake.
+-MANDATE: API keys and tokens MUST use `{env:VAR_NAME}` interpolation.
+-MANDATE: Actual token values MUST NEVER be hardcoded in `opencode.json`.
+-
+-===== 14.8.1 Configured MCP Servers
+-
+-[width="100%",cols="20%,15%,50%,15%",options="header",]
+-|===
+-|Server |Type |Purpose |Requires
+-
+-|context7
+-|remote
+-|Live library documentation lookup.
+-Add `use context7` to any prompt.
+-|None
+-
+-|sequential-thinking
+-|local (npx)
+-|Structured multi-step reasoning chains.
+-Decomposes complex tasks into verifiable steps.
+-|npx (Node.js)
+-
+-|github
+-|local (npx)
+-|GitHub repository operations: issues, PRs, code search.
+-|`GITHUB_TOKEN` env var
+-
+-|filesystem
+-|local (npx)
+-|Sandboxed file read/write within `~/projects`.
+-|npx (Node.js)
+-
+-|memory
+-|local (npx)
+-|Persistent knowledge graph across opencode sessions.
+-|npx (Node.js)
+-|===
+-
+-===== 14.8.2 Activating the GitHub MCP Server
+-
+-Set `GITHUB_TOKEN` in `~/.config/nushell/env.nu`:
+-
+-[source,nushell]
+-----
+-# GitHub token for MCP server — never commit this value
+-$env.GITHUB_TOKEN = (open --raw ~/.config/secrets/github_token | str trim)
+-----
+-
+-Then set `"enabled": true` for the github server in
+-`~/.config/opencode/opencode.json`.
+-
+-===== 14.8.3 Runtime Requirement
+-
+-Local MCP servers require `npx` (Node.js 22 LTS) from the Nix devShell.
+-On Alpine/musl, opencode is launched via the `oc` wrapper which inherits
+-the PATH from the environment — ensure `nix develop` or `just shell`
+-has been entered to make `npx` available, OR add the nix store path for
+-Node.js to `$env.PATH` in `~/.config/nushell/env.nu`.
+-
+-MANDATE: The Node.js store path MUST be hardcoded in `env.nu` per §1.5.7
+-so MCP servers function without entering `nix develop` interactively.
+-
+>>>>>>>>> conflict 2 of 2 ends
 ==== 13.1 How To Trim the Framework
 
 Not every section applies to every project type. Use this table to

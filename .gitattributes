@@ -1,0 +1,35 @@
+# Strict file handling rules. Enforced by git, not convention.
+
+# DEFAULT: All files use LF. Never CRLF.
+*               text=auto eol=lf
+
+# SOURCE CODE: Always LF, always text
+*.rs            text eol=lf
+*.toml          text eol=lf
+*.yaml          text eol=lf
+*.yml           text eol=lf
+*.json          text eol=lf
+*.adoc          text eol=lf
+*.md            text eol=lf
+*.nu            text eol=lf
+*.sh            text eol=lf
+*.just          text eol=lf
+justfile        text eol=lf
+flake.nix       text eol=lf
+
+# BINARY: Never diff, never convert
+*.png           binary
+*.jpg           binary
+*.jpeg          binary
+*.gif           binary
+*.ico           binary
+
+# DIFF DRIVERS
+*.rs            diff=rust
+*.toml          diff=toml
+*.yaml          diff=yaml
+
+# EXPORT IGNORE: Not in release archives
+.gitattributes  export-ignore
+.gitignore      export-ignore
+scripts/        export-ignore
