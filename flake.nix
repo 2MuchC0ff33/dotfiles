@@ -34,6 +34,8 @@
         opencode = pkgs.callPackage ./nix/opencode.nix {};
 
       in {
+        packages.opencode = opencode;
+        packages.default = opencode;
         devShells.default = pkgs.mkShell {
           name = "dotfiles-dev";
           packages = [
@@ -68,9 +70,20 @@
 
             # AI coding agent — replaces ~/.opencode/bin shim
             opencode
-          ];
+
+            # MCP server runtime — Node.js 22 LTS (provides node + npx + npm)
+            pkgs.nodejs_22
+             pkgs.uv
+
+             # LSP/Formatter/Linter tools (AI agent §14.9–14.10)
+             pkgs.vale
+             pkgs.nixd
+             pkgs.nixfmt
+             pkgs.topiary
+           ];
 
           shellHook = ''
+            unset LD_PRELOAD
             export SHELL=/bin/ash
             export http_proxy=http://127.0.0.1:3128
             export https_proxy=http://127.0.0.1:3128
@@ -83,7 +96,15 @@
             export RUSTFLAGS="-Dwarnings"
             export CARGO_TERM_COLOR=always
             export PROPTEST_CASES=100000
-            echo "Dev environment ready — $(nix --version)"
+            echo "--- dotfiles hermetic dev environment ---"
+           echo "nixpkgs rev: ${self.inputs.nixpkgs.rev or "unknown"}"
+           echo "Nix: $(nix --version)"
+           echo "Rust: $(rustc --version)  Cargo: $(cargo --version | head -1)"
+           echo "Just: $(just --version 2>/dev/null || echo 'n/a')"
+           echo "Nu: $(nu --version 2>/dev/null || echo 'n/a')"
+           echo "Helix: $(hx --version 2>/dev/null | head -1 || echo 'n/a')"
+           echo "Asciidoctor: $(asciidoctor --version 2>/dev/null | head -1 || echo 'n/a')"
+           echo "------------------------------------------------"
           '';
         };
       });

@@ -47,3 +47,8 @@ if (which zoxide | is-not-empty) { source ~/.zoxide.nu }
 if ("~/.cache/starship/init.nu" | path expand | path exists) {
     source "~/.cache/starship/init.nu"
 }
+
+# oc — opencode launcher
+def oc [...args: string]: nothing -> nothing {
+    run-external '/home/galloa/.cargo/bin/oc' ...$args
+}

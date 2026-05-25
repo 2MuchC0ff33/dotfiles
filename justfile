@@ -15,6 +15,10 @@ default:
 # ENVIRONMENT
 # ─────────────────────────────────────────
 
+# Auto-enter nix develop and run any command (for non-Nix contexts)
+_auto CMD:
+    @/usr/bin/env nu scripts/nix-auto.nu '{{CMD}}'
+
 # Enter hermetic dev shell with Nushell.
 shell:
     nix develop --command nu
@@ -187,6 +191,14 @@ release VERSION:
 # ─────────────────────────────────────────
 # NIX ENVIRONMENT (PRIMARY)
 # ─────────────────────────────────────────
+
+# Verify developer environment is hermetic (must run inside nix develop).
+doctor:
+    @/usr/bin/env nu scripts/nix-doctor.nu
+
+# Run strict impurity detection locally
+impurity-check:
+    @/usr/bin/env nu scripts/nix-impurity.nu
 
 # Verify all nix store tools accessible via PATH (P10 decommission).
 deps-check:

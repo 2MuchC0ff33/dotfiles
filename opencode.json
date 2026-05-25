@@ -1,6 +1,11 @@
 {
   "$schema": "https://opencode.ai/config.json",
+  "model": "github-copilot/gpt-4.1",
+  "small_model": "github-copilot/gpt-5-mini",
   "autoupdate": false,
+  "tui": {
+    "theme": "tokyonight"
+  },
   "instructions": ["AGENTS.md", "STANDARDS.adoc"],
   "permission": {
     "edit": "ask",
@@ -14,6 +19,9 @@
       "nu scripts/migrate-skills.nu": "allow",
       "rm ": "deny"
     },
+    "read": "allow",
+    "webfetch": "allow",
+    "websearch": "allow",
     "skill": {
       "nushell-": "allow",
       "jj-": "allow",
@@ -29,44 +37,127 @@
       "prompt-engineering": "allow",
       "markdown": "allow",
       "skill-creator": "allow",
+      "cargo-tools": "allow",
+      "kani-proof": "allow",
+      "nix-flake": "allow",
       "": "deny"
-    },
-    "read": "allow",
-    "webfetch": "allow",
-    "websearch": "allow"
+    }
   },
   "agent": {
     "plan": {
       "mode": "primary",
       "description": "Read-only planning and analysis. No file edits. No bash.",
-      "permission": { "edit": "deny", "bash": "deny" }
+      "permission": {
+        "edit": "deny",
+        "bash": "deny"
+      }
     },
     "build": {
       "mode": "primary",
       "description": "Full implementation agent. Edits and bash allowed.",
-      "permission": { "edit": "allow", "bash": "allow" }
+      "permission": {
+        "edit": "allow",
+        "bash": "allow"
+      }
     },
     "audit": {
       "mode": "subagent",
       "description": "Standards compliance reviewer. Read-only.",
-      "permission": { "edit": "deny", "bash": "deny" }
+      "permission": {
+        "edit": "deny",
+        "bash": "deny"
+      }
     },
     "proof-review": {
       "mode": "subagent",
       "description": "Proof tier annotation review per STANDARDS.adoc §0.3.3.",
-      "permission": { "edit": "deny", "bash": "deny" }
+      "permission": {
+        "edit": "deny",
+        "bash": "deny"
+      }
     }
   },
   "lsp": {
     "rust-analyzer": {
       "command": ["rust-analyzer"],
       "extensions": [".rs"]
+    },
+    "nushell": {
+      "command": ["nu", "--lsp"],
+      "extensions": [".nu"]
+    },
+    "taplo": {
+      "command": ["taplo", "lsp", "stdio"],
+      "extensions": [".toml"]
+    },
+    "nixd": {
+      "command": ["nixd"],
+      "extensions": [".nix"]
     }
   },
   "formatter": {
     "rustfmt": {
       "command": ["rustfmt", "--edition", "2024"],
       "extensions": [".rs"]
+    },
+    "taplo-fmt": {
+      "command": ["taplo", "format"],
+      "extensions": [".toml"]
+    },
+    "nu-fmt": {
+      "command": ["topiary", "format", "--language", "nu"],
+      "extensions": [".nu"],
+      "environment": {
+        "TOPIARY_LANGUAGE_DIR": "{env:HOME}/.config/topiary/queries",
+        "TOPIARY_CONFIG_FILE": "{env:HOME}/.config/topiary/languages.ncl"
+      }
+    },
+    "nixfmt": {
+      "command": ["nixfmt"],
+      "extensions": [".nix"]
     }
+  },
+  "mcp": {
+    "context7": {
+      "type": "remote",
+      "url": "https://mcp.context7.com/mcp",
+      "enabled": false
+    },
+    "sequential-thinking": {
+      "type": "local",
+      "command": ["/bin/busybox", "sh", "-c", "unset LD_PRELOAD; exec npx -y @modelcontextprotocol/server-sequential-thinking"],
+      "enabled": false
+    },
+    "github": {
+      "type": "local",
+      "command": ["/bin/busybox", "sh", "-c", "unset LD_PRELOAD; exec npx -y @modelcontextprotocol/server-github"],
+      "enabled": false,
+      "environment": {
+        "GITHUB_PERSONAL_ACCESS_TOKEN": "{env:GITHUB_TOKEN}"
+      }
+    },
+    "filesystem": {
+      "type": "local",
+      "command": ["/bin/busybox", "sh", "-c", "unset LD_PRELOAD; exec npx -y @modelcontextprotocol/server-filesystem /home/galloa/projects"],
+      "enabled": false
+    },
+    "memory": {
+      "type": "local",
+      "command": ["/bin/busybox", "sh", "-c", "unset LD_PRELOAD; exec npx -y @modelcontextprotocol/server-memory"],
+      "enabled": false
+    }
+  },
+  "compaction": {
+    "auto": true,
+    "reserved": 32000,
+    "tail_turns": 5,
+    "prune": true
+  },
+  "experimental": {
+    "mcp_timeout": 10000
+  },
+  "tool_output": {
+    "max_lines": 200,
+    "max_bytes": 8192
   }
 }

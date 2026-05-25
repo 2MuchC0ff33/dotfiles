@@ -24,7 +24,20 @@ def main []: nothing -> nothing {
     # After P10 decommission, these will resolve to nix store paths instead.
     let tools = [nu rg fd bat delta sd dust procs btm eza xh jj just zoxide starship cargo oc]
 
-    let results = ($tools | each {|t|
+    # LSP servers
+    let lsp_tools = [rust-analyzer taplo nixd]
+
+    # Formatters
+    let fmt_tools = [topiary nixfmt]
+
+    # Linters
+    let lint_tools = [nu-lint vale]
+
+    # MCP infrastructure — Node.js 22 LTS (npx) and uv
+    let mcp_tools = [node npx uv]
+    let all_tools = ($tools ++ $lsp_tools ++ $fmt_tools ++ $lint_tools ++ $mcp_tools)
+
+    let results = ($all_tools | each {|t|
         let result = (^which $t o+e>| complete)
         {
             tool: $t
