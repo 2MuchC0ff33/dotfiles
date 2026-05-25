@@ -87,6 +87,14 @@ components include:
 | Language
 | Rust
 | 1.95.0 (Edition 2024)
+
+| MCP Runtime
+| Node.js 22 LTS (npm/npx)
+| 22.x
+
+| MCP Package Manager
+| uv
+| latest
 |===
 
 All classic Unix tools (grep, find, cat, sed, diff, ls, du, ps, top) are
@@ -115,6 +123,12 @@ These steps install the Rust toolchain (fenix 1.95.0), Nushell, Helix,
 jj, and all supporting utilities at the versions specified in the standard.
 All §1.4.2 tools are provided by `pkgsCross.musl64` Nix derivations with
 store paths hardcoded in `config/nushell/env.nu`.
+
+NOTE: MCP servers (context7, sequential-thinking, filesystem, memory)
+activate automatically when opencode starts.
+The GitHub MCP server requires a `GITHUB_TOKEN` environment variable.
+Enter `nix develop` or run `just shell` to ensure `npx` is on PATH
+before starting opencode for local MCP server support.
 
 '''''
 

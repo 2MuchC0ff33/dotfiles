@@ -1,4 +1,4 @@
-{ stdenv, fetchurl, lib, makeWrapper }:
+{ stdenv, fetchurl, lib }:
 stdenv.mkDerivation rec {
   pname   = "opencode";
   version = "1.15.10";
@@ -8,27 +8,28 @@ stdenv.mkDerivation rec {
     hash = "sha256-MoQAI15SOIh0S0Ngxy+Qm0nzKfl3o5cJw3u9TIw8Gcc=";
   };
 
-  nativeBuildInputs = [ makeWrapper ];
-
   dontUnpack = true;
   dontBuild  = true;
   dontFixup  = true;
 
-  installPhase = "
-    mkdir -p \$out/bin
-    cd \$out/bin
-    tar xzf \$src
-    ls -la
+  installPhase = ''
+    mkdir -p $out/bin
+    cd $out/bin
+    tar xzf $src
     for f in *; do
-      if [ -f \"\$f\" ] && [ -x \"\$f\" ]; then
-        mv \"\$f\" opencode-real
+      if [ -f "$f" ] && [ -x "$f" ]; then
+        mv "$f" opencode-real
         break
       fi
     done
     chmod +x opencode-real
-    makeWrapper opencode-real \$out/bin/opencode --set LD_PRELOAD /usr/lib/libucontext.so.1
-    ln -sf opencode \$out/bin/oc
-  ";
+    cat > $out/bin/opencode << 'WRAPPER'
+#! /bin/sh
+exec /lib/ld-musl-x86_64.so.1 --preload /usr/lib/libucontext.so.1 "$(dirname "$0")/opencode-real" "$@"
+WRAPPER
+    chmod +x opencode
+    ln -sf opencode $out/bin/oc
+  '';
 
   meta = {
     description = "opencode AI coding agent";

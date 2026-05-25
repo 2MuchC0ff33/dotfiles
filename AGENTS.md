@@ -2,7 +2,7 @@
 
 ## Repo State
 
-- **Early stage**: only `README.adoc` and `STANDARDS.adoc` committed
+- **Active**: dotfiles repo — Nix flake + Nushell config + opencode skills
 - **Active branch**: `dev`; `main` is protected (PR + 2 approvals + linear history + signed commits)
 - **Org**: [2MuchC0ff33](https://github.com/2MuchC0ff33) on GitHub
 - **License**: ISC
@@ -30,25 +30,20 @@ Known gaps vs git: no submodules (use `git` directly), no `jj gh submit` (use `g
 
 Canonical reference: **STANDARDS.adoc §1.4.2 and Appendix C**.
 
-Install all tools with `--locked`. Quick install reference:
+All §1.4.2 tools are provided by the Nix flake (`flake.nix`) using
+`pkgsCross.musl64` for static musl binaries. Enter the dev shell:
+
+```
+nix develop .
+```
+
+Quick install reference for host-only tools (used outside nix develop):
 
 | Tool | Install |
 |---|---|
-| ripgrep | `cargo install --locked ripgrep` |
-| fd | `cargo install --locked fd-find` |
-| bat | `cargo install --locked bat` |
-| sd | `cargo install --locked sd` |
-| delta | `cargo install --locked git-delta` |
-| eza | `cargo install --locked eza` |
-| dust | `cargo install --locked du-dust` |
-| procs | `cargo install --locked procs` |
-| bottom | `cargo install --locked bottom` |
-| zoxide | `cargo install --locked zoxide` |
-| xh | `cargo install --locked xh` |
-| just | `cargo install --locked just` |
-| zellij | `cargo install --locked zellij` |
-| helix | `cargo install --locked helix` |
-| jj | `cargo install --locked --bin jj jj-cli` |
+| nu | `cargo install --locked nu` (0.112.2) |
+| jj | `cargo install --locked --bin jj jj-cli` (0.41.0) |
+| oc | `~/.cargo/bin/oc` (shim — launches opencode via nix develop) |
 
 ## Shell: Nushell (0.112.2)
 
@@ -91,11 +86,11 @@ Prompt: Starship.
 
 ## Dev Environment: Nix Flakes (26.05)
 
-- Hermetic shell: `nix develop .`
+- Hermetic shell: `nix develop .` (uses `muslPkgs.bash` for Alpine compatibility)
 - Verify: `nix flake check`
 - Build: `nix build .`
 - All `cargo install` MUST use `--locked`; `cargo install` is FORBIDDEN in CI
-- Rust: 1.95.0, Edition 2024, pinned via `rust-toolchain.toml`
+- Rust: 1.95.0, Edition 2024, pinned via fenix overlay in `flake.nix`
 
 ## Documentation: AsciiDoc (.adoc)
 
@@ -134,7 +129,8 @@ flake.nix             # Nix flake
 | 9 | AsciiDoc Documentation Standard | 3146–3317 |
 | 10 | Version Control (jj workflow) | 3318–3584 |
 | 11 | Nushell Configuration & Scripts | 3585–4530 |
-| 14 | AI Coding Agent Standard (opencode) | 4629 |
+| 14 | AI Coding Agent Standard (opencode) | 4707 |
+| 13 | Project Type Adaptation Guide | 4801 |
 
 ## Skills System: `.opencode/skills/`
 
@@ -145,6 +141,33 @@ STANDARDS.adoc adherence. Each skill covers ONE rule/pattern.
 ## AI Coding Agent: opencode
 
 opencode is the universal AI agent for coding and standards enforcement across all environments governed by this repository. All new agents, agents.json, and configuration must comply with the OpenCode config standard and skill system, as described in STANDARDS.adoc Part 14. See also the global skills in ~/.config/opencode/skills/ for best practices and reusable skill modules for any new project.
+
+### Installation (Nix derivation)
+
+opencode is provided as a local Nix derivation at `nix/opencode.nix`.
+It downloads the official `opencode-linux-x64-musl.tar.gz` from GitHub releases
+and wraps it with `makeWrapper --set LD_PRELOAD /usr/lib/libucontext.so.1`
+to fix the `getcontext()` musl compatibility issue on Alpine Linux.
+
+The derivation produces `$out/bin/opencode` (wrapper script) and
+`$out/bin/opencode-real` (the original binary).
+
+### Launcher shim (`~/.cargo/bin/oc`)
+
+The `oc` shim launches opencode via `nix develop --command ash -c "exec opencode ..."`
+to avoid Nushell terminal conflicts that break the opencode TUI (SIGINT swallowing).
+When run from outside `nix develop`, it falls back to `~/.opencode/bin/opencode`
+if present.
+
+### TUI compatibility (Alpine/musl)
+
+The opencode TUI uses `libopentui.so` which calls `getcontext()` — a glibc function
+absent in musl. The Nix wrapper sets `LD_PRELOAD=/usr/lib/libucontext.so.1` to
+provide a compatible implementation. The wrapper is regenerated on every
+derivation rebuild and persists across Nix-managed upgrades.
+
+See `~/projects/personal/opencode/` for the upstream Alpine fix documentation
+and test suite (`tests/verify-wrapper.sh`, `tests/verify-tui.sh`, etc.).
 
 | Category | Skills | Prefix | Use When... |
 |---|---|---|---|
@@ -175,7 +198,7 @@ opencode is the universal AI agent for coding and standards enforcement across a
 | Proof Tiers | 5 | `standards-proof-tier-*` | Proof annotations |
 | Error Taxonomy | 6 | `standards-error-*` | Error type design |
 | Formal Verification | 5 | `standards-proof-*` | Kani/proptest/fuzz |
-| **TOTAL** | **249** | | |
+| **TOTAL** | **250** | | |
 
 Load a skill via the skill tool:
 
@@ -184,3 +207,108 @@ skill name="nushell-config-completions-fuzzy"
 ```
 
 See `.opencode/skills/README.md` for the full registry.
+
+## MCP Servers
+
+opencode integrates with MCP servers for extended capabilities.
+All configured in `~/.config/opencode/opencode.json`.
+Node.js 22 LTS (npx) is provided by the Nix devShell (`flake.nix`).
+
+| Server | Type | Purpose | API Key Required |
+|---|---|---|---|
+| context7 | remote | Live library docs — add `use context7` to prompts | No |
+| sequential-thinking | local | Structured reasoning chains | No |
+| github | local | GitHub repo operations (issues, PRs, search) | Yes — `GITHUB_TOKEN` |
+| filesystem | local | File access sandboxed to `~/projects` | No |
+| memory | local | Persistent knowledge graph across sessions | No |
+| nushell | local | Nushell commands as MCP tools (built-in `nu --mcp`) | No |
+
+### Activating Nushell MCP
+
+No API key required. Ensure `nu` is on PATH (Nix devShell or hardcoded store path).
+Configured in `opencode.json` — enabled by default in this repo's config.
+
+### Activating GitHub MCP
+
+1. Generate a fine-grained GitHub personal access token
+2. Store it:
+   `echo "ghp_..." > ~/.config/secrets/github_token && chmod 600 ~/.config/secrets/github_token`
+3. Add to `~/.config/nushell/env.nu`:
+   ```nushell
+   $env.GITHUB_TOKEN = (open --raw ~/.config/secrets/github_token | str trim)
+   ```
+4. Set `"enabled": true` for the github server in
+   `~/.config/opencode/opencode.json`
+
+### MCP on Alpine/musl
+
+`npx` must be on PATH when opencode starts.
+Enter `nix develop` or `just shell` first, OR hardcode the Node.js nix store
+path in `env.nu` (see STANDARDS.adoc §14.8.3).
+
+### Known Issues
+
+#### LD_PRELOAD leaks from opencode wrapper
+
+The opencode Nix wrapper (`nix/opencode.nix`) uses `makeWrapper --set LD_PRELOAD`
+to load `libucontext.so.1` for TUI `getcontext()` compatibility on Alpine/musl.
+The `export LD_PRELOAD` in the wrapper leaks to ALL child processes and breaks
+nix glibc binaries (jj, git, asciidoctor, etc.) because the nix glibc
+`ld-linux-x86-64.so.2` cannot resolve `libc.musl-x86_64.so.1` at `/lib/`.
+
+**Fix applied:**
+- `flake.nix` shellHook: `unset LD_PRELOAD` — clears it in nix develop
+- `config/nushell/env.nu`: `hide-env LD_PRELOAD` — clears it in Nushell
+- `~/.profile`: `unset LD_PRELOAD` — clears it in ash login shells
+- The opencode wrapper still sets LD_PRELOAD internally for its own TUI
+
+If nix glibc binaries fail with `libc.musl-x86_64.so.1: not found`:
+```sh
+unset LD_PRELOAD
+```
+
+### Key STANDARDS.adoc References
+
+| Part | Topic |
+|---|---|
+| §14.8 | MCP server configuration and activation |
+| §14.9 | LSP Server configuration |
+| §14.10 | Formatter configuration |
+| §14.11 | Nushell MCP Server |
+| §1.5.7 | Alpine/musl nix store path hardcoding |
+
+## LSP Servers
+
+opencode supports Language Server Protocol (LSP) servers for language-aware editing.
+Configured in `~/.config/opencode/opencode.json` under the `"lsp"` key.
+
+| Server | Command | File Types | Source |
+|---|---|---|---|
+| rust-analyzer | `["rust-analyzer"]` | `.rs` | rustup component |
+| Nu LSP | `["nu", "--lsp"]` | `.nu` | Nushell binary (Nix devShell) |
+| Taplo | `["taplo", "lsp", "stdio"]` | `.toml` | `cargo install taplo-cli --features lsp` |
+| nixd | `["nixd"]` | `.nix` | `pkgs.nixd` in flake |
+
+Canonical reference: STANDARDS.adoc §14.9.
+
+## Formatters
+
+opencode supports auto-formatting via configurable formatter commands.
+Configured in `~/.config/opencode/opencode.json` under the `"formatter"` key.
+
+| Formatter | Command | File Types | Source |
+|---|---|---|---|
+| rustfmt | `["rustfmt", "--edition", "2024"]` | `.rs` | rustup component |
+| Taplo | `["taplo", "format"]` | `.toml` | `cargo install taplo-cli` |
+| Topiary (Nushell) | `["topiary", "format", "--language", "nu"]` | `.nu` | `pkgs.topiary` in flake |
+| nixfmt | `["nixfmt"]` | `.nix` | `pkgs.nixfmt` in flake |
+
+Canonical reference: STANDARDS.adoc §14.10.
+
+## Linters
+
+| Linter | Target | Command | Source |
+|---|---|---|---|
+| Clippy | Rust | `cargo clippy --all-targets --all-features -- -Dwarnings` | rustup component |
+| nu-lint | Nushell | `nu-lint` | `cargo install --locked nu-lint` |
+| Vale | AsciiDoc | `vale` | `pkgs.vale` in flake |

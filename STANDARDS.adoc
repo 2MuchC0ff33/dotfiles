@@ -666,6 +666,31 @@ ____
 
 |Project binary |`crane.buildPackage` in Nix sandbox |`Cargo.lock`
 {plus} `flake.lock` (dual merkle)
+
+|MCP Runtime |Node.js 22 LTS (npm/npx) |22.x |`pkgs.nodejs_22` in
+`flake.nix`
+
+|MCP Package Manager |uv |latest |`pkgs.uv` in `flake.nix`
+
+|LSP (Rust) |rust-analyzer (via rustup component) |1.95.0 |`rust-analyzer` in flake
+
+|LSP (Nushell) |`nu --lsp` |0.112.2 |`nushell` in flake
+
+|LSP (TOML) |`taplo lsp stdio` |0.10.0 |cargo install (not in flake)
+
+|LSP (Nix) |nixd |2.9.1 |`pkgs.nixd` in flake
+
+|Formatter (Rust) |rustfmt |1.95.0 |`rustfmt` in flake
+
+|Formatter (TOML) |`taplo format` |0.10.0 |cargo install (not in flake)
+
+|Formatter (Nushell) |topiary |0.7.3 |`pkgs.topiary` in flake
+
+|Formatter (Nix) |nixfmt |1.2.0 |`pkgs.nixfmt` in flake
+
+|Linter (Nushell) |nu-lint |1.1.2 |cargo install (not in flake)
+
+|Linter (Prose) |vale |3.14.2 |`pkgs.vale` in flake
 |===
 
 
@@ -4695,10 +4720,6 @@ The four proof tiers for quick reference:
 
 '''''
 
-=== Part 13: Project Type Adaptation Guide
-
-// --- End of Project Type Adaptation Guide ---
-
 === Part 14: AI Coding Agent Standard (opencode)
 
 This section introduces, mandates, and norms the usage of opencode as the universal AI coding agent for all projects under this repository and related environments. All project and system configuration should follow the opencode JSON schema, and new skills must be documented in SKILL.md format in either project or global config skill directories.
@@ -4706,6 +4727,203 @@ This section introduces, mandates, and norms the usage of opencode as the univer
 opencode version: 1.15.10 (https://opencode.ai)
 
 See Appendix C for source/reference.
+
+[#opencode-mcp-servers]
+==== 14.8 MCP Server Configuration
+
+opencode integrates with Model Context Protocol (MCP) servers to extend
+agent capabilities with external tools and services.
+MCP servers run as local processes (via `npx`) or connect to remote
+endpoints.
+
+MANDATE: Node.js (npx) and uv MUST be provided via the Nix flake.
+MANDATE: API keys and tokens MUST use `{env:VAR_NAME}` interpolation.
+MANDATE: Actual token values MUST NEVER be hardcoded in `opencode.json`.
+
+===== 14.8.1 Configured MCP Servers
+
+[width="100%",cols="20%,15%,50%,15%",options="header",]
+|===
+|Server |Type |Purpose |Requires
+
+|context7
+|remote
+|Live library documentation lookup.
+Add `use context7` to any prompt.
+|None
+
+|sequential-thinking
+|local (npx)
+|Structured multi-step reasoning chains.
+Decomposes complex tasks into verifiable steps.
+|npx (Node.js)
+
+|github
+|local (npx)
+|GitHub repository operations: issues, PRs, code search.
+|`GITHUB_TOKEN` env var
+
+|filesystem
+|local (npx)
+|Sandboxed file read/write within `~/projects`.
+|npx (Node.js)
+
+|memory
+|local (npx)
+|Persistent knowledge graph across opencode sessions.
+|npx (Node.js)
+|===
+
+===== 14.8.2 Activating the GitHub MCP Server
+
+Set `GITHUB_TOKEN` in `~/.config/nushell/env.nu`:
+
+[source,nushell]
+----
+# GitHub token for MCP server — never commit this value
+$env.GITHUB_TOKEN = (open --raw ~/.config/secrets/github_token | str trim)
+----
+
+Then set `"enabled": true` for the github server in
+`~/.config/opencode/opencode.json`.
+
+===== 14.8.3 Runtime Requirement
+
+Local MCP servers require `npx` (Node.js 22 LTS) from the Nix devShell.
+On Alpine/musl, opencode is launched via the `oc` wrapper which inherits
+the PATH from the environment — ensure `nix develop` or `just shell`
+has been entered to make `npx` available, OR add the nix store path for
+Node.js to `$env.PATH` in `~/.config/nushell/env.nu`.
+
+MANDATE: The Node.js store path MUST be hardcoded in `env.nu` per §1.5.7
+so MCP servers function without entering `nix develop` interactively.
+
+[#opencode-lsp-servers]
+==== 14.9 LSP Server Configuration
+
+opencode integrates with Language Server Protocol (LSP) servers to provide
+language-aware editing features: completion, diagnostics, go-to-definition.
+
+MANDATE: Every project SHALL configure LSP servers for all languages used.
+MANDATE: LSP commands SHALL use the `command` array form (not shell strings).
+
+===== 14.9.1 Configured LSP Servers
+
+[width="100%",cols="20%,25%,20%,15%,20%",options="header",]
+|===
+|Server |Command |Extensions |Source |Config Key
+
+|rust-analyzer
+|`["rust-analyzer"]`
+|`.rs`
+|rustup component
+|`lsp.rust-analyzer`
+
+|Nushell LSP
+|`["nu", "--lsp"]`
+|`.nu`
+|Nushell binary (dev shell)
+|`lsp.nushell`
+
+|Taplo LSP
+|`["taplo", "lsp", "stdio"]`
+|`.toml`
+|cargo install taplo-cli --features lsp
+|`lsp.taplo`
+
+|nixd
+|`["nixd"]`
+|`.nix`
+|`pkgs.nixd` in flake
+|`lsp.nixd`
+|===
+
+Configuration is set in `~/.config/opencode/opencode.json` under the
+`"lsp"` key. Each server maps extensions to its launch command.
+
+[#opencode-formatters]
+==== 14.10 Formatter Configuration
+
+opencode supports auto-formatting via configurable formatter commands.
+Formatters receive file content on stdin and MUST output formatted content
+on stdout.
+
+MANDATE: Every project SHALL configure formatters for all languages used.
+MANDATE: Formatters MUST NOT modify files outside their language scope.
+
+===== 14.10.1 Configured Formatters
+
+[width="100%",cols="22%,25%,18%,20%,15%",options="header",]
+|===
+|Formatter |Command |Extensions |Source |Config Key
+
+|rustfmt
+|`["rustfmt", "--edition", "2024"]`
+|`.rs`
+|rustup component
+|`formatter.rustfmt`
+
+|Taplo
+|`["taplo", "format"]`
+|`.toml`
+|cargo install taplo-cli
+|`formatter.taplo-fmt`
+
+|Topiary (Nushell)
+|`["topiary", "format", "--language", "nu"]`
+|`.nu`
+|`pkgs.topiary` in flake
+|`formatter.nu-fmt`
+
+|nixfmt
+|`["nixfmt"]`
+|`.nix`
+|`pkgs.nixfmt` in flake
+|`formatter.nixfmt`
+|===
+
+Environment variables for topiary:
+- `TOPIARY_LANGUAGE_DIR`: path to tree-sitter queries (`~/.config/topiary/queries`)
+- `TOPIARY_CONFIG_FILE`: path to language config (`~/.config/topiary/languages.ncl`)
+
+These are set in the formatter's `environment` block in `opencode.json`.
+
+[#opencode-nushell-mcp]
+==== 14.11 Nushell MCP Server
+
+Nushell includes a built-in MCP server that exposes Nu commands as MCP tools.
+This enables opencode agents to run Nushell scripts, query the filesystem, and
+manipulate data using Nushell's structured data pipelines — all within the
+agent conversation.
+
+MANDATE: The Nushell MCP server SHALL be enabled (`"enabled": true`) in
+`opencode.json` for all projects using Nushell.
+
+===== 14.11.1 Configuration
+
+The Nushell MCP server uses a clean command array (no busybox sh wrapper needed
+since `nu` is natively compiled for musl):
+
+[source,json]
+----
+"nushell": {
+  "type": "local",
+  "command": ["nu", "--mcp"],
+  "enabled": true
+}
+----
+
+Unlike the `npx`-based MCP servers, the Nushell server does not require
+LD_PRELOAD workarounds because `nu` is linked against musl natively and does
+not need `libucontext.so.1`.
+
+===== 14.11.2 PATH Requirement
+
+`nu` MUST be on PATH when opencode starts. On Alpine/musl, either enter
+`nix develop` before launching opencode or hardcode the Nushell store path
+in `~/.config/nushell/env.nu` per §1.5.7.
+
+=== Part 13: Project Type Adaptation Guide
 
 ==== 13.1 How To Trim the Framework
 
