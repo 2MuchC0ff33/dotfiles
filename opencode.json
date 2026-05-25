@@ -57,16 +57,88 @@
       "permission": { "edit": "deny", "bash": "deny" }
     }
   },
+  "mcp": {
+    "nushell": {
+      "type": "local",
+      "command": ["nu", "--mcp"],
+      "enabled": true
+    },
+    "context7": {
+      "type": "remote",
+      "enabled": true
+    },
+    "sequential-thinking": {
+      "type": "local",
+      "command": ["npx", "-y", "@modelcontextprotocol/server-sequential-thinking"],
+      "enabled": true
+    },
+    "github": {
+      "type": "local",
+      "command": ["npx", "-y", "@modelcontextprotocol/server-github"],
+      "env": {
+        "GITHUB_TOKEN": "{env:GITHUB_TOKEN}"
+      },
+      "enabled": false
+    },
+    "filesystem": {
+      "type": "local",
+      "command": ["npx", "-y", "@modelcontextprotocol/server-filesystem", "~/projects"],
+      "enabled": true
+    },
+    "memory": {
+      "type": "local",
+      "command": ["npx", "-y", "@modelcontextprotocol/server-memory"],
+      "enabled": true
+    }
+  },
   "lsp": {
     "rust-analyzer": {
       "command": ["rust-analyzer"],
       "extensions": [".rs"]
+    },
+    "nushell": {
+      "command": ["nu", "--lsp"],
+      "extensions": [".nu"]
+    },
+    "taplo": {
+      "command": ["taplo", "lsp", "stdio"],
+      "extensions": [".toml"]
+    },
+    "nixd": {
+      "command": ["nixd"],
+      "extensions": [".nix"]
     }
   },
   "formatter": {
     "rustfmt": {
       "command": ["rustfmt", "--edition", "2024"],
       "extensions": [".rs"]
+    },
+    "taplo": {
+      "command": ["taplo", "format"],
+      "extensions": [".toml"]
+    },
+    "topiary": {
+      "command": ["topiary", "format", "--language", "nu"],
+      "extensions": [".nu"]
+    },
+    "nixfmt": {
+      "command": ["nixfmt"],
+      "extensions": [".nix"]
+    }
+  },
+  "linter": {
+    "clippy": {
+      "command": ["cargo", "clippy", "--all-targets", "--all-features", "--", "-Dwarnings"],
+      "extensions": [".rs"]
+    },
+    "nu-lint": {
+      "command": ["nu-lint"],
+      "extensions": [".nu"]
+    },
+    "vale": {
+      "command": ["vale"],
+      "extensions": [".adoc"]
     }
   }
 }
