@@ -75,16 +75,16 @@ def proj [name?: string] {
     cd ($found | first)
 }
 
-# SSH AGENT
+# SSH AGENT — starts agent, does NOT add keys (avoids blocking on passphrase)
 def --env ensure-ssh-agent [] {
-    let key     = ($env.HOME | path join ".ssh" "id_ed25519")
-    let pid     = ($env | get -o SSH_AGENT_PID)
-    let alive   = if $pid != null {
+    let key = ($env.HOME | path join ".ssh" "id_ed25519")
+    let pid = ($env | get -o SSH_AGENT_PID)
+    let alive = if $pid != null {
         (^kill -0 ($pid | into int) | complete).exit_code == 0
     } else { false }
     if not $alive {
-        let result      = (^ssh-agent -s | complete)
-        let agent_file  = ($env.HOME | path join ".ssh" "agent.env")
+        let result = (^ssh-agent -s | complete)
+        let agent_file = ($env.HOME | path join ".ssh" "agent.env")
         $result.stdout | save --force $agent_file
         for _l in ($result.stdout | lines) {
             if ($_l | str starts-with "SSH_AGENT_PID=") {
@@ -103,9 +103,8 @@ def --env ensure-ssh-agent [] {
             }
         }
     }
-    if ($key | path exists) {
-        ^ssh-add $key e>| ignore
-    }
+    # Keys added manually via `ensure-ssh-agent` — avoids blocking on
+    # passphrase prompt during shell startup.
 }
 
 # STARTUP
