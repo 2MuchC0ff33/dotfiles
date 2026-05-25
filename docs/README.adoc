@@ -1,0 +1,7 @@
+= Documentation
+:description: Documentation directory for the dotfiles project.
+
+This directory will contain project documentation following the
+AsciiDoc standard (STANDARDS.adoc §9).
+
+See STANDARDS.adoc for the full documentation structure specification.

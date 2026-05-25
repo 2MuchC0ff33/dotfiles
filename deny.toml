@@ -1,0 +1,29 @@
+# cargo-deny configuration
+[advisories]
+vulnerability = "deny"
+unmaintained = "warn"
+notice = "warn"
+
+[licenses]
+unlicensed = "deny"
+allow = [
+    "MIT",
+    "Apache-2.0",
+    "MIT OR Apache-2.0",
+    "ISC",
+    "BSD-3-Clause",
+    "BSD-2-Clause",
+    "CC0-1.0",
+    "Unicode-DFS-2016",
+]
+deny = [
+    "GPL-2.0",
+    "GPL-3.0",
+    "AGPL-3.0",
+    "LGPL-3.0",
+]
+default = "deny"
+
+[bans]
+multiple-versions = "warn"
+wildcards = "deny"

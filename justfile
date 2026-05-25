@@ -191,7 +191,7 @@ release VERSION:
 # Verify all nix store tools accessible via PATH (P10 decommission).
 deps-check:
     @nu -c " \
-      source /home/galloa/projects/personal/dotfiles/config/nushell/env.nu; \
+      source ~/.config/nushell/env.nu; \
       let tools = [rg fd bat sd delta eza dust procs btm xh zoxide just hx]; \
       let results = (\$tools | each {|t| \
         let r = (^which \$t o+e>| complete); \
@@ -210,11 +210,11 @@ deps-check:
 
 # Install/verify tools via Nix (legacy wrapper).
 setup-legacy:
-    /home/galloa/.cargo/bin/nu scripts/dev-setup.nu
+    nu scripts/dev-setup.nu
 
 # Verify all required tools present (legacy wrapper).
 deps-legacy:
-    /home/galloa/.cargo/bin/nu scripts/check-deps.nu
+    nu scripts/check-deps.nu
 
 # ─────────────────────────────────────────
 # CLEANUP

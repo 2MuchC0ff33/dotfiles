@@ -2,7 +2,7 @@
 
 ## Repo State
 
-- **Active**: dotfiles repo — Nix flake + Nushell config + opencode skills
+- **Early stage**: only `README.adoc` and `STANDARDS.adoc` committed
 - **Active branch**: `dev`; `main` is protected (PR + 2 approvals + linear history + signed commits)
 - **Org**: [2MuchC0ff33](https://github.com/2MuchC0ff33) on GitHub
 - **License**: ISC
@@ -30,20 +30,39 @@ Known gaps vs git: no submodules (use `git` directly), no `jj gh submit` (use `g
 
 Canonical reference: **STANDARDS.adoc §1.4.2 and Appendix C**.
 
-All §1.4.2 tools are provided by the Nix flake (`flake.nix`) using
-`pkgsCross.musl64` for static musl binaries. Enter the dev shell:
-
-```
-nix develop .
-```
-
-Quick install reference for host-only tools (used outside nix develop):
+Install all tools with `--locked`. Quick install reference:
 
 | Tool | Install |
 |---|---|
-| nu | `cargo install --locked nu` (0.112.2) |
-| jj | `cargo install --locked --bin jj jj-cli` (0.41.0) |
-| oc | `~/.cargo/bin/oc` (shim — launches opencode via nix develop) |
+| ripgrep | `cargo install --locked ripgrep` |
+| fd | `cargo install --locked fd-find` |
+| bat | `cargo install --locked bat` |
+| sd | `cargo install --locked sd` |
+| delta | `cargo install --locked git-delta` |
+| eza | `cargo install --locked eza` |
+| dust | `cargo install --locked du-dust` |
+| procs | `cargo install --locked procs` |
+| bottom | `cargo install --locked bottom` |
+| zoxide | `cargo install --locked zoxide` |
+| xh | `cargo install --locked xh` |
+| just | `cargo install --locked just` |
+| zellij | `cargo install --locked zellij` |
+| helix | `cargo install --locked helix` |
+| jj | `cargo install --locked --bin jj jj-cli` |
+
+
+## STANDARDS Deviation: `alias cd = z`
+
+STANDARDS §11.1 mandates `alias cd = z` (zoxide directory jumping
+via cd), but this causes **infinite recursion** in nushell because
+zoxide's `__zoxide_z` function internally calls `cd`, which would
+re-expand to `z`. This is a nushell-specific limitation — `alias`
+expansion applies to function bodies at parse time, so the alias
+leaks into zoxide's internals.
+
+**Resolution**: Use `z <dir>` for zoxide frecency jumps and
+`cd <dir>` for the built-in directory change. Both are available
+and work correctly. This deviation is documented in config.nu.
 
 ## Shell: Nushell (0.112.2)
 
@@ -86,11 +105,11 @@ Prompt: Starship.
 
 ## Dev Environment: Nix Flakes (26.05)
 
-- Hermetic shell: `nix develop .` (uses `muslPkgs.bash` for Alpine compatibility)
+- Hermetic shell: `nix develop .`
 - Verify: `nix flake check`
 - Build: `nix build .`
 - All `cargo install` MUST use `--locked`; `cargo install` is FORBIDDEN in CI
-- Rust: 1.95.0, Edition 2024, pinned via fenix overlay in `flake.nix`
+- Rust: 1.95.0, Edition 2024, pinned via `rust-toolchain.toml`
 
 ## Documentation: AsciiDoc (.adoc)
 
@@ -142,33 +161,6 @@ STANDARDS.adoc adherence. Each skill covers ONE rule/pattern.
 
 opencode is the universal AI agent for coding and standards enforcement across all environments governed by this repository. All new agents, agents.json, and configuration must comply with the OpenCode config standard and skill system, as described in STANDARDS.adoc Part 14. See also the global skills in ~/.config/opencode/skills/ for best practices and reusable skill modules for any new project.
 
-### Installation (Nix derivation)
-
-opencode is provided as a local Nix derivation at `nix/opencode.nix`.
-It downloads the official `opencode-linux-x64-musl.tar.gz` from GitHub releases
-and wraps it with `makeWrapper --set LD_PRELOAD /usr/lib/libucontext.so.1`
-to fix the `getcontext()` musl compatibility issue on Alpine Linux.
-
-The derivation produces `$out/bin/opencode` (wrapper script) and
-`$out/bin/opencode-real` (the original binary).
-
-### Launcher shim (`~/.cargo/bin/oc`)
-
-The `oc` shim launches opencode via `nix develop --command ash -c "exec opencode ..."`
-to avoid Nushell terminal conflicts that break the opencode TUI (SIGINT swallowing).
-When run from outside `nix develop`, it falls back to `~/.opencode/bin/opencode`
-if present.
-
-### TUI compatibility (Alpine/musl)
-
-The opencode TUI uses `libopentui.so` which calls `getcontext()` — a glibc function
-absent in musl. The Nix wrapper sets `LD_PRELOAD=/usr/lib/libucontext.so.1` to
-provide a compatible implementation. The wrapper is regenerated on every
-derivation rebuild and persists across Nix-managed upgrades.
-
-See `~/projects/personal/opencode/` for the upstream Alpine fix documentation
-and test suite (`tests/verify-wrapper.sh`, `tests/verify-tui.sh`, etc.).
-
 | Category | Skills | Prefix | Use When... |
 |---|---|---|---|
 | Nushell Config | 43 | `nushell-config-*`, `nushell-alias-*`, `nushell-env-*`, `nushell-starship-*` | Writing/editing `config.nu`, setting aliases, env vars |
@@ -198,7 +190,7 @@ and test suite (`tests/verify-wrapper.sh`, `tests/verify-tui.sh`, etc.).
 | Proof Tiers | 5 | `standards-proof-tier-*` | Proof annotations |
 | Error Taxonomy | 6 | `standards-error-*` | Error type design |
 | Formal Verification | 5 | `standards-proof-*` | Kani/proptest/fuzz |
-| **TOTAL** | **250** | | |
+| **TOTAL** | **249** | | |
 
 Load a skill via the skill tool:
 

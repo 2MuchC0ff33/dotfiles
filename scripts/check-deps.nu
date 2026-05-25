@@ -20,20 +20,11 @@ def main []: nothing -> nothing {
     }
     print $"(ansi green)nix flake check: PASS(ansi reset)"
 
-    # All §1.4.2 tools — confirmed present on host at ~/.cargo/bin/
-    # After P10 decommission, these will resolve to nix store paths instead.
     let tools = [nu rg fd bat delta sd dust procs btm eza xh jj just zoxide starship cargo oc]
 
-    # LSP servers
     let lsp_tools = [rust-analyzer taplo nixd]
-
-    # Formatters
     let fmt_tools = [topiary nixfmt]
-
-    # Linters
     let lint_tools = [nu-lint vale]
-
-    # MCP infrastructure — Node.js 22 LTS (npx) and uv
     let mcp_tools = [node npx uv]
     let all_tools = ($tools ++ $lsp_tools ++ $fmt_tools ++ $lint_tools ++ $mcp_tools)
 
