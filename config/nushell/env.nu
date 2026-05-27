@@ -18,6 +18,9 @@ $env.RUSTFLAGS = "-Dwarnings"
 $env.PROPTEST_CASES = "100000"
 $env.GITHUB_TOKEN = "<your-github-pat-here>"
 
+$env.LC_ALL = "C.UTF-8"
+$env.LANG = "C.UTF-8"
+
 # Nix profile — added by M01 hermetic migration
 $env.PATH = (
     $env.PATH
