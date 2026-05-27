@@ -57,8 +57,10 @@
             muslPkgs.procs
             muslPkgs.bottom
             muslPkgs.zoxide
-            muslPkgs.xh
-            muslPkgs.just
+             muslPkgs.xh
+             muslPkgs.hyperfine
+             muslPkgs.tokei
+             muslPkgs.just
             muslPkgs.jujutsu
             (muslPkgs.nushell.override { withDefaultFeatures = false; })
             muslPkgs.starship
