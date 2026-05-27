@@ -98,15 +98,17 @@
             export RUSTFLAGS="-Dwarnings"
             export CARGO_TERM_COLOR=always
             export PROPTEST_CASES=100000
-            echo "--- dotfiles hermetic dev environment ---"
-           echo "nixpkgs rev: ${self.inputs.nixpkgs.rev or "unknown"}"
-           echo "Nix: $(nix --version)"
-           echo "Rust: $(rustc --version)  Cargo: $(cargo --version | head -1)"
-           echo "Just: $(just --version 2>/dev/null || echo 'n/a')"
-           echo "Nu: $(nu --version 2>/dev/null || echo 'n/a')"
-           echo "Helix: $(hx --version 2>/dev/null | head -1 || echo 'n/a')"
-           echo "Asciidoctor: $(asciidoctor --version 2>/dev/null | head -1 || echo 'n/a')"
-           echo "------------------------------------------------"
+            if [ -t 1 ]; then
+                echo "--- dotfiles hermetic dev environment ---"
+                echo "nixpkgs rev: ${self.inputs.nixpkgs.rev or "unknown"}"
+                echo "Nix: $(nix --version)"
+                echo "Rust: $(rustc --version)  Cargo: $(cargo --version | head -1)"
+                echo "Just: $(just --version 2>/dev/null || echo 'n/a')"
+                echo "Nu: $(nu --version 2>/dev/null || echo 'n/a')"
+                echo "Helix: $(hx --version 2>/dev/null | head -1 || echo 'n/a')"
+                echo "Asciidoctor: $(asciidoctor --version 2>/dev/null | head -1 || echo 'n/a')"
+                echo "------------------------------------------------"
+            fi
           '';
         };
       });

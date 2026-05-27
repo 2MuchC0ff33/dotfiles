@@ -26,6 +26,27 @@ Init a repo: `jj git init --colocate` (keeps `.git/` — GitHub works normally).
 
 Known gaps vs git: no submodules (use `git` directly), no `jj gh submit` (use `gh` CLI).
 
+### Quick Examples
+
+Create or amend the working-copy change description (idempotent):
+
+```
+jj describe -m "fix(nushell): resolve path cache generator and suppress banner output"
+```
+
+Push the bookmarks/changes to the remote (pushes the bookmarks like branches):
+
+```
+jj git push
+```
+
+To inspect what will be pushed first, use:
+
+```
+jj log -n 10
+```
+
+
 ## Toolchain: Rust-native replacements
 
 Canonical reference: **STANDARDS.adoc §1.4.2 and Appendix C**.
@@ -44,6 +65,22 @@ Quick install reference for host-only tools (used outside nix develop):
 | nu | `cargo install --locked nu` (0.112.2) |
 | jj | `cargo install --locked --bin jj jj-cli` (0.41.0) |
 | oc | `~/.cargo/bin/oc` (shim — launches opencode via nix develop) |
+
+### Automatic PATH management
+
+This repository now provides an automated Nushell PATH management system:
+
+- A cached list is written to `~/.cache/nix-tool-paths.list` containing the individual Nix store directories.
+- On Nushell startup `~/.config/nushell/env.nu` reads `~/.cache/nix-tool-paths.list` and prepends existing directories to `PATH`. This is highly robust and prevents compile-time parsing issues.
+- To force regeneration manually (for debugging), run from the dotfiles repo:
+
+```
+just refresh-paths
+```
+
+This keeps startup fast (uses the cache) while ensuring tool paths stay
+consistent with the pinned flake. If you prefer a different policy, I can
+adjust the refresh timing or add a CI job to regenerate on flake updates.
 
 ## Shell: Nushell (0.112.2)
 
