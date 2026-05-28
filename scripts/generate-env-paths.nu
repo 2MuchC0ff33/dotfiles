@@ -2,7 +2,7 @@
 # Usage: nu scripts/generate-env-paths.nu > /tmp/generated-nix-paths.nu
 # MUST be run *inside* nix develop so tool paths are correct
 
-let tools = [ 'bat' 'eza' 'rg' 'fd' 'sd' 'delta' 'dust' 'procs' 'btm' 'xh' 'zoxide' 'hyperfine' 'tokei' 'just' 'jj' 'nu' 'starship' 'npm' 'npx' 'uv' 'hx' ]
+let tools = [ 'bat' 'eza' 'rg' 'fd' 'sd' 'delta' 'dust' 'procs' 'btm' 'xh' 'zoxide' 'hyperfine' 'tokei' 'just' 'jj' 'nu' 'starship' 'zellij' 'npm' 'npx' 'uv' 'hx' ]
 
 let paths = (
     $tools | each {|tool| 

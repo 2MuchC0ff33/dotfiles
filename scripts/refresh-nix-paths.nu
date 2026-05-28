@@ -9,7 +9,8 @@ let meta_file = ($cache_dir | path join 'nix-tool-paths.meta')
 let list_file = ($cache_dir | path join 'nix-tool-paths.list')
 
 # Tools we expect (executable names)
-let tools = [ 'bat' 'eza' 'rg' 'fd' 'sd' 'delta' 'dust' 'procs' 'btm' 'xh' 'zoxide' 'hyperfine' 'tokei' 'just' 'jj' 'nu' 'starship' 'npm' 'npx' 'uv' 'hx' ]
+# NOTE: keep this list consistent with scripts/generate-env-paths.nu
+let tools = [ 'bat' 'eza' 'rg' 'fd' 'sd' 'delta' 'dust' 'procs' 'btm' 'xh' 'zoxide' 'hyperfine' 'tokei' 'just' 'jj' 'nu' 'starship' 'zellij' 'npm' 'npx' 'uv' 'hx' ]
 
 def compute-hash [repo:string] {
     let lock = ($repo | path join 'flake.lock')
