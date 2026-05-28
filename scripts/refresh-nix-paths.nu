@@ -12,13 +12,16 @@ let list_file = ($cache_dir | path join 'nix-tool-paths.list')
 # NOTE: keep this list consistent with scripts/generate-env-paths.nu
 let tools = [ 'bat' 'eza' 'rg' 'fd' 'sd' 'delta' 'dust' 'procs' 'btm' 'xh' 'zoxide' 'hyperfine' 'tokei' 'just' 'jj' 'nu' 'starship' 'zellij' 'npm' 'npx' 'uv' 'hx' ]
 
-def compute-hash [repo:string] {
+def compute-hash [repo: string] {
     let lock = ($repo | path join 'flake.lock')
-    if ($lock | path exists) {
-        # Use external md5sum for predictable output
-        let out = (md5sum $lock | str trim)
-        if ($out == '') { '' } else { ($out | split row ' ' | first) }
+    let gen  = ($repo | path join 'scripts' 'generate-env-paths.nu')
+    let lock_hash = if ($lock | path exists) {
+        md5sum $lock | str trim | split row ' ' | first
     } else { '' }
+    let gen_hash = if ($gen | path exists) {
+        md5sum $gen | str trim | split row ' ' | first
+    } else { '' }
+    $lock_hash + ':' + $gen_hash
 }
 
 let current_hash = compute-hash $repo
