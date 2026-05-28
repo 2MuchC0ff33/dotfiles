@@ -95,6 +95,14 @@ components include:
 | MCP Package Manager
 | uv
 | latest
+
+| Local LLM Server
+| OxiLLaMa (`oxillama`)
+| 0.1.2
+
+| Local LLM Model
+| Qwen3-0.6B Q4_K_M
+| 4,096 ctx (RAM-constrained; native max 32,768)
 |===
 
 All classic Unix tools (grep, find, cat, sed, diff, ls, du, ps, top) are

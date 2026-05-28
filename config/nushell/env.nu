@@ -30,6 +30,10 @@ $env.PATH = (
     | uniq
 )
 
+# oxillama — pure-Rust local LLM inference server (built from source, v0.1.2)
+# Nix derivation deferred: upstream lacks Cargo.lock; binary built via cargo build --release
+$env.PATH = ($env.PATH | split row (char esep) | prepend ([$env.HOME ".local" "bin"] | path join) | uniq)
+
 # Nix musl64 store tool paths — generated
 # The cache is a newline-delimited list of /nix/store/.../bin directories.
 # Regenerate with:
@@ -52,3 +56,9 @@ if ($list_file | path expand | path exists) {
         }
     }
 }
+
+# Bypass HTTP proxy for loopback addresses — always active regardless of proxy-on/proxy-off.
+# Required for opencode's Node.js AI SDK to reach local OxiLLaMa server on 127.0.0.1:8080.
+# Safe on company network: only bypasses 127.0.0.1/localhost, never external hosts.
+$env.NO_PROXY = "127.0.0.1,localhost,::1"
+$env.no_proxy = "127.0.0.1,localhost,::1"

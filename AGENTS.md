@@ -65,6 +65,7 @@ Quick install reference for host-only tools (used outside nix develop):
 | nu | `cargo install --locked nu` (0.112.2) |
 | jj | `cargo install --locked --bin jj jj-cli` (0.41.0) |
 | oc | `~/.cargo/bin/oc` (shim — launches opencode via nix develop) |
+| oxillama | `cargo build --release -p oxillama-cli` in `/tmp/oxillama-lock-gen` (Nix derivation deferred — upstream lacks `Cargo.lock`) |
 
 ### Automatic PATH management
 
@@ -266,6 +267,7 @@ Node.js 22 LTS (npx) is provided by the Nix devShell (`flake.nix`).
 | github | local | GitHub repo operations (issues, PRs, search) | Yes — `GITHUB_TOKEN` |
 | filesystem | local | File access sandboxed to `~/projects` | No |
 | memory | local | Persistent knowledge graph across sessions | No |
+| oxillama | local | OpenAI-compatible local LLM inference server. Start with `just oxillama-serve` (dotfiles repo). Model: Qwen3-0.6B Q4_K_M (`qwen3` arch, unsloth quant). Context: 4,096 tokens (RAM-constrained). API: `http://127.0.0.1:8080/v1`. Note: built from source with GGUF magic bugfix and tied-embedding GEMV fix; Nix derivation deferred. | No |
 
 ### Activating GitHub MCP
 

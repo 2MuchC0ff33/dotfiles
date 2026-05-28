@@ -1,0 +1,31 @@
+// zellij config.kdl — terminal multiplexer
+// Built-in layout system, mouse support, session management.
+
+keybinds {
+    normal {
+        // unbind some defaults to avoid conflicts with helix
+        bind "Ctrl p" { SwitchToMode "Tmux"; }
+        bind "Ctrl b" { SwitchToMode "Locked"; }
+    }
+}
+
+plugins {
+    tab-bar    path="zellij:tab-bar"
+    status-bar path="zellij:status-bar"
+    strider    path="zellij:strider"
+    compact-bar path="zellij:compact-bar"
+}
+
+theme {
+    bg      "#1a1b26"
+    fg      "#c0caf5"
+    red     "#f7768e"
+    green   "#9ece6a"
+    blue    "#7aa2f7"
+    yellow  "#e0af68"
+    magenta "#bb9af7"
+    cyan    "#7dcfff"
+    orange  "#ff9e64"
+}
+
+simplified_ui true

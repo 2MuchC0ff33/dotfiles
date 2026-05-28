@@ -32,10 +32,12 @@
         ];
 
         opencode = pkgs.callPackage ./nix/opencode.nix {};
+        zellij   = pkgs.callPackage ./nix/zellij.nix {};
 
-      in {
+        in {
         packages.opencode = opencode;
         packages.default = opencode;
+
         devShells.default = pkgs.mkShell {
           name = "dotfiles-dev";
           packages = [
@@ -64,7 +66,7 @@
             muslPkgs.jujutsu
             (muslPkgs.nushell.override { withDefaultFeatures = false; })
             muslPkgs.starship
-            pkgs.zellij
+            zellij
             pkgs.helix
 
             # Documentation — Ruby interpreter, use pkgs (not static)
@@ -73,13 +75,13 @@
             # AI coding agent — replaces ~/.opencode/bin shim
             opencode
 
-            # MCP server runtime — Node.js 22 LTS (provides node + npx + npm)
+                       # MCP server runtime — Node.js 22 LTS (provides node + npx + npm)
             pkgs.nodejs_22
-             pkgs.uv
-
-             # LSP/Formatter/Linter tools (AI agent §14.9–14.10)
-             pkgs.vale
-             pkgs.nixd
+            pkgs.uv
+            
+            # LSP/Formatter/Linter tools (AI agent §14.9–14.10)
+            pkgs.vale
+              pkgs.nixd
              pkgs.nixfmt
              pkgs.topiary
            ];
