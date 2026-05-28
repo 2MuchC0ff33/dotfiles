@@ -43,8 +43,8 @@ if not ($cache_dir | path exists) { mkdir $cache_dir }
 let gen_script = ($repo | path join 'scripts' 'generate-env-paths.nu')
 # Capture output lines and filter out Nix's "Git tree is dirty" warning which
 # appears when evaluating a flake in a working copy with uncommitted changes.
-# This keeps the generated snippet clean while preserving other diagnostics.
-let out_lines = (nix develop $repo --command nu $gen_script | lines | where {|it| ! ($it =~ "^warning: Git tree") })
+# Uses str starts-with (not regex) for an unambiguous prefix check.
+let out_lines = (nix develop $repo --command nu $gen_script | lines | where {|it| not ($it | str starts-with "warning: Git tree") })
 let out = ($out_lines | str join "\n")
 if $out == '' { error make {msg: "nix develop failed to produce PATH snippet; enter 'nix develop' and run ./scripts/generate-env-paths.nu to diagnose."} }
 
