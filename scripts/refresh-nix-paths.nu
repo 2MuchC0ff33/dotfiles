@@ -41,7 +41,11 @@ if not ($cache_dir | path exists) { mkdir $cache_dir }
 # Run the Nushell generator inside the flake devShell to get a fresh snippet.
 # This keeps all logic in Nushell and ensures we use the flake-provided binaries.
 let gen_script = ($repo | path join 'scripts' 'generate-env-paths.nu')
-let out = (nix develop $repo --command nu $gen_script | lines | str join "\n")
+# Capture output lines and filter out Nix's "Git tree is dirty" warning which
+# appears when evaluating a flake in a working copy with uncommitted changes.
+# This keeps the generated snippet clean while preserving other diagnostics.
+let out_lines = (nix develop $repo --command nu $gen_script | lines | where {|it| ! ($it =~ "^warning: Git tree") })
+let out = ($out_lines | str join "\n")
 if $out == '' { error make {msg: "nix develop failed to produce PATH snippet; enter 'nix develop' and run ./scripts/generate-env-paths.nu to diagnose."} }
 
 # Atomic write
