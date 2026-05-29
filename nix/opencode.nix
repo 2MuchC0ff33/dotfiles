@@ -1,11 +1,11 @@
 { stdenv, fetchurl, lib }:
 stdenv.mkDerivation rec {
   pname   = "opencode";
-  version = "1.15.10";
+  version = "1.15.12";
 
   src = fetchurl {
-    url  = "https://github.com/sst/opencode/releases/download/v${version}/opencode-linux-x64-musl.tar.gz";
-    hash = "sha256-MoQAI15SOIh0S0Ngxy+Qm0nzKfl3o5cJw3u9TIw8Gcc=";
+    url  = "https://github.com/anomalyco/opencode/releases/download/v${version}/opencode-linux-x64-musl.tar.gz";
+    hash = "sha256-9alTRuMBiiigszuKeXYnSg2DdGihqW5oXfUUvPlCEww=";
   };
 
   dontUnpack = true;
