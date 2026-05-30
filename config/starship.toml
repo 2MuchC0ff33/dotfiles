@@ -2,7 +2,6 @@
 # Minimal, informative, fast.
 
 command_timeout = 1000
-scan_for_worktrees = false
 
 format = """
 [](#9A348E)\

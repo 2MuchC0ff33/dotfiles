@@ -49,7 +49,7 @@ if (which dog   | is-not-empty) { alias dig  = dog }
 if (which gping | is-not-empty) { alias ping = gping }
 if (which ouch  | is-not-empty) { alias tar  = ouch }
 
-if (which zoxide | is-not-empty) {
+if ((which zoxide | is-not-empty) and ("~/.zoxide.nu" | path expand | path exists)) {
     source ~/.zoxide.nu
 } else {
     def --env z [path?: string] {
