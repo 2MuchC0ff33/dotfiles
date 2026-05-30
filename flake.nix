@@ -59,6 +59,12 @@
           cargo = miraiToolchainCombined;
         };
 
+        # Verus — stable 1.95.0 (see nix/verus-rust-toolchain.toml)
+        verusToolchain = fenix.packages.${system}.fromToolchainFile {
+          file = ./nix/verus-rust-toolchain.toml;
+          sha256 = "sha256-gh/xTkxKHL4eiRXzWv8KP7vfjSk61Iq48x47BEDFgfk=";
+        };
+
         # Creusot — pinned nightly-2026-02-27
         creusotToolchain = fenix.packages.${system}.toolchainOf {
           channel = "nightly";
@@ -85,8 +91,8 @@
         zellij   = pkgs.callPackage ./nix/zellij.nix {};
 
         verus = pkgs.callPackage ./nix/verus.nix {
-          inherit toolchain;
-          z3 = pkgs.z3;
+          toolchain = verusToolchain;
+          z3 = z3-4125;
         };
 
         mirai = pkgs.callPackage ./nix/mirai.nix {

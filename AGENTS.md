@@ -343,6 +343,39 @@ If nix glibc binaries fail with `libc.musl-x86_64.so.1: not found`:
 unset LD_PRELOAD
 ```
 
+#### Verus — source-build pinned to stable 1.95.0
+
+Verus requires Rust stable 1.95.0 (not nightly) due to its dependency
+on librustc_driver and rustc internals APIs. A dedicated toolchain is
+pinned via `nix/verus-rust-toolchain.toml` using fenix `fromToolchainFile`.
+
+No pre-built x86_64-linux binary is available from upstream (only x86-linux
+32-bit, macOS, Windows). Source-build against the pinned stable toolchain
+is the only path.
+
+**Runtime mechanism** (nix/verus.nix installPhase):
+1. The built `verus` binary needs a `verus-root` marker file in its parent
+   directory (checked by `verus/src/main.rs`). Created in
+   `target-verus/release/`.
+2. The inner binary (`rust_verify`) uses `VERUS_ROOT` env var to find
+   `vstd.vir`, `.rlib` files, and `vstd/` source. All these live in
+   `target-verus/release/` after build.
+3. Verus requires the exact Rust toolchain name it was compiled with
+   (`1.95.0-x86_64-unknown-linux-gnu`). A symlink is created in
+   `~/.rustup/toolchains/` pointing to the Nix store toolchain path,
+   since `rustup toolchain link` rejects target-triple names.
+
+**Verification**: `result/bin/verus /tmp/test.rs` outputs:
+```
+verification results:: 1 verified, 0 errors
+```
+
+**sha256 replacement** (when updating the toolchain pin):
+```
+nix build .#verus 2>&1 | grep "got:"
+# Copy "got: sha256-..." into flake.nix fromToolchainFile sha256.
+```
+
 ### Key STANDARDS.adoc References
 
 | Part | Topic |

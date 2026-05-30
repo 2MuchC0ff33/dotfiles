@@ -12,7 +12,7 @@ rustPlatform.buildRustPackage rec {
   };
   cargoHash = "sha256-QXQjbxZo0LfDyO4IpfiXvPum5THJq6apgWWLd0vcBAs=";
   doCheck = false;
-  nativeBuildInputs = [ toolchain pkgs.cmake pkgs.python3 pkgs.libclang ];
+  nativeBuildInputs = [ toolchain pkgs.cmake pkgs.python3 pkgs.libclang pkgs.patchelf ];
   buildInputs = [ pkgs.gcc ];
   LIBCLANG_PATH = "${pkgs.libclang.lib}/lib";
   LD_LIBRARY_PATH = "${toolchain}/lib";
@@ -26,25 +26,29 @@ rustPlatform.buildRustPackage rec {
     platforms = platforms.linux;
   };
 
-  # Ensure runtime can find the rustc_driver and LLVM libs from the
-  # fenix toolchain: add the toolchain lib dir to RPATH of installed
-  # executables so they can run outside the build sandbox.
   postFixup = ''
-    # Wrap binaries to ensure runtime LD_LIBRARY_PATH contains the toolchain
-    # and the host gcc library directory so libstdc++ and LLVM are found.
-    mkdir -p "$out/libexec"
-    for f in "$out"/bin/*; do
-      if [ -f "$f" ] && file "$f" | grep -q ELF; then
-        base=$(basename "$f")
-        mv "$f" "$out/libexec/$base-real" || true
-        printf '%s\n' '#!/bin/sh' \
-          "# add fenix toolchain and any gcc-lib directories to LD_LIBRARY_PATH" \
-          "LD_LIBRARY_PATH=\"${toolchain}/lib\"" \
-          "for d in /nix/store/*-gcc-*-lib/lib; do if [ -d \"\$d\" ]; then LD_LIBRARY_PATH=\"\$d:\$LD_LIBRARY_PATH\"; fi; done" \
-          "export LD_LIBRARY_PATH=\"\$LD_LIBRARY_PATH\"" \
-          "exec \"$out/libexec/$base-real\" \"\\\$@\"" > "$out/bin/$base"
-        chmod +x "$out/bin/$base" || true
+    # Bake RPATH into every ELF in bin/ so glibc's ld-linux-x86_64.so.2
+    # resolves DT_NEEDED entries via RPATH without touching LD_LIBRARY_PATH.
+    #
+    # Root cause fixed: the old wrapper set LD_LIBRARY_PATH to a directory
+    # containing a GNU ld linker script named "libc.so" (no .6 suffix).
+    # glibc's ld.so rejected it as "invalid ELF header". Using --set-rpath
+    # routes DT_NEEDED through the ELF RPATH instead; glibc resolves
+    # "libc.so.6" (versioned SONAME) to the real ELF in pkgs.glibc/lib,
+    # and the linker script named "libc.so" is never touched.
+    #
+    # --set-rpath is used (not --add-rpath). The --add-rpath form is removed
+    # by stdenv's shrink-rpath pass which runs before postFixup. --set-rpath
+    # is a full replacement that runs after the shrink pass, so it survives.
+    #
+    # No libexec/ scanning needed: removing the wrapper means binaries stay
+    # in bin/ where cargo placed them. Nothing moves them to libexec/.
+    _rpath="${toolchain}/lib:${pkgs.gcc.cc.lib}/lib:${pkgs.glibc}/lib"
+    for _f in "$out"/bin/*; do
+      if [ -f "$_f" ] && ! head -c2 "$_f" | grep -q '^#!'; then
+        patchelf --set-rpath "$_rpath" "$_f" 2>/dev/null || true
       fi
     done
+    unset _rpath _f
   '';
 }
