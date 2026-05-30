@@ -16,7 +16,9 @@ $env.EDITOR = "hx"
 $env.VISUAL = "hx"
 $env.RUSTFLAGS = "-Dwarnings"
 $env.PROPTEST_CASES = "100000"
-$env.GITHUB_TOKEN = (open --raw ~/.config/secrets/github_token | str trim)
+if ("~/.config/secrets/github_token" | path expand | path exists) {
+    $env.GITHUB_TOKEN = (open --raw ~/.config/secrets/github_token | str trim)
+}
 
 $env.LC_ALL = "C.UTF-8"
 $env.LANG = "C.UTF-8"

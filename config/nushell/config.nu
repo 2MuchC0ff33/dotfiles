@@ -4,7 +4,7 @@
 $env.config = {
     error_style: "fancy"
     shell_integration: { osc2: true, osc7: true, osc133: true }
-    history: { max_size: 100_000, sync_on_each_command: true, file_format: "sqlite", isolation: true }
+    history: { max_size: 100_000, file_format: "plaintext", isolation: false }
     completions: { case_sensitive: true, quick: false, partial: false, algorithm: "fuzzy" }
     table: { mode: "rounded", index_mode: "always", trim: { methodology: "wrapping", wrapping_try_keep_words: true } }
 }
@@ -49,7 +49,14 @@ if (which dog   | is-not-empty) { alias dig  = dog }
 if (which gping | is-not-empty) { alias ping = gping }
 if (which ouch  | is-not-empty) { alias tar  = ouch }
 
-if (which zoxide | is-not-empty) { source ~/.zoxide.nu }
+if (which zoxide | is-not-empty) {
+    source ~/.zoxide.nu
+} else {
+    def --env z [path?: string] {
+        let target = if ($path != null) { $path } else { "~" }
+        cd ($target | path expand)
+    }
+}
 
 if ("~/.cache/starship/init.nu" | path expand | path exists) {
     source "~/.cache/starship/init.nu"
