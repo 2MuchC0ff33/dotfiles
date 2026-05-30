@@ -4,8 +4,8 @@
 $env.config = {
     error_style: "fancy"
     shell_integration: { osc2: true, osc7: true, osc133: true }
-    history: { max_size: 100_000, file_format: "plaintext", isolation: false }
-    completions: { case_sensitive: false, quick: false, partial: false, algorithm: "fuzzy" }
+    history: { max_size: 100_000, sync_on_each_command: true, file_format: "sqlite", isolation: true }
+    completions: { case_sensitive: true, quick: false, partial: false, algorithm: "fuzzy" }
     table: { mode: "rounded", index_mode: "always", trim: { methodology: "wrapping", wrapping_try_keep_words: true } }
 }
 
@@ -41,6 +41,13 @@ alias git = jj
 alias c   = cargo
 alias cxt = cargo xtask
 alias j   = just
+alias cd  = z
+alias gui = jj log
+alias net = bandwhich
+
+if (which dog   | is-not-empty) { alias dig  = dog }
+if (which gping | is-not-empty) { alias ping = gping }
+if (which ouch  | is-not-empty) { alias tar  = ouch }
 
 if (which zoxide | is-not-empty) { source ~/.zoxide.nu }
 

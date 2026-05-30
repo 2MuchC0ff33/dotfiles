@@ -62,7 +62,7 @@ components include:
 | Category | Tool | Version
 | AI Coding Agent
 | opencode
-| 1.15.10+
+| 1.15.12+
 
 | Shell
 | Nushell
@@ -86,7 +86,7 @@ components include:
 
 | Language
 | Rust
-| 1.95.0 (Edition 2024)
+| nightly (Edition 2024)
 
 | MCP Runtime
 | Node.js 22 LTS (npm/npx)
@@ -103,6 +103,26 @@ components include:
 | Local LLM Model
 | Qwen3-0.6B Q4_K_M
 | 4,096 ctx (RAM-constrained; native max 32,768)
+
+| Verification
+| MIRAI (cargo-mirai)
+| 1.1.12
+
+| Verification
+| Verus
+| 0.0.0
+
+| Verification
+| Creusot (cargo-creusot)
+| 0.0.0
+
+| Cargo Helper
+| cargo-sort
+| latest
+
+| Cross-Compilation
+| cargo-zigbuild + Zig linker
+| 0.22.3 / ≥0.14
 |===
 
 All classic Unix tools (grep, find, cat, sed, diff, ls, du, ps, top) are

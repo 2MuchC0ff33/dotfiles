@@ -7,6 +7,24 @@
     "theme": "tokyonight"
   },
   "instructions": ["AGENTS.md", "STANDARDS.adoc"],
+  "provider": {
+    "oxillama": {
+      "npm": "@ai-sdk/openai-compatible",
+      "name": "OxiLLaMa (local)",
+      "options": {
+        "baseURL": "http://127.0.0.1:8080/v1"
+      },
+      "models": {
+        "Qwen3-0.6B-Q4_K_M": {
+          "name": "Qwen3-0.6B Q4_K_M (local)",
+          "limit": {
+            "context": 4096,
+            "output": 4096
+          }
+        }
+      }
+    }
+  },
   "permission": {
     "edit": "ask",
     "bash": {

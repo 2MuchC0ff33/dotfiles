@@ -1,0 +1,34 @@
+# helix config.toml — modal editor
+# Built-in LSP, tree-sitter, minimal configuration needed.
+
+[editor]
+line-number = "relative"
+mouse = false
+true-color = true
+completion-trigger-len = 1
+auto-info = true
+auto-completion = true
+idle-timeout = 250
+
+[editor.cursor-shape]
+insert = "bar"
+normal = "block"
+select = "underline"
+
+[editor.statusline]
+mode = true
+selections = true
+position = true
+file-encoding = true
+
+[editor.lsp]
+display-messages = true
+enable = true
+
+[editor.whitespace]
+render = true
+
+[editor.whitespace.characters]
+space = "·"
+tab = "→"
+newline = "⏎"

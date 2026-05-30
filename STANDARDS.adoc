@@ -2,7 +2,7 @@
 
 ____
 *Version:* 2.0.0 *Status:* Approved *Rust Edition:* 2024 *Rust Version:*
-1.95.0 *Scope:* All projects under this organization — new development,
+nightly *Scope:* All projects under this organization — new development,
 rewrites, and migrations *License:* MIT OR Apache-2.0 (same as project
 code)
 ____
@@ -363,6 +363,25 @@ DATA, not control flow
 
 '''''
 
+===== 0.2.6 Data-First Design — Mandate and Checklist
+
+*MANDATE:* Every project SHALL define its data structures before writing
+any algorithm. *MANDATE:* Every struct SHALL be evaluated for hot/cold
+splitting potential. *MANDATE:* Every collection accessed in hot paths
+SHALL use SoA layout.
+
+Checklist (every PR):
+
+* [ ] Are data structures designed before algorithms?
+* [ ] Is every struct evaluated for hot/cold splitting?
+* [ ] Are hot path collections SoA (not AoS)?
+* [ ] Are state machines data tables (not match arms)?
+* [ ] Are there any silent defaults or hidden behaviors?
+* [ ] Would a new team member understand the data flow in 30 seconds?
+* [ ] Is every cache line justified (are we loading more than we need)?
+
+'''''
+
 ==== 0.3 SPARK-Inspired Formal Verification Mandate
 
 ===== 0.3.1 What SPARK Proves for Ada, What Kani Proves for Rust
@@ -498,9 +517,17 @@ pub fn send_packet(conn: &mut Connection, payload: &[u8]) -> io::Result<()> { ..
 pub unsafe fn blazing_fast_hash(input: &[u8]) -> u64 { ... }
 ----
 
-*MANDATE:* One of `++[++PROVED++]++`, `++[++TESTED++]++`,
-`++[++LINTED++]++`, or `++[++FFI++_++AUDITED++]++` on every `pub fn` doc
-comment. CI SHALL fail if a pub fn lacks this annotation. *SHOULD:* Use
+*MANDATE:* One of these seven proof tiers on every `pub fn` doc comment:
+
+`++[++PROVED++]++` (Kani) — model-checked with `kani::requires`/`kani::ensures`.
+`++[++PROVED-MIRAI++]++` — abstract-interpreted with MIRAI (MIR-level static analysis).
+`++[++PROVED-VERUS++]++` — refinement-type proved with Verus (SMT-backed).
+`++[++PROVED-CREUSOT++]++` — deductively verified with Creusot (Why3 backend).
+`++[++TESTED++]++` — proptest with 10,000+ random cases per property.
+`++[++LINTED++]++` — standard clippy + rustc warnings as errors (minimum bar for ALL code).
+`++[++FFI++_++AUDITED++]++` — unsafe code reviewed by two engineers, every unsafe block has a SAFETY comment.
+
+CI SHALL fail if a pub fn lacks one of these annotations. *SHOULD:* Use
 `++#[++diagnostic::do++_++not++_++recommend++]++` on trait impls that
 should be hidden from compiler error messages to improve UX for
 downstream consumers.
@@ -640,6 +667,13 @@ Formal language semantics for safety-critical qualification. Repository:
 |*Package registry* |crates.io (public libs), custom registry (internal)
 |`publish = false` in Cargo.toml until explicitly set to `true`.
 
+|*Rust channel* |nightly (unpinned rolling) |Required by verification tools
+(Miri, MIRAI, Creusot) and Edition 2024 features. Pinned dates blocked by
+fenix DLC manifest URL format.
+
+|*Cosmopolitan Libc* |FORBIDDEN |See §1.4.4.2 for rationale. Use Zig musl
+linker for static cross-platform binaries.
+
 |*CI* |Per-project (not prescribed) |GitHub Actions, GitLab CI,
 Buildkite, etc. Chosen per-project. The standard documents what CI MUST
 enforce, not which CI system.
@@ -657,12 +691,17 @@ ____
 [width="100%",cols="30%,33%,37%",options="header",]
 |===
 | Coding Agent | opencode | 1.15.10
+| Verification (MIR) | cargo-mirai | 1.1.12
+| Verification (SMT) | Verus | 0.0.0
+| Verification (WhyML) | cargo-creusot | 0.0.0
+| Cargo Helper | cargo-sort | latest
+| Cargo Helper | cargo-machete | latest
 |Layer |Source |Pinning
 |System tools (zig, asciidoctor, pandoc, vale, cmake, etc.) |nixpkgs via
 `flake.nix` |`flake.lock` (merkle tree of ALL transitive deps)
 
-|Rust toolchain (rustc, cargo, clippy, rustfmt, etc.) |fenix overlay via
-`rust-toolchain.toml` |Exact version (e.g. 0`"1.95.0"`)
+|Rust toolchain (rustc, cargo, clippy, rustfmt, miri, etc.) |fenix overlay via
+`rust-toolchain.toml` |nightly (rolling) 0`"1.95.0"`)
 
 |Project binary |`crane.buildPackage` in Nix sandbox |`Cargo.lock`
 {plus} `flake.lock` (dual merkle)
@@ -672,7 +711,7 @@ ____
 
 |MCP Package Manager |uv |latest |`pkgs.uv` in `flake.nix`
 
-|LSP (Rust) |rust-analyzer (via rustup component) |1.95.0 |`rust-analyzer` in flake
+|LSP (Rust) |rust-analyzer (via rustup component) |nightly |`rust-analyzer` in flake
 
 |LSP (Nushell) |`nu --lsp` |0.112.2 |`nushell` in flake
 
@@ -680,7 +719,7 @@ ____
 
 |LSP (Nix) |nixd |2.9.1 |`pkgs.nixd` in flake
 
-|Formatter (Rust) |rustfmt |1.95.0 |`rustfmt` in flake
+|Formatter (Rust) |rustfmt |nightly |`rustfmt` in flake
 
 |Formatter (TOML) |`taplo format` |0.10.0 |cargo install (not in flake)
 
@@ -889,6 +928,10 @@ helix     → vim      (LSP built-in, no plugin config)
 just      → make     (no Makefile syntax, no tabs vs spaces)
 jj        → git      (auto-rebase, undo, safer workflow)
 sd        → sed      (simple find-and-replace, regex consistent)
+cargo-mirai → MIR static analysis (abstract interpretation, cargo-mirai commands)
+cargo-creusot → deductive verification (WhyML backend, cargo creusot commands)
+verus     → refined types (SMT-backed proof, verus commands)
+cargo-sort → sort Cargo.toml dependencies (workspace-consistent ordering)
 ....
 
 ===== 1.4.4.1 New in Rust 1.95.0 {plus} Edition 2024
@@ -928,6 +971,42 @@ matching
 |`ambiguous_glob_imported_traits` |1.95.0 |Warn on ambiguous
 glob-imported trait method calls
 |===
+
+===== 1.4.4.2 Cosmopolitan Libc — FORBIDDEN
+
+[WARNING]
+====
+*STATUS:* FORBIDDEN. Do not use Cosmopolitan Libc (cosmo) in any project
+under this organization.
+====
+
+RATIONALE:
+
+. *Zig linker already handles static cross-platform binaries.*
+  `cargo-zigbuild` produces fully static musl binaries for any target
+  from a single build host. Cosmo adds zero value over this existing
+  capability.
+
+. *Cosmo is a binary *distortion*, not a portable binary.*
+  Cosmo binaries embed multiple libc implementations (musl, glibc) plus
+  an APE loader, tripling binary size and introducing an untested code
+  path for every syscall.
+
+. *Verification incompatibility.* Kani, Miri, MIRAI, and other
+  verification tools operate on standard Rust MIR. Cosmo's custom
+  `_start` and libc shim introduce unverifiable code paths.
+
+. *Ecosystem fragmentation.* Cosmo requires patched build tools
+  (cosmo-cc, cosmo-ld) that conflict with Nix hermetic builds. Adding
+  Cosmo to a Nix devShell breaks `nix flake check`.
+
+. *Community abandonment risk.* Cosmo is maintained by a single entity
+  (Justine Tunney). There is no community governance, no long-term
+  support commitment, and no formal verification of its libc shim.
+
+*ALTERNATIVE:* Use `cargo-zigbuild` with the Zig musl linker
+(see §7.1–7.2). This is the MANDATE approach. Zig musl produces
+genuine static binaries that Kani can prove and Miri can check.
 
 ===== 1.4.5 Caveats and Compatibility Notes
 
@@ -2820,6 +2899,10 @@ test-one NAME:
 # FORMAL VERIFICATION
 # ─────────────────────────────────────────
 
+# Run Miri (undefined behavior detection)
+miri:
+    cargo miri test --all-targets --all-features
+
 # Run all Kani proofs
 proof:
     cargo xtask proof
@@ -2831,6 +2914,22 @@ proptest:
 # Run fuzz targets (5 min each)
 fuzz:
     cargo xtask fuzz
+
+# Run MIRAI abstract interpretation
+mirai-check:
+    cargo mirai
+
+# Run Verus refinement-type verification
+verus-check:
+    verus src/
+
+# Run Creusot deductive verification
+creusot-check:
+    cargo creusot
+
+# Run complete pre-commit check (lint + test + proof + verify + sort + machete)
+pre-commit:
+    cargo xtask check && cargo sort --check && cargo machete
 
 # ─────────────────────────────────────────
 # CODE QUALITY
@@ -5197,7 +5296,7 @@ every build is validated
 [width="100%",cols="18%,22%,60%",options="header",]
 |===
 |Tool |Source |Version (May 2026)
-|Rust compiler |https://rustup.rs |*1.95.0* (Edition 2024)
+|Rust compiler |https://rustup.rs |*nightly* (Edition 2024)
 
 |cargo-zigbuild |https://github.com/rust-cross/cargo-zigbuild |0.22.3
 
@@ -5224,6 +5323,18 @@ every build is validated
 |proptest |https://github.com/proptest-rs/proptest |1.11.0
 
 |cargo-fuzz |https://github.com/rust-fuzz/cargo-fuzz |latest
+
+|cargo-mirai |https://github.com/endorlabs/MIRAI |*1.1.12*
+
+|Miri |https://github.com/rust-lang/miri |nightly (rustup component)
+
+|cargo-creusot |https://github.com/creusot-rs/creusot |*0.0.0*
+
+|Verus |https://github.com/verus-lang/verus |*0.0.0*
+
+|cargo-sort |https://crates.io/crates/cargo-sort |*latest*
+
+|cargo-machete |https://crates.io/crates/cargo-machete |*latest*
 
 |helix |https://helix-editor.com |25.07.1
 |opencode |https://opencode.ai |1.15.10

@@ -5,7 +5,7 @@ stdenv.mkDerivation rec {
 
   src = fetchurl {
     url  = "https://github.com/anomalyco/opencode/releases/download/v${version}/opencode-linux-x64-musl.tar.gz";
-    hash = "sha256-9alTRuMBiiigszuKeXYnSg2DdGihqW5oXfUUvPlCEww=";
+    sha256 = "sha256-9alTRuMBiiigszuKeXYnSg2DdGihqW5oXfUUvPlCEww=";
   };
 
   dontUnpack = true;

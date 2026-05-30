@@ -4,6 +4,15 @@ refresh-paths:
     nix develop . --command nu ./scripts/refresh-nix-paths.nu
 
 # ─────────────────────────────────────────
+# CONFIG DEPLOYMENT
+# ─────────────────────────────────────────
+
+# Symlink dotfiles configs to ~/.config/
+# Idempotent — backs up existing files before overwriting.
+deploy:
+    nu ./scripts/deploy-configs.nu
+
+# ─────────────────────────────────────────
 # LOCAL LLM (OxiLLaMa)
 # ─────────────────────────────────────────
 

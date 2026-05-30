@@ -58,7 +58,7 @@ All §1.4.2 tools are provided by the Nix flake (`flake.nix`) using
 nix develop .
 ```
 
-Quick install reference for host-only tools (used outside nix develop):
+Quick install reference for bootstrap-only tools (used outside nix develop; all verification tools come from the flake):
 
 | Tool | Install |
 |---|---|
@@ -66,6 +66,7 @@ Quick install reference for host-only tools (used outside nix develop):
 | jj | `cargo install --locked --bin jj jj-cli` (0.41.0) |
 | oc | `~/.cargo/bin/oc` (shim — launches opencode via nix develop) |
 | oxillama | `cargo build --release -p oxillama-cli` in `/tmp/oxillama-lock-gen` (Nix derivation deferred — upstream lacks `Cargo.lock`) |
+| cargo-sort | `cargo install --locked cargo-sort` |
 
 ### Automatic PATH management
 
@@ -128,7 +129,7 @@ Prompt: Starship.
 - Verify: `nix flake check`
 - Build: `nix build .`
 - All `cargo install` MUST use `--locked`; `cargo install` is FORBIDDEN in CI
-- Rust: 1.95.0, Edition 2024, pinned via fenix overlay in `flake.nix`
+- Rust: nightly (Edition 2024), pinned via fenix overlay in `flake.nix`. Verification tools (MIRAI, Verus, Creusot, cargo-sort) also provided by flake.
 
 ## Documentation: AsciiDoc (.adoc)
 
@@ -244,7 +245,8 @@ and test suite (`tests/verify-wrapper.sh`, `tests/verify-tui.sh`, etc.).
 | Proof Tiers | 5 | `standards-proof-tier-*` | Proof annotations |
 | Error Taxonomy | 6 | `standards-error-*` | Error type design |
 | Formal Verification | 5 | `standards-proof-*` | Kani/proptest/fuzz |
-| **TOTAL** | **250** | | |
+| Verification | 4 | `verification-mirai`, `verification-verus`, `verification-creusot`, `verification-machete` | Writing/invoking verification tools |
+| **TOTAL** | **254** | | |
 
 Load a skill via the skill tool:
 
@@ -286,6 +288,17 @@ Node.js 22 LTS (npx) is provided by the Nix devShell (`flake.nix`).
 `npx` must be on PATH when opencode starts.
 Enter `nix develop` or `just shell` first, OR hardcode the Node.js nix store
 path in `env.nu` (see STANDARDS.adoc §14.8.3).
+
+#### Nightly toolchain compatibility
+
+The Rust toolchain is pinned to rolling `nightly` (unpinned). This is required
+by verification tools (Miri, MIRAI, Creusot) and Edition 2024 features.
+Pinning to a specific date is blocked by fenix legacy URL format returning 404
+for DLC manifests.
+
+**Status:** Accepted. Rolling nightly is functionally equivalent to a dated
+pin for local development; CI should use `nix flake lock --update-input fenix`
+to control when the toolchain advances.
 
 ### Known Issues
 

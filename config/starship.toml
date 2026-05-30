@@ -1,0 +1,41 @@
+# starship.toml — cross-shell prompt
+# Minimal, informative, fast.
+
+command_timeout = 1000
+scan_for_worktrees = false
+
+format = """
+[](#9A348E)\
+$directory\
+$git_branch\
+$git_status\
+$rust\
+$cmd_duration\
+$character"""
+
+[character]
+success_symbol = "[❯](bold green)"
+error_symbol = "[❯](bold red)"
+
+[git_branch]
+format = " on [$symbol$branch(:$remote_branch)]($style)"
+style = "bold purple"
+
+[git_status]
+conflicted = "="
+ahead = "+{count}"
+behind = "-{count}"
+diverged = "~{count}"
+stashed = "*"
+modified = "!{count}"
+staged = "+{count}"
+renamed = "~{count}"
+deleted = "x{count}"
+format = "[($all_status$ahead_behind)]($style) "
+
+[rust]
+format = "via [$symbol($version )]($style)"
+
+[cmd_duration]
+format = "took [$duration]($style)"
+show_milliseconds = true

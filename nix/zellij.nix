@@ -27,3 +27,7 @@ stdenv.mkDerivation rec {
     platforms   = [ "x86_64-linux" ];
   };
 }
+# RATIONALE: No wrapper script — upstream tarball is already musl-linked.
+# No getcontext() / libucontext issue applies to Zellij.
+# No z symlink — z already aliased to zoxide in config.nu (§11.1).
+# platforms is a list of strings; a bare string is a type error.

@@ -1,0 +1,18 @@
+# Pin LSP servers per language
+[language-server.rust-analyzer]
+command = "rust-analyzer"
+
+[language-server.taplo]
+command = "taplo"
+
+[[language]]
+name = "rust"
+language-servers = ["rust-analyzer"]
+
+[[language]]
+name = "toml"
+language-servers = ["taplo"]
+
+[[language]]
+name = "nushell"
+language-servers = ["nu-lsp"]
