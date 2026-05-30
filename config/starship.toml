@@ -2,6 +2,7 @@
 # Minimal, informative, fast.
 
 command_timeout = 1000
+scan_timeout = 100
 
 format = """
 [](#9A348E)\

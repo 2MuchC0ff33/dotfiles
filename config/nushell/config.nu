@@ -14,6 +14,9 @@ def --env proxy-on [] {
     $env.https_proxy = "http://127.0.0.1:3128"
     $env.HTTP_PROXY = "http://127.0.0.1:3128"
     $env.HTTPS_PROXY = "http://127.0.0.1:3128"
+    ^sed -i 's/^    # ProxyCommand socat/    ProxyCommand socat/' ~/.ssh/config
+    ^git config --global http.proxy http://127.0.0.1:3128
+    ^git config --global https.proxy http://127.0.0.1:3128
     print "proxy: ON"
 }
 
@@ -21,6 +24,9 @@ def --env proxy-off [] {
     for var in ["http_proxy" "https_proxy" "HTTP_PROXY" "HTTPS_PROXY"] {
         if ($env | get -o $var) != null { hide-env $var }
     }
+    ^sed -i 's/^    ProxyCommand socat/    # ProxyCommand socat/' ~/.ssh/config
+    ^git config --global --unset http.proxy
+    ^git config --global --unset https.proxy
     print "proxy: OFF"
 }
 
@@ -41,12 +47,12 @@ alias git = jj
 alias c   = cargo
 alias cxt = cargo xtask
 alias j   = just
-alias cd  = z
+# cd is a built-in — cannot be aliased. Use z as directory jumper instead.
 alias gui = jj log
 alias net = bandwhich
 
-# Fallback z (cd) — defined unconditionally at global scope.
-# If zoxide init file exists, source below will override with real z.
+# Fallback z directory jumper.
+# If zoxide init file exists, source below overrides with frecency-backed z.
 def --env z [path?: string] {
     let target = if ($path != null) { $path } else { "~" }
     cd ($target | path expand)
@@ -56,7 +62,6 @@ if (which dog   | is-not-empty) { alias dig  = dog }
 if (which gping | is-not-empty) { alias ping = gping }
 if (which ouch  | is-not-empty) { alias tar  = ouch }
 
-# Override fallback z with zoxide if init file exists
 if ((which zoxide | is-not-empty) and ("~/.zoxide.nu" | path expand | path exists)) {
     source ~/.zoxide.nu
 }

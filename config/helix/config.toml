@@ -16,17 +16,15 @@ normal = "block"
 select = "underline"
 
 [editor.statusline]
-mode = true
-selections = true
-position = true
-file-encoding = true
+left = ["mode"]
+right = ["selections", "position", "file-encoding", "file-type"]
 
 [editor.lsp]
 display-messages = true
 enable = true
 
 [editor.whitespace]
-render = true
+render = "all"
 
 [editor.whitespace.characters]
 space = "·"

@@ -28,6 +28,17 @@ stdenv.mkDerivation rec {
     "-DZ3_INCLUDE_GIT_DESCRIBE=OFF"
   ];
 
+  # Fix pkgconfig file paths that can contain '//' when CMake populates
+  # variables like exec_prefix. Normalize any '//' before the Nix store
+  # path so the fixupPhase doesn't fail on bad pkgconfig entries.
+  postInstall = ''
+    if [ -f "$out/lib/pkgconfig/z3.pc" ]; then
+      sed -i 's#//nix/store#/nix/store#g' "$out/lib/pkgconfig/z3.pc"
+      # Also ensure exec_prefix// replaced with exec_prefix/
+      sed -i 's#exec_prefix//#exec_prefix/#g' "$out/lib/pkgconfig/z3.pc" || true
+    fi
+  '';
+
   meta = with lib; {
     description = "High-performance theorem prover / SMT solver (v4.12.5, pinned for Verus)";
     homepage = "https://github.com/Z3Prover/z3";

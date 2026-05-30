@@ -40,7 +40,7 @@
           cargo = toolchain;
         };
 
-        # Pinned nightly 2025-01-10 — MIRAI requires this exact nightly for rustc_private API compat
+        # MIRAI — endorlabs fork, pinned nightly-2025-01-10
         miraiToolchain = fenix.packages.${system}.toolchainOf {
           channel = "nightly";
           date = "2025-01-10";
@@ -59,14 +59,11 @@
           cargo = miraiToolchainCombined;
         };
 
-        # Z3 4.12.5 — Verus pins this exact Z3 version
-        z3-4125 = pkgs.callPackage ./nix/z3-4125.nix {};
-
-        # Pinned nightly 2026-04-21 — Creusot requires this exact nightly
+        # Creusot — pinned nightly-2026-02-27
         creusotToolchain = fenix.packages.${system}.toolchainOf {
           channel = "nightly";
-          date = "2026-04-21";
-          sha256 = "sha256-0xxYN99QCmM2kAjHyyRN3hV5WtSodoHyyTRJKjIZiVM=";
+          date = "2026-02-27";
+          sha256 = "sha256-5twI9QsrPl0ryOZ4POGYAivSeI08jgmWnv0wVvzbjcE=";
         };
 
         creusotToolchainCombined = fenix.packages.${system}.combine [
@@ -81,17 +78,20 @@
           cargo = creusotToolchainCombined;
         };
 
+        # Z3 4.12.5 — Verus pins this exact version for solver compatibility
+        z3-4125 = pkgs.callPackage ./nix/z3-4125.nix {};
+
         opencode = pkgs.callPackage ./nix/opencode.nix {};
         zellij   = pkgs.callPackage ./nix/zellij.nix {};
 
-        cargo-mirai = pkgs.callPackage ./nix/mirai.nix {
-          rustPlatform = miraiRustPlatform;
-          toolchain = miraiToolchainCombined;
-        };
-
         verus = pkgs.callPackage ./nix/verus.nix {
           inherit toolchain;
-          z3-4125 = z3-4125;
+          z3 = pkgs.z3;
+        };
+
+        mirai = pkgs.callPackage ./nix/mirai.nix {
+          rustPlatform = miraiRustPlatform;
+          toolchain = miraiToolchainCombined;
         };
 
         creusot = pkgs.callPackage ./nix/creusot.nix {
@@ -103,8 +103,8 @@
         packages.opencode = opencode;
         packages.default = opencode;
         packages.z3-4125 = z3-4125;
-        packages.cargo-mirai = cargo-mirai;
         packages.verus = verus;
+        packages.cargo-mirai = mirai;
         packages.creusot = creusot;
 
         devShells.default = pkgs.mkShell {
@@ -152,8 +152,9 @@
             # Cargo helpers — dependency management, sorting, verification
             pkgs.cargo-deny
             pkgs.cargo-sort
-            cargo-mirai
+            pkgs.z3
             verus
+            mirai
             creusot
             pkgs.cargo-fuzz
             pkgs.cargo-audit
