@@ -15,6 +15,7 @@ rustPlatform.buildRustPackage rec {
   doCheck = false;
 
   nativeBuildInputs = [ toolchain ];
+  LD_LIBRARY_PATH = "${toolchain}/lib";
   RUSTC_BOOTSTRAP = 1;
 
   meta = with lib; {

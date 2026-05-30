@@ -34,3 +34,32 @@ oxillama-download:
         "https://huggingface.co/unsloth/Qwen3-0.6B-GGUF/resolve/main/Qwen3-0.6B-Q4_K_M.gguf" \
         -o ~/models/qwen3/Qwen3-0.6B-Q4_K_M.gguf \
         --progress-bar
+
+# ─────────────────────────────────────────
+# VERIFICATION AND PIPELINES
+# ─────────────────────────────────────────
+
+# Run MIRAI abstract interpretation
+mirai:
+    cargo mirai
+
+# Run Verus formal proof
+verify:
+    cargo xtask verify
+
+# Sort Cargo.toml dependencies (run before every commit)
+sort-deps:
+    cargo sort --workspace
+
+# Remove unused dependencies
+machete:
+    cargo machete
+
+# Full pre-commit pipeline
+pre-commit:
+    cargo sort --workspace
+    cargo fmt --all --check
+    cargo clippy --all-targets --all-features -- -Dwarnings
+    cargo mirai
+    cargo audit
+    cargo deny check

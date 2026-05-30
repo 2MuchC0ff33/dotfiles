@@ -62,11 +62,20 @@ Quick install reference for bootstrap-only tools (used outside nix develop; all 
 
 | Tool | Install |
 |---|---|
-| nu | `cargo install --locked nu` (0.112.2) |
-| jj | `cargo install --locked --bin jj jj-cli` (0.41.0) |
-| oc | `~/.cargo/bin/oc` (shim — launches opencode via nix develop) |
-| oxillama | `cargo build --release -p oxillama-cli` in `/tmp/oxillama-lock-gen` (Nix derivation deferred — upstream lacks `Cargo.lock`) |
+| nu | `cargo install --locked nu` |
+| jj | `cargo install --locked --bin jj jj-cli` |
+| oc | `~/.cargo/bin/oc` (shim — manually maintained) |
+| taplo | `cargo install --locked taplo-cli --features lsp` |
+| nu-lint | `cargo install --locked nu-lint` |
+| cargo-cache | `cargo install --locked cargo-cache` |
+| cargo-outdated | `cargo install --locked cargo-outdated` |
 | cargo-sort | `cargo install --locked cargo-sort` |
+| skillfile | `cargo install --locked skillfile` |
+| cargo-mirai | source install from MIRAI v1.1.12 (see nix/mirai.nix) |
+| verus | via nix/verus.nix or binary release |
+| creusot | via nix/creusot.nix |
+| rustup | https://rustup.rs |
+All other tools are provided by dotfiles/flake.nix — no manual install needed.
 
 ### Automatic PATH management
 
@@ -380,3 +389,17 @@ Canonical reference: STANDARDS.adoc §14.10.
 | Clippy | Rust | `cargo clippy --all-targets --all-features -- -Dwarnings` | rustup component |
 | nu-lint | Nushell | `nu-lint` | `cargo install --locked nu-lint` |
 | Vale | AsciiDoc | `vale` | `pkgs.vale` in flake |
+
+## Skills System Runtime
+
+The `skillfile` binary (`~/.cargo/bin/skillfile`) is the runtime opencode uses to load skill files.
+Skills are loaded **explicitly** per session via the `skill` tool — they are NOT loaded automatically.
+The `permission.skill` block in `~/.config/opencode/opencode.json` controls which skill name prefixes are auto-allowed without a prompt.
+To verify: `skillfile --version`.
+
+## Nightly Rust Toolchain
+
+`dotfiles/flake.nix` now provides nightly Rust via `fenix.latest`.
+This enables Miri, Verus (requires nightly), Creusot, and MIRAI.
+For stable ABI builds, override the toolchain per-project via `rust-toolchain.toml` pinned to a specific nightly date.
+Kani supports edition 2024 since v0.64.0 and works with nightly.

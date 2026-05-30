@@ -16,6 +16,7 @@ rustPlatform.buildRustPackage rec {
 
   nativeBuildInputs = [ toolchain pkgs.cmake pkgs.python3 pkgs.libclang ];
   LIBCLANG_PATH = "${pkgs.libclang.lib}/lib";
+  LD_LIBRARY_PATH = "${toolchain}/lib";
   RUSTC_BOOTSTRAP = 1;
 
   meta = with lib; {

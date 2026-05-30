@@ -692,8 +692,8 @@ ____
 |===
 | Coding Agent | opencode | 1.15.10
 | Verification (MIR) | cargo-mirai | 1.1.12
-| Verification (SMT) | Verus | 0.0.0
-| Verification (WhyML) | cargo-creusot | 0.0.0
+| Verification (SMT) | Verus | 0.2026.05.24
+| Verification (WhyML) | cargo-creusot | 0.11.0
 | Cargo Helper | cargo-sort | latest
 | Cargo Helper | cargo-machete | latest
 |Layer |Source |Pinning
@@ -5328,9 +5328,9 @@ every build is validated
 
 |Miri |https://github.com/rust-lang/miri |nightly (rustup component)
 
-|cargo-creusot |https://github.com/creusot-rs/creusot |*0.0.0*
+|cargo-creusot |https://github.com/creusot-rs/creusot |*0.11.0*
 
-|Verus |https://github.com/verus-lang/verus |*0.0.0*
+|Verus |https://github.com/verus-lang/verus |*0.2026.05.24*
 
 |cargo-sort |https://crates.io/crates/cargo-sort |*latest*
 

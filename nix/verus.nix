@@ -1,4 +1,4 @@
-{ pkgs, lib, stdenv, fetchFromGitHub, toolchain, z3 }:
+{ pkgs, lib, stdenv, fetchFromGitHub, toolchain, z3-4125 }:
 
 stdenv.mkDerivation rec {
   pname = "verus";
@@ -12,15 +12,14 @@ stdenv.mkDerivation rec {
   };
 
   nativeBuildInputs = [ toolchain ];
-  buildInputs = [ z3 ];
+  buildInputs = [ z3-4125 ];
 
-  VERUS_Z3_PATH = "${z3}/bin/z3";
+  VERUS_Z3_PATH = "${z3-4125}/bin/z3";
 
   preBuild = ''
     export CARGO_HOME="$TMPDIR/cargo-home"
     mkdir -p "$CARGO_HOME"
 
-    # vargo expects rustup to find toolchain binaries
     cat > "$CARGO_HOME/rustup" << RUSTUP_EOF
     #!${pkgs.runtimeShell}
     case "\$1" in
@@ -51,10 +50,8 @@ stdenv.mkDerivation rec {
 
   buildPhase = ''
     runHook preBuild
-    export VERUS_NO_SOLVER_VERSION_CHECK=1
-    export VERUS_Z3_PATH="${z3}/bin/z3"
     pushd source > /dev/null
-    vargo build --release -- --no-solver-version-check
+    vargo build --release --no-solver-version-check
     popd > /dev/null
     runHook postBuild
   '';
