@@ -45,17 +45,20 @@ alias cd  = z
 alias gui = jj log
 alias net = bandwhich
 
+# Fallback z (cd) — defined unconditionally at global scope.
+# If zoxide init file exists, source below will override with real z.
+def --env z [path?: string] {
+    let target = if ($path != null) { $path } else { "~" }
+    cd ($target | path expand)
+}
+
 if (which dog   | is-not-empty) { alias dig  = dog }
 if (which gping | is-not-empty) { alias ping = gping }
 if (which ouch  | is-not-empty) { alias tar  = ouch }
 
+# Override fallback z with zoxide if init file exists
 if ((which zoxide | is-not-empty) and ("~/.zoxide.nu" | path expand | path exists)) {
     source ~/.zoxide.nu
-} else {
-    def --env z [path?: string] {
-        let target = if ($path != null) { $path } else { "~" }
-        cd ($target | path expand)
-    }
 }
 
 if ("~/.cache/starship/init.nu" | path expand | path exists) {
