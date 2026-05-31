@@ -165,6 +165,9 @@
             pkgs.cargo-fuzz
             pkgs.cargo-audit
             pkgs.cargo-machete
+            # kani: requires pinned nightly from kani-0.67.0 release date
+            # Add via `nix/kani.nix` once nightly sha256 is resolved
+            # See: https://github.com/model-checking/kani
             pkgs.cargo-zigbuild
             pkgs.zig
             pkgs.upx

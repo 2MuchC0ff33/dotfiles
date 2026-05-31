@@ -1,0 +1,25 @@
+max_pipeline_length = 80
+pipeline_placement = "start"
+explicit_optional_access = true
+
+[groups]
+security      = "error"
+type-safety   = "error"
+performance   = "warning"
+naming        = "error"
+formatting    = "error"
+documentation = "warning"
+idioms        = "error"
+effects       = "error"
+
+[rules]
+kebab_case_commands           = "error"
+snake_case_variables          = "error"
+screaming_snake_constants     = "error"
+missing_output_type           = "error"
+add_type_hints_arguments      = "error"
+add_doc_comment_exported_fn   = "warning"
+unchecked_cell_path_index     = "error"
+# for_instead_of_each removed — not available in nu-lint 1.1.2
+# mut_instead_of_reduce removed — not available in nu-lint 1.1.2
+dynamic_script_import         = "error"

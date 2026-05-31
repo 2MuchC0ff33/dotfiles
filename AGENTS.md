@@ -62,7 +62,7 @@ Quick install reference for bootstrap-only tools (used outside nix develop; all 
 
 | Tool | Install |
 |---|---|
-| nu | `cargo install --locked nu` |
+| nu | `cargo install --locked nu` (0.113.0) |
 | jj | `cargo install --locked --bin jj jj-cli` |
 | oc | `~/.cargo/bin/oc` (shim — manually maintained) |
 | taplo | `cargo install --locked taplo-cli --features lsp` |
@@ -95,7 +95,7 @@ This keeps startup fast (uses the cache) while ensuring tool paths stay
 consistent with the pinned flake. If you prefer a different policy, I can
 adjust the refresh timing or add a CI job to regenerate on flake updates.
 
-## Shell: Nushell (0.112.2)
+## Shell: Nushell (0.113.0)
 
 > **Privilege escalation**: This system uses `doas` not `sudo`.
 > Never use `sudo` on this system. Always use `doas <command>`.
@@ -439,3 +439,9 @@ This enables Miri, Creusot, and MIRAI (all need nightly).
 Verus uses a separate stable 1.95.0 toolchain via fromToolchainFile.
 For stable ABI builds, override the toolchain per-project via `rust-toolchain.toml` pinned to a specific nightly date.
 Kani supports edition 2024 since v0.64.0 and works with nightly. Install: `cargo install --locked kani-verifier && cargo kani setup`.
+
+### Nushell flake pin
+
+AGENTS.md and STANDARDS.adoc updated to 0.113.0.
+nixpkgs input pin requires a separate `nix flake update` operation.
+Run `nix flake update --update-input nixpkgs` to pull 0.113.0 from nixpkgs-unstable when available.

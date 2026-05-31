@@ -713,7 +713,7 @@ ____
 
 |LSP (Rust) |rust-analyzer (via rustup component) |nightly |`rust-analyzer` in flake
 
-|LSP (Nushell) |`nu --lsp` |0.112.2 |`nushell` in flake
+|LSP (Nushell) |`nu --lsp` |0.113.0 |`nushell` in flake
 
 |LSP (TOML) |`taplo lsp stdio` |0.10.0 |cargo install (not in flake)
 
@@ -5310,7 +5310,7 @@ every build is validated
 
 |pijul |https://nest.pijul.com/pijul/pijul |1.0.0-beta
 
-|Nushell |https://www.nushell.sh |0.112.2
+|Nushell |https://www.nushell.sh |0.113.0
 
 |nu-lint |https://crates.io/crates/nu-lint |latest
 
