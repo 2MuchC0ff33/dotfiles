@@ -71,6 +71,8 @@ Quick install reference for bootstrap-only tools (used outside nix develop; all 
 | cargo-outdated | `cargo install --locked cargo-outdated` |
 | cargo-sort | `cargo install --locked cargo-sort` |
 | skillfile | `cargo install --locked skillfile` |
+| cargo-fuzz | `cargo install --locked cargo-fuzz` |
+| oxillama | `cargo install --locked oxillama` |
 | cargo-mirai | source install from MIRAI v1.1.12 (see nix/mirai.nix) |
 | verus | via nix/verus.nix or binary release |
 | creusot | via nix/creusot.nix |
@@ -138,7 +140,7 @@ Prompt: Starship.
 - Verify: `nix flake check`
 - Build: `nix build .`
 - All `cargo install` MUST use `--locked`; `cargo install` is FORBIDDEN in CI
-- Rust: nightly (Edition 2024), pinned via fenix overlay in `flake.nix`. Verification tools (MIRAI, Verus, Creusot, cargo-sort) also provided by flake.
+- Rust: nightly (Edition 2024) for most tools (Verus uses a separate stable toolchain). Verification tools (MIRAI, Verus, Creusot, cargo-sort) also provided by flake.
 
 ## Documentation: AsciiDoc (.adoc)
 
@@ -255,7 +257,7 @@ and test suite (`tests/verify-wrapper.sh`, `tests/verify-tui.sh`, etc.).
 | Error Taxonomy | 6 | `standards-error-*` | Error type design |
 | Formal Verification | 5 | `standards-proof-*` | Kani/proptest/fuzz |
 | Verification | 4 | `verification-mirai`, `verification-verus`, `verification-creusot`, `verification-machete` | Writing/invoking verification tools |
-| **TOTAL** | **254** | | |
+| **TOTAL** | **249** | | |
 
 Load a skill via the skill tool:
 
@@ -433,6 +435,7 @@ To verify: `skillfile --version`.
 ## Nightly Rust Toolchain
 
 `dotfiles/flake.nix` now provides nightly Rust via `fenix.latest`.
-This enables Miri, Verus (requires nightly), Creusot, and MIRAI.
+This enables Miri, Creusot, and MIRAI (all need nightly).
+Verus uses a separate stable 1.95.0 toolchain via fromToolchainFile.
 For stable ABI builds, override the toolchain per-project via `rust-toolchain.toml` pinned to a specific nightly date.
-Kani supports edition 2024 since v0.64.0 and works with nightly.
+Kani supports edition 2024 since v0.64.0 and works with nightly. Install: `cargo install --locked kani-verifier && cargo kani setup`.

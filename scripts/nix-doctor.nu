@@ -12,7 +12,7 @@ def main [] {
   print $"Rust: (rustc --version)  Cargo: (cargo --version | lines | first)"
 
   print "Checking for non-nix install hints..."
-  rg -n --hidden "cargo install|pip install|apt-get|curl .* | bash" -S . | ignore
+  ^rg -n --hidden "cargo install|pip install|apt-get|curl .* | bash" -S . | ignore
   if $env.LAST_EXIT_CODE == 0 {
     print -e "WARNING: probable non-Nix install invocation found."
   }

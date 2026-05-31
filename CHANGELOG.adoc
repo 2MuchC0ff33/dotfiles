@@ -1,0 +1,24 @@
+= Changelog
+
+This document tracks notable changes to the dotfiles project.
+
+== [Unreleased]
+
+=== Added
+
+* MIRAI derivation with patchelf RPATH fix (see nix/mirai.nix)
+* Verus source-build pinned to stable 1.95.0
+* Creusot v0.11.0 derivation
+* .gitignore file
+* CHANGELOG.adoc
+
+=== Fixed
+
+* MIRAI runtime LD_LIBRARY_PATH replaced with patchelf --set-rpath
+* Nushell env.nu: added CARGO_TERM_COLOR=always
+* Nushell nix-doctor.nu: added ^ prefix to rg call
+* AGENTS.md: resolved Verus nightly/stable contradiction
+* AGENTS.md: skills table TOTAL corrected 254→249
+* AGENTS.md: added cargo-fuzz and oxillama to tool install table
+* AGENTS.md: added Kani install instructions
+* Creusot derivation: added patchelf --set-rpath postFixup

@@ -12,7 +12,7 @@ rustPlatform.buildRustPackage rec {
   };
   cargoHash = "sha256-k1ueZjrBesmcMzZUka/DVXfnKGNuX/sNJ4rrzt7d3+Q=";
   doCheck = false;
-  nativeBuildInputs = [ toolchain ];
+  nativeBuildInputs = [ toolchain pkgs.patchelf ];
   LD_LIBRARY_PATH = "${toolchain}/lib";
   LIBRARY_PATH = "${toolchain}/lib";
   RUSTC_BOOTSTRAP = 1;
@@ -23,4 +23,14 @@ rustPlatform.buildRustPackage rec {
     maintainers = [];
     platforms = platforms.linux;
   };
+
+  postFixup = ''
+    _rpath="${toolchain}/lib:${pkgs.gcc.cc.lib}/lib:${pkgs.glibc}/lib"
+    for _f in "$out"/bin/*; do
+      if [ -f "$_f" ] && ! head -c2 "$_f" | grep -q '^#!'; then
+        patchelf --set-rpath "$_rpath" "$_f" 2>/dev/null || true
+      fi
+    done
+    unset _rpath _f
+  '';
 }

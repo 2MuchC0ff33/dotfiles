@@ -15,6 +15,7 @@ $env.PATH = (
 $env.EDITOR = "hx"
 $env.VISUAL = "hx"
 $env.RUSTFLAGS = "-Dwarnings"
+$env.CARGO_TERM_COLOR = "always"
 $env.PROPTEST_CASES = "100000"
 if ("~/.config/secrets/github_token" | path expand | path exists) {
     $env.GITHUB_TOKEN = (open --raw ~/.config/secrets/github_token | str trim)
