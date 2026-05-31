@@ -112,6 +112,9 @@
         packages.verus = verus;
         packages.cargo-mirai = mirai;
         packages.creusot = creusot;
+        packages.kani = pkgs.callPackage ./nix/kani.nix {
+          inherit fenix system;
+        };
 
         devShells.default = pkgs.mkShell {
           name = "dotfiles-dev";
@@ -165,9 +168,9 @@
             pkgs.cargo-fuzz
             pkgs.cargo-audit
             pkgs.cargo-machete
-            # kani: requires pinned nightly from kani-0.67.0 release date
-            # Add via `nix/kani.nix` once nightly sha256 is resolved
-            # See: https://github.com/model-checking/kani
+            # kani from packages output — pre-built binary + autoPatchelfHook
+            self.packages.${system}.kani
+            # Layer 5: Kani model checking — mandatory STANDARDS.adoc §0.3.1
             pkgs.cargo-zigbuild
             pkgs.zig
             pkgs.upx

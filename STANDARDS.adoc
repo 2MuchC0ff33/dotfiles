@@ -2678,26 +2678,43 @@ SHOULD (for proved code):
   - Keep functions small (Kani verification time scales super-linearly)
 ....
 
-===== 6.2.4 Kani CI Integration
+===== 6.2.4 Kani Local CI Integration
 
-[source,yaml]
+Kani runs as part of the local correctness pipeline — not via GitHub Actions.
+The primary CI surface is `scripts/local-ci.nu` (Layer 5).
+
+[source,nushell]
 ----
-- name: Run Kani proofs
-  uses: model-checking/kani-github-action@v1
-  with:
-    working-directory: proofs
-    args: "--default-unwind 100 --output-format terse"
-  timeout-minutes: 60
+# Run Kani model checking (Layer 5) locally
+just ci-layer 5
+
+# Run full pipeline including Kani
+just ci
+
+# Skip Kani for fast iteration
+just ci-fast
 ----
 
-[NOTE]
-====
-Kani violates the Nix hermetic build mandate (<<part-1-hermetic-development-environment,§1.5>>).
-The `cargo kani setup` step downloads Kani's verification backend at runtime.
-This is an approved exception: Kani MUST run as a separate CI job using the
-`model-checking/kani-github-action@v1` GitHub Action, outside the Nix sandbox.
-All other CI steps remain inside the Nix sandbox per §1.5 MANDATE.
-====
+Kani is installed via the Nix flake derivation at `nix/kani.nix`.
+It provides the pre-built `cargo-kani` binary, `kani-compiler`, and
+`kani-driver` for `x86_64-linux`.
+
+[source,bash]
+----
+# Enter devShell (kani available automatically)
+nix develop .
+
+# Verify installation
+cargo kani --version
+
+# Run all proof harnesses
+cargo kani --default-unwind 100 --output-format terse
+----
+
+NOTE: The `.github/workflows/` files retained in the repository are
+for hosted PR review context only.
+They are NOT the primary correctness gate.
+Correctness is enforced by `just ci` before every push.
 
 ===== 6.2.5 Function Contracts (Experimental)
 

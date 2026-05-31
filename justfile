@@ -63,3 +63,19 @@ pre-commit:
     cargo mirai
     cargo audit
     cargo deny check
+
+# Run all 16 pyramid layers locally (primary correctness pipeline)
+ci:
+    nu scripts/local-ci.nu
+
+# Run fast CI — layers 0–4 only (skips Kani/Miri/fuzz)
+ci-fast:
+    nu scripts/local-ci.nu --fast
+
+# Run a single pyramid layer (0–15)
+ci-layer LAYER:
+    nu scripts/local-ci.nu --layer {{LAYER}}
+
+# Install pre-commit hook script
+hook-install:
+    nu scripts/install-hooks.nu

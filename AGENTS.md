@@ -134,6 +134,26 @@ Prompt: Starship.
   - `just audit` → `cargo xtask audit`
   - `just cross` → `cargo xtask cross` (via cargo-zigbuild + Zig linker)
 
+## Local CI Pipeline
+
+The correctness pipeline runs entirely locally via Nushell.
+No GitHub Actions dependency for the primary correctness gate.
+
+| Command | Scope | When |
+|---------|-------|------|
+| `just ci` | All 16 pyramid layers | Before push to main |
+| `just ci-fast` | Layers 0–4 (fmt/lint/hygiene/mirai/lsp) | During development |
+| `just ci-layer N` | Single layer N (0–15) | Debugging one tool |
+| `just pre-commit` | Layers 0–2 only | Before every `jj describe` |
+
+Pipeline implementation: `scripts/local-ci.nu`
+Pre-commit hook installer: `scripts/install-hooks.nu`
+
+Slow layers skipped by `--fast`:
+- Layer 5 (Kani) — model checking, ~60 min
+- Layer 6 (Miri) — UB detection, variable
+- Layer 8 (fuzz) — coverage fuzzing, 5 min/target
+
 ## Dev Environment: Nix Flakes (26.05)
 
 - Hermetic shell: `nix develop .` (uses `muslPkgs.bash` for Alpine compatibility)
@@ -438,7 +458,15 @@ To verify: `skillfile --version`.
 This enables Miri, Creusot, and MIRAI (all need nightly).
 Verus uses a separate stable 1.95.0 toolchain via fromToolchainFile.
 For stable ABI builds, override the toolchain per-project via `rust-toolchain.toml` pinned to a specific nightly date.
-Kani supports edition 2024 since v0.64.0 and works with nightly. Install: `cargo install --locked kani-verifier && cargo kani setup`.
+Kani is provided by the Nix flake derivation at `nix/kani.nix`.
+
+Install path: `nix develop .` (kani available automatically in devShell)
+Version: 0.67.0 (pinned in nix/kani.nix)
+Binary: `cargo-kani`, `kani-compiler`, `kani-driver`
+Verify: `nix develop . --command cargo kani --version`
+
+Do NOT run `cargo kani setup` — the Nix derivation provides the
+pre-built binary including the kani-compiler driver.
 
 ### Nushell flake pin
 
