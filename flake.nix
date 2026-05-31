@@ -112,7 +112,7 @@
         #packages.verus = verus;
         #packages.cargo-mirai = mirai;
         #packages.creusot = creusot;
-        #packages.kani = pkgs.callPackage ./nix/kani.nix {
+        packages.kani = pkgs.callPackage ./nix/kani.nix {
           inherit fenix system;
         };
 
@@ -168,9 +168,8 @@
             pkgs.cargo-fuzz
             pkgs.cargo-audit
             pkgs.cargo-machete
-            # kani from packages output — pre-built binary + autoPatchelfHook
-            #self.packages.${system}.kani
             # Layer 5: Kani model checking — mandatory STANDARDS.adoc §0.3.1
+            self.packages.${system}.kani
             pkgs.cargo-zigbuild
             pkgs.zig
             pkgs.upx

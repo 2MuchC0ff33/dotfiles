@@ -473,3 +473,20 @@ pre-built binary including the kani-compiler driver.
 AGENTS.md and STANDARDS.adoc updated to 0.113.0.
 nixpkgs input pin requires a separate `nix flake update` operation.
 Run `nix flake update --update-input nixpkgs` to pull 0.113.0 from nixpkgs-unstable when available.
+
+## WSL2 Disk Cleanup
+
+WSL2 builds (especially Nix + Rust) accumulate large build artifacts that
+fill the virtual disk. Run these regularly — at least weekly, or whenever
+`df -h /` shows <5 GB free:
+
+| Command | Effect | When |
+|---------|--------|------|
+| `just wsl-status` | Show disk usage summary (dry run) | Before/after cleaning |
+| `just wsl-clean` | Nix GC + cargo cache + rust targets + tmp | When disk is low (step 1) |
+| `just wsl-compact-hint` | Print vhdx compaction instructions | After wsl-clean (step 2, from Windows) |
+
+Pipeline: `scripts/wsl-cleanup.nu`
+
+Always run `just wsl-clean` from the dotfiles repo root.
+Step 3 (vhdx compact) must be run from Windows PowerShell after `wsl --shutdown`.

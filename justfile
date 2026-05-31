@@ -79,3 +79,19 @@ ci-layer LAYER:
 # Install pre-commit hook script
 hook-install:
     nu scripts/install-hooks.nu
+
+# ─────────────────────────────────────────
+# WSL2 DISK CLEANUP
+# ─────────────────────────────────────────
+
+# Show disk usage summary before cleaning
+wsl-status:
+    nu scripts/wsl-cleanup.nu status
+
+# Run full WSL2 cleanup (Nix GC, cargo cache, rust targets, tmp)
+wsl-clean:
+    nu scripts/wsl-cleanup.nu clean
+
+# Compact the vhdx hint (must be run from PowerShell on Windows)
+wsl-compact-hint:
+    nu scripts/wsl-cleanup.nu compact-hint
