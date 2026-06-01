@@ -1,6 +1,6 @@
 #!/usr/bin/env nu
 # scripts/wsl-cleanup.nu
-# WSL2 housekeeping — Nix GC, cargo cache, rust target dirs, tmp.
+# WSL2 housekeeping — Nix GC, cargo cache, rust target dirs, tmp, zero-fill.
 # Run from ~/projects/personal/dotfiles via:
 #   just wsl-status
 #   just wsl-clean
@@ -79,7 +79,7 @@ def cmd-clean []: nothing -> nothing {
     print $"Disk available before: ($before) GB"
     print ""
 
-    print "── Step 1/4: Nix store garbage collection ──"
+    print "── Step 1/5: Nix store garbage collection ──"
     let nix_result = (^doas nix-collect-garbage -d o+e>| complete)
     if $nix_result.exit_code != 0 {
         print $"WARNING: nix-collect-garbage exited ($nix_result.exit_code)"
@@ -89,7 +89,7 @@ def cmd-clean []: nothing -> nothing {
     }
     print ""
 
-    print "── Step 2/4: Cargo cache autoclean ──"
+    print "── Step 2/5: Cargo cache autoclean ──"
     let cargo_result = (^cargo cache --autoclean o+e>| complete)
     if $cargo_result.exit_code != 0 {
         print "WARNING: cargo cache --autoclean failed or not installed"
@@ -103,7 +103,7 @@ def cmd-clean []: nothing -> nothing {
     }
     print ""
 
-    print "── Step 3/4: Rust target/ directories ──"
+    print "── Step 3/5: Rust target/ directories ──"
     for dir in $RUST_TARGETS {
         if ($dir | path exists) {
             let sz = (^du -sh $dir 2>/dev/null | str trim | split column "\t" size path | get size | first | default "?")
@@ -116,11 +116,22 @@ def cmd-clean []: nothing -> nothing {
     }
     print ""
 
-    print "── Step 4/4: /tmp build artifacts ──"
+    print "── Step 4/5: /tmp build artifacts ──"
     for pattern in $TMP_PATTERNS {
         ^doas find /tmp -maxdepth 1 -name $pattern -exec rm -rf {} + 2>/dev/null
     }
     print "/tmp build artifacts: OK"
+    print ""
+
+    print "── Step 5/5: Zero-fill free space (prepares VHDX for compact) ──"
+    print "Writing zeros to free space — this may take a few minutes..."
+    let dd_result = (^sh -c "dd if=/dev/zero of=/tmp/zero.fill bs=1M; rm -f /tmp/zero.fill" o+e>| complete)
+    # dd exits non-zero when disk is full — that is the expected outcome
+    if ($dd_result.stderr | str contains "No space left") or ($dd_result.exit_code == 0) {
+        print "Zero-fill: OK — free sectors zeroed for VHDX compact"
+    } else {
+        print $"Zero-fill: WARNING — ($dd_result.stderr | str trim)"
+    }
     print ""
 
     let after = (df-avail-gb)
@@ -133,28 +144,30 @@ def cmd-clean []: nothing -> nothing {
 }
 
 def cmd-compact-hint []: nothing -> nothing {
-    print "=== Compact the WSL2 .vhdx (run from Windows PowerShell) ==="
+    print "=== Compact the WSL2 .vhdx (run from Windows CMD as Administrator) ==="
     print ""
-    print "Step 1 — Shut down WSL2:"
+    print "Zero-fill was already run by 'just wsl-clean' — compact will reclaim maximum space."
+    print ""
+    print "Step 1 — Shut down WSL2 (Windows CMD):"
     print "  wsl --shutdown"
     print ""
-    print "Step 2 — Find the vhdx path:"
-    print '  Get-ChildItem "$env:LOCALAPPDATA\Packages" -Recurse -Filter "ext4.vhdx" |'
-    print '    Select-Object FullName, @{N="GB";E={[math]::Round($_.Length/1GB,2)}}'
-    print ""
-    print "Step 3 — Open diskpart and compact:"
+    print "Step 2 — Open diskpart and compact (Windows CMD as Administrator):"
     print "  diskpart"
-    print '    select vdisk file="<path from step 2>"'
+    print '    select vdisk file="C:\Users\galloa\WSL\alpine-dev\ext4.vhdx"'
     print "    attach vdisk readonly"
     print "    compact vdisk"
     print "    detach vdisk"
     print "    exit"
     print ""
-    print "Step 4 — Restart Alpine:"
-    print "  wsl -d Alpine"
+    print "Step 3 — Verify reclaimed space (PowerShell):"
+    print '  Get-Item "C:\Users\galloa\WSL\alpine-dev\ext4.vhdx" | Select-Object @{N="SizeGB";E={[math]::Round($_.Length/1GB,2)}}'
+    print '  Get-PSDrive C | Select-Object Used, Free'
     print ""
-    print "Note: compaction only reclaims space AFTER files have been deleted inside WSL2."
-    print "Run 'just wsl-clean' first, then shut down, then compact."
+    print "Step 4 — Restart Alpine:"
+    print "  wsl -d alpine-dev"
+    print ""
+    print "Note: A scheduled task runs this compact automatically at each Windows logon."
+    print "Manual compact is only needed if disk pressure is urgent mid-session."
 }
 
 def df-avail-gb []: nothing -> float {
