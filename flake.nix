@@ -200,6 +200,18 @@
             export RUSTFLAGS="-Dwarnings"
             export CARGO_TERM_COLOR=always
             export PROPTEST_CASES=100000
+            # Ensure asciidoctor-lsp is available quickly: if not present, install to user gemdir
+            if ! command -v asciidoctor-lsp >/dev/null 2>&1; then
+                if command -v gem >/dev/null 2>&1; then
+                    echo "asciidoctor-lsp not found — installing via 'gem install --user asciidoctor-lsp'"
+                    gem install --user-install asciidoctor-lsp || true
+                    # Ensure user gem bin is on PATH for interactive shells
+                    export PATH="$HOME/.gem/ruby/$(ruby -e 'print RUBY_VERSION')/bin:$PATH" 2>/dev/null || true
+                else
+                    echo "gem not found — please install asciidoctor-lsp (gem install --user asciidoctor-lsp) if you need Asciidoc LSP support"
+                fi
+            fi
+
             if [ -t 1 ]; then
                 echo "--- dotfiles hermetic dev environment ---"
                 echo "nixpkgs rev: ${self.inputs.nixpkgs.rev or "unknown"}"
