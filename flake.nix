@@ -20,7 +20,7 @@
         # Rolling nightly — used for devShell, rust-analyzer, Verus, general Rust dev
         rustToolchain = fenix.packages.${system}.toolchainOf {
           channel = "nightly";
-          sha256 = "sha256-1BAa+bv40O6I+/H4J5T6Ammxhby0y/4OqMrMVCywq8Q=";
+          sha256 = "sha256-qvHLWbWZbdUYMckRS246ShduGXhR3pEZS0cxF+FCuTU=";
         };
 
         toolchain = fenix.packages.${system}.combine [
@@ -41,77 +41,78 @@
         };
 
         # MIRAI — endorlabs fork, pinned nightly-2025-01-10
-        #miraiToolchain = fenix.packages.${system}.toolchainOf {
-          #channel = "nightly";
-          #date = "2025-01-10";
-          #sha256 = "6Lr3C/vgpFDCbiWJA8f1T5ej34adrbYeEVW+mAx2qxM=";
-        #};
+        miraiToolchain = fenix.packages.${system}.toolchainOf {
+          channel = "nightly";
+          date = "2025-01-10";
+          sha256 = "6Lr3C/vgpFDCbiWJA8f1T5ej34adrbYeEVW+mAx2qxM=";
+        };
 
-        #miraiToolchainCombined = fenix.packages.${system}.combine [
-          #miraiToolchain.rustc
-          #miraiToolchain.cargo
-          #miraiToolchain.rust-src
-          #miraiToolchain.rustc-dev
-        #];
+        miraiToolchainCombined = fenix.packages.${system}.combine [
+          miraiToolchain.rustc
+          miraiToolchain.cargo
+          miraiToolchain.rust-src
+          miraiToolchain.rustc-dev
+        ];
 
-        #miraiRustPlatform = pkgs.makeRustPlatform {
-          #rustc = miraiToolchainCombined;
-          #cargo = miraiToolchainCombined;
-        #};
+        miraiRustPlatform = pkgs.makeRustPlatform {
+          rustc = miraiToolchainCombined;
+          cargo = miraiToolchainCombined;
+        };
 
         # Verus — stable 1.95.0 (see nix/verus-rust-toolchain.toml)
-        #verusToolchain = fenix.packages.${system}.fromToolchainFile {
-          #file = ./nix/verus-rust-toolchain.toml;
-          #sha256 = "sha256-gh/xTkxKHL4eiRXzWv8KP7vfjSk61Iq48x47BEDFgfk=";
-        #};
+        verusToolchain = fenix.packages.${system}.fromToolchainFile {
+          file = ./nix/verus-rust-toolchain.toml;
+          sha256 = "sha256-gh/xTkxKHL4eiRXzWv8KP7vfjSk61Iq48x47BEDFgfk=";
+        };
 
         # Creusot — pinned nightly-2026-02-27
-        #creusotToolchain = fenix.packages.${system}.toolchainOf {
-          #channel = "nightly";
-          #date = "2026-02-27";
-          #sha256 = "sha256-5twI9QsrPl0ryOZ4POGYAivSeI08jgmWnv0wVvzbjcE=";
-        #};
+        creusotToolchain = fenix.packages.${system}.toolchainOf {
+          channel = "nightly";
+          date = "2026-02-27";
+          sha256 = "sha256-5twI9QsrPl0ryOZ4POGYAivSeI08jgmWnv0wVvzbjcE=";
+        };
 
-        #creusotToolchainCombined = fenix.packages.${system}.combine [
-          #creusotToolchain.rustc
-          #creusotToolchain.cargo
-          #creusotToolchain.rust-src
-          #creusotToolchain.rustc-dev
-        #];
+        creusotToolchainCombined = fenix.packages.${system}.combine [
+          creusotToolchain.rustc
+          creusotToolchain.cargo
+          creusotToolchain.rust-src
+          creusotToolchain.rustc-dev
+        ];
 
-        #creusotRustPlatform = pkgs.makeRustPlatform {
-          #rustc = creusotToolchainCombined;
-          #cargo = creusotToolchainCombined;
-        #};
+        creusotRustPlatform = pkgs.makeRustPlatform {
+          rustc = creusotToolchainCombined;
+          cargo = creusotToolchainCombined;
+        };
 
         # Z3 4.12.5 — Verus pins this exact version for solver compatibility
-        #z3-4125 = pkgs.callPackage ./nix/z3-4125.nix {};
+        z3-4125 = pkgs.callPackage ./nix/z3-4125.nix {};
 
         opencode = pkgs.callPackage ./nix/opencode.nix {};
         zellij   = pkgs.callPackage ./nix/zellij.nix {};
 
-        #verus = pkgs.callPackage ./nix/verus.nix {
-          #toolchain = verusToolchain;
-          #z3 = z3-4125;
-        #};
+        verus = pkgs.callPackage ./nix/verus.nix {
+          toolchain = verusToolchain;
+          z3 = z3-4125;
+        };
 
-        #mirai = pkgs.callPackage ./nix/mirai.nix {
-          #rustPlatform = miraiRustPlatform;
-          #toolchain = miraiToolchainCombined;
-        #};
+        mirai = pkgs.callPackage ./nix/mirai.nix {
+          rustPlatform = miraiRustPlatform;
+          toolchain = miraiToolchainCombined;
+        };
 
-        #creusot = pkgs.callPackage ./nix/creusot.nix {
-          #rustPlatform = creusotRustPlatform;
-          #toolchain = creusotToolchainCombined;
-        #};
+        creusot = pkgs.callPackage ./nix/creusot.nix {
+          rustPlatform = creusotRustPlatform;
+          toolchain = creusotToolchainCombined;
+        };
 
         in {
         packages.opencode = opencode;
         packages.default = opencode;
-        #packages.z3-4125 = z3-4125;
-        #packages.verus = verus;
-        #packages.cargo-mirai = mirai;
-        #packages.creusot = creusot;
+        packages.z3-4125 = z3-4125;
+        packages.verus = verus;
+        packages.cargo-mirai = mirai;
+        packages.creusot = creusot;
+
         packages.kani = pkgs.callPackage ./nix/kani.nix {
           inherit fenix system;
         };
@@ -162,9 +163,9 @@
             pkgs.cargo-deny
             pkgs.cargo-sort
             #pkgs.z3
-            #verus
-            #mirai
-            #creusot
+            verus
+            mirai
+            creusot
             pkgs.cargo-fuzz
             pkgs.cargo-audit
             pkgs.cargo-machete
@@ -180,6 +181,10 @@
             pkgs.nixfmt
             pkgs.topiary
             pkgs.taplo
+            # Additional language servers / tools requested for Helix
+            pkgs.marksman
+            pkgs.nodePackages.yaml-language-server
+            pkgs.nodePackages.vscode-langservers-extracted
           ];
 
           shellHook = ''

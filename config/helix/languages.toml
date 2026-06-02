@@ -26,3 +26,53 @@ name = "nushell"
 scope = "source.nushell"
 file-types = ["nu"]
 language-servers = ["nu-lsp"]
+
+[language-server.nixd]
+command = "nixd"
+
+[[language]]
+name = "nix"
+scope = "source.nix"
+file-types = ["nix"]
+language-servers = ["nixd"]
+
+[language-server.yaml-language-server]
+command = "yaml-language-server"
+args = ["--stdio"]
+
+[[language]]
+name = "yaml"
+scope = "source.yaml"
+file-types = ["yaml", "yml"]
+language-servers = ["yaml-language-server"]
+
+[language-server.vscode-json-languageserver]
+command = "vscode-json-languageserver"
+args = ["--stdio"]
+
+[[language]]
+name = "json"
+scope = "source.json"
+file-types = ["json"]
+language-servers = ["vscode-json-languageserver"]
+
+[language-server.marksman]
+command = "marksman"
+
+[[language]]
+name = "markdown"
+scope = "text.md"
+file-types = ["md", "markdown"]
+language-servers = ["marksman"]
+
+[[language]]
+name = "asciidoc"
+scope = "text.asciidoc"
+file-types = ["adoc", "asciidoc"]
+language-servers = []
+
+[[language]]
+name = "asn1"
+scope = "source.asn1"
+file-types = ["asn1"]
+language-servers = []
