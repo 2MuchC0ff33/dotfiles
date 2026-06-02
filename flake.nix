@@ -185,6 +185,10 @@
             pkgs.marksman
             pkgs.nodePackages.yaml-language-server
             pkgs.nodePackages.vscode-langservers-extracted
+            # Asciidoctor tooling (LSP may require gem install if not packaged)
+            pkgs.asciidoctor
+            pkgs.ruby
+            pkgs.rubyPackages.asciidoctor
           ];
 
           shellHook = ''
