@@ -123,6 +123,14 @@ components include:
 | cargo-sort
 | latest
 
+| Cargo Helper
+| cargo-crap
+| 0.2.2
+
+| Cargo Helper
+| cargo-llvm-cov
+| latest
+
 | Cross-Compilation
 | cargo-zigbuild + Zig linker
 | 0.22.3 / ≥0.14

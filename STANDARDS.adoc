@@ -524,6 +524,7 @@ pub unsafe fn blazing_fast_hash(input: &[u8]) -> u64 { ... }
 `++[++PROVED-VERUS++]++` — refinement-type proved with Verus (SMT-backed).
 `++[++PROVED-CREUSOT++]++` — deductively verified with Creusot (Why3 backend).
 `++[++TESTED++]++` — proptest with 10,000+ random cases per property.
+Functions annotated `[TESTED]` MUST also pass the CRAP metric gate (§6.3.1).
 `++[++LINTED++]++` — standard clippy + rustc warnings as errors (minimum bar for ALL code).
 `++[++FFI++_++AUDITED++]++` — unsafe code reviewed by two engineers, every unsafe block has a SAFETY comment.
 
@@ -696,6 +697,8 @@ ____
 | Verification (WhyML) | cargo-creusot | 0.11.0
 | Cargo Helper | cargo-sort | latest
 | Cargo Helper | cargo-machete | latest
+| Cargo Helper | cargo-llvm-cov | latest
+| Cargo Helper | cargo-crap | 0.2.2
 |Layer |Source |Pinning
 |System tools (zig, asciidoctor, pandoc, vale, cmake, etc.) |nixpkgs via
 `flake.nix` |`flake.lock` (merkle tree of ALL transitive deps)
@@ -2781,6 +2784,54 @@ proptest! {
 *MANDATE:* Every `serialize` function MUST have a corpus of known-good
 DER vectors. *MANDATE:* 10,000{plus} random test cases per property in
 CI.
+
+[#crap-metric-gate]
+==== 6.3.1 CRAP Metric Gate (cargo-crap)
+
+The CRAP (Change Risk Anti-Patterns) metric combines cyclomatic complexity
+and test coverage into a single risk score per function:
+
+....
+CRAP(m) = comp(m)² × (1 − cov(m)/100)³ + comp(m)
+
+Where:
+  comp(m) = cyclomatic complexity of the function
+  cov(m)  = line/branch coverage percentage (0–100)
+
+Threshold: 30  (functions above this score are flagged as high-risk)
+....
+
+A function annotated `[TESTED]` (§0.3.3) MUST NOT exceed the CRAP threshold.
+This gate enforces that `[TESTED]` annotations are honestly earned:
+a function with high cyclomatic complexity must have proportionally
+high test coverage to remain below the threshold.
+
+*MANDATE:* Every project SHALL run `cargo crap` as part of the CI pipeline
+after tests complete and before Kani proof harnesses run.
+*MANDATE:* CI SHALL fail if any function exceeds CRAP threshold 30.
+*MANDATE:* Functions annotated `[PROVED]` (Kani) are exempt from the CRAP
+gate — formal proof subsumes the complexity+coverage requirement.
+*MANDATE:* `cargo llvm-cov` SHALL be used to generate the LCOV coverage
+file consumed by `cargo crap`.
+*SHOULD:* Run `cargo crap --json` in CI for structured reporting.
+
+The two-command workflow:
+
+[source,bash]
+----
+# Step 1: generate LCOV coverage data
+cargo llvm-cov --lcov --output-path lcov.info
+
+# Step 2: compute and gate CRAP scores
+cargo crap --lcov lcov.info
+----
+
+RATIONALE: The CRAP metric captures *risk*, not just quantity.
+A trivial function with 0% coverage has CRAP score 1 and is not dangerous.
+A complex function (cyclomatic complexity 12) with 0% coverage has CRAP
+score 156 and IS dangerous.
+This aligns with §0.1: every line justifies its existence.
+Complex untested code is dead weight that conceals bugs.
 
 ==== 6.4 Fuzzing
 
@@ -5352,6 +5403,10 @@ every build is validated
 |cargo-sort |https://crates.io/crates/cargo-sort |*latest*
 
 |cargo-machete |https://crates.io/crates/cargo-machete |*latest*
+
+|cargo-llvm-cov |https://github.com/taiki-e/cargo-llvm-cov |latest
+
+|cargo-crap |https://github.com/minikin/cargo-crap |0.2.2
 
 |helix |https://helix-editor.com |25.07.1
 |opencode |https://opencode.ai |1.15.10

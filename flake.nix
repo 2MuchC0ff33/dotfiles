@@ -105,6 +105,23 @@
           toolchain = creusotToolchainCombined;
         };
 
+        # cargo-crap — CRAP metric gate (not in nixpkgs 26.05)
+        cargo-crap = pkgs.rustPlatform.buildRustPackage {
+          pname = "cargo-crap";
+          version = "0.2.2";
+          src = pkgs.fetchzip {
+            url = "https://github.com/minikin/cargo-crap/archive/refs/tags/v0.2.2.tar.gz";
+            sha256 = "sha256-yDoHqkMittJEFYxjpEb/C4+0sRg7ZnMpRO7a9aw5NvI=";
+          };
+          cargoLock = {
+            lockFileContents = builtins.readFile ./nix/cargo-crap.lock;
+          };
+          postPatch = ''
+            cp ${./nix/cargo-crap.lock} Cargo.lock
+          '';
+          doCheck = false;
+        };
+
         in {
         packages.opencode = opencode;
         packages.default = opencode;
@@ -112,6 +129,7 @@
         packages.verus = verus;
         packages.cargo-mirai = mirai;
         packages.creusot = creusot;
+        packages.cargo-crap = cargo-crap;
 
         packages.kani = pkgs.callPackage ./nix/kani.nix {
           inherit fenix system;
@@ -169,6 +187,8 @@
             pkgs.cargo-fuzz
             pkgs.cargo-audit
             pkgs.cargo-machete
+            pkgs.cargo-llvm-cov
+            cargo-crap
             # Layer 5: Kani model checking — mandatory STANDARDS.adoc §0.3.1
             self.packages.${system}.kani
             pkgs.cargo-zigbuild

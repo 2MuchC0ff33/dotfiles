@@ -55,14 +55,24 @@ sort-deps:
 machete:
     cargo machete
 
-# Full pre-commit pipeline
+# Compute CRAP metric (complexity + coverage risk gate).
+# Fails if any function exceeds CRAP threshold 30.
+# Requires: cargo llvm-cov and cargo crap installed.
+crap:
+    cargo llvm-cov --lcov --output-path lcov.info
+    cargo crap --lcov lcov.info
+    rm -f lcov.info
+
+# Full pre-commit pipeline with CRAP gate.
+# Run complete pre-commit check (lint + test + crap + sort + machete).
+# Generates coverage data before running CRAP gate.
 pre-commit:
-    cargo sort --workspace
-    cargo fmt --all --check
-    cargo clippy --all-targets --all-features -- -Dwarnings
-    cargo mirai
-    cargo audit
-    cargo deny check
+    cargo xtask check
+    cargo llvm-cov --lcov --output-path lcov.info
+    cargo crap --lcov lcov.info
+    rm -f lcov.info
+    cargo sort --check
+    cargo machete
 
 # Run all 16 pyramid layers locally (primary correctness pipeline)
 ci:
