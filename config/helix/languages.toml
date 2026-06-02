@@ -47,11 +47,7 @@ file-types = ["yaml", "yml"]
 language-servers = ["yaml-language-server"]
 
 [language-server.yaml-language-server.settings]
-yaml = { schemas = {
-  "https://json.schemastore.org/github-workflow" = ".github/workflows/*.{yml,yaml}",
-  "https://json.schemastore.org/kustomization" = "kustomization.{yml,yaml}",
-  "https://json.schemastore.org/chart" = "Chart.{yml,yaml}"
-}}
+yaml = { schemas = { "https://json.schemastore.org/github-workflow" = ".github/workflows/*.{yml,yaml}", "https://json.schemastore.org/kustomization" = "kustomization.{yml,yaml}", "https://json.schemastore.org/chart" = "Chart.{yml,yaml}" } }
 
 [language-server.vscode-json-languageserver]
 command = "vscode-json-languageserver"
@@ -65,8 +61,12 @@ language-servers = ["vscode-json-languageserver"]
 
 [language-server.vscode-json-languageserver.settings]
 json = { schemas = [
-  { fileMatch = ["/package.json"], url = "https://json.schemastore.org/package.json" },
-  { fileMatch = ["/tsconfig.json"], url = "https://json.schemastore.org/tsconfig.json" }
+  { fileMatch = [
+    "/package.json",
+  ], url = "https://json.schemastore.org/package.json" },
+  { fileMatch = [
+    "/tsconfig.json",
+  ], url = "https://json.schemastore.org/tsconfig.json" },
 ] }
 
 [language-server.marksman]

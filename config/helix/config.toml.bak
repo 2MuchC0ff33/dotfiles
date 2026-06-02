@@ -1,0 +1,32 @@
+# Backup of original helix config.toml
+# Created by OpenCode assistant
+
+[editor]
+line-number = "relative"
+mouse = false
+true-color = true
+completion-trigger-len = 1
+auto-info = true
+auto-completion = true
+idle-timeout = 250
+
+[editor.cursor-shape]
+insert = "bar"
+normal = "block"
+select = "underline"
+
+[editor.statusline]
+left = ["mode"]
+right = ["selections", "position", "file-encoding", "file-type"]
+
+[editor.lsp]
+display-messages = true
+enable = true
+
+[editor.whitespace]
+render = "all"
+
+[editor.whitespace.characters]
+space = "·"
+tab = "→"
+newline = "⏎"

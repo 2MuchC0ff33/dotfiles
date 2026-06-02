@@ -1,0 +1,31 @@
+# Backup of languages.toml
+# Created by OpenCode assistant
+
+# Pin LSP servers per language
+[language-server.rust-analyzer]
+command = "rust-analyzer"
+
+[language-server.taplo]
+command = "taplo"
+
+[[language]]
+name = "rust"
+scope = "source.rust"
+file-types = ["rs"]
+language-servers = ["rust-analyzer"]
+
+[[language]]
+name = "toml"
+scope = "source.toml"
+file-types = ["toml"]
+language-servers = ["taplo"]
+
+[language-server.nu-lsp]
+command = "nu"
+args = ["--lsp"]
+
+[[language]]
+name = "nushell"
+scope = "source.nushell"
+file-types = ["nu"]
+language-servers = ["nu-lsp"]

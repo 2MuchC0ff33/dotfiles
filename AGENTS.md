@@ -318,20 +318,9 @@ Node.js 22 LTS (npx) is provided by the Nix devShell (`flake.nix`).
 
 `npx` must be on PATH when opencode starts.
 Enter `nix develop` or `just shell` first, OR hardcode the Node.js nix store
-path in `env.nu` (see STANDARDS.adoc §14.8.3).
+path in `opencode.json` (see below).
 
-#### Nightly toolchain compatibility
-
-The Rust toolchain is pinned to rolling `nightly` (unpinned). This is required
-by verification tools (Miri, MIRAI, Creusot) and Edition 2024 features.
-Pinning to a specific date is blocked by fenix legacy URL format returning 404
-for DLC manifests.
-
-**Status:** Accepted. Rolling nightly is functionally equivalent to a dated
-pin for local development; CI should use `nix flake lock --update-input fenix`
-to control when the toolchain advances.
-
-### Known Issues
+### MCP on Alpine/musl — npx path hardcoding
 
 #### bash tool resolves nix glibc bash instead of musl `/bin/bash`
 
@@ -467,6 +456,37 @@ Verify: `nix develop . --command cargo kani --version`
 
 Do NOT run `cargo kani setup` — the Nix derivation provides the
 pre-built binary including the kani-compiler driver.
+
+### Verification Tool Versions
+
+| Tool | Version | Source |
+|------|---------|--------|
+| Kani | 0.67.0 | nix/kani.nix (pre-built binary, fetchzip + autoPatchelfHook) |
+| Miri | 1.98.0-nightly | fenix rolling nightly toolchain component |
+| Creusot | 0.11.0 | nix/creusot.nix (nightly-2026-02-27, source build) |
+| MIRAI | 1.1.12 | nix/mirai.nix (nightly-2025-01-10, source build) |
+| Verus | 0.2026.05.24 | nix/verus.nix (stable 1.95.0, source build via vargo) |
+| Z3 | 4.12.5 | nix/z3-4125.nix (CMake build, Verus solver) |
+
+### `RUSTC_BOOTSTRAP=1`
+
+Set in `nix/mirai.nix` and `nix/creusot.nix`. This is a build-time requirement
+for rustc-driver tools that link against `rustc_private`. It is NOT set in
+project code (`$RUSTFLAGS` in devShell does not contain `RUSTC_BOOTSTRAP`).
+
+### MCP servers — npx path hardcoding
+
+MCP servers (filesystem, memory, sequential-thinking) require the `npx`
+binary path to be hardcoded in `~/.config/opencode/opencode.json`.
+The path is a Nix store path and changes when the `nodejs` derivation is
+updated. Regenerate with:
+
+```
+nix develop . --command which npx
+```
+
+Then update each npx-based MCP server command array in `opencode.json`.
+This is required by STANDARDS.adoc §1.5.7 on Alpine/musl hosts.
 
 ### Nushell flake pin
 

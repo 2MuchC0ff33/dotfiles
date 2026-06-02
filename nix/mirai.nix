@@ -10,7 +10,7 @@ rustPlatform.buildRustPackage rec {
     rev = "refs/tags/v${version}";
     hash = "sha256-+H0JIbrwxMi3uMuxBqgVBzNkDYom8X616rH9y7YqIXg=";
   };
-  cargoHash = "sha256-QXQjbxZo0LfDyO4IpfiXvPum5THJq6apgWWLd0vcBAs=";
+  cargoHash = "sha256-hvLmtWbJ3T511iAz0LvWKbuuivPjsVuG+LQc705qlQA=";
   doCheck = false;
   nativeBuildInputs = [ toolchain pkgs.cmake pkgs.python3 pkgs.libclang pkgs.patchelf ];
   buildInputs = [ pkgs.gcc ];

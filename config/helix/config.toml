@@ -14,11 +14,11 @@ auto-completion = true
 idle-timeout = 250
 
 # Enable format on save — language formatters are configured in languages.toml
-format-on-save = true
+auto-format = true
 
 # Trim trailing whitespace and ensure a final newline on save (Q10)
 trim-trailing-whitespace = true
-ensure-final-newline = true
+insert-final-newline = true
 
 [editor.cursor-shape]
 insert = "bar"
@@ -55,17 +55,4 @@ render = true
 
 [editor.soft-wrap]
 # Enable soft wrap by filetype — markdown and asciidoc only
-enabled = false
-
-[editor.soft-wrap.file-types]
-markdown = true
-adoc = true
-asciidoc = true
-
-[editor.jujutsu]
-# Helix will use `jj` if available on PATH. These options are conservative.
-enabled = true
-auto-detect = true
-
-[editor.undo-history]
-persist = true
+enable = false
