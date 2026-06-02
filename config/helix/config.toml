@@ -1,5 +1,8 @@
 # helix config.toml — modal editor
-# Built-in LSP, tree-sitter, minimal configuration needed.
+# Minimal, safe enhancements applied by OpenCode assistant.
+
+# Theme: match opencode / tokyonight (dark)
+theme = "tokyonight"
 
 [editor]
 line-number = "relative"
@@ -10,6 +13,13 @@ auto-info = true
 auto-completion = true
 idle-timeout = 250
 
+# Enable format on save — language formatters are configured in languages.toml
+auto-format = true
+
+# Trim trailing whitespace and ensure a final newline on save (Q10)
+trim-trailing-whitespace = true
+insert-final-newline = true
+
 [editor.cursor-shape]
 insert = "bar"
 normal = "block"
@@ -17,11 +27,20 @@ select = "underline"
 
 [editor.statusline]
 left = ["mode"]
-right = ["selections", "position", "file-encoding", "file-type"]
+# Add diagnostics and version-control to the right statusline
+right = [
+  "selections",
+  "position",
+  "file-encoding",
+  "file-type",
+  "diagnostics",
+  "version-control",
+]
 
 [editor.lsp]
 display-messages = true
 enable = true
+auto-signature-help = true
 
 [editor.whitespace]
 render = "all"
@@ -30,3 +49,10 @@ render = "all"
 space = "·"
 tab = "→"
 newline = "⏎"
+
+[editor.indent-guides]
+render = true
+
+[editor.soft-wrap]
+# Enable soft wrap by filetype — markdown and asciidoc only
+enable = false

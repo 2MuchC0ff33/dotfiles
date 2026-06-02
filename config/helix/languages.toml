@@ -26,3 +26,69 @@ name = "nushell"
 scope = "source.nushell"
 file-types = ["nu"]
 language-servers = ["nu-lsp"]
+
+[language-server.nixd]
+command = "nixd"
+
+[[language]]
+name = "nix"
+scope = "source.nix"
+file-types = ["nix"]
+language-servers = ["nixd"]
+
+[language-server.yaml-language-server]
+command = "yaml-language-server"
+args = ["--stdio"]
+
+[[language]]
+name = "yaml"
+scope = "source.yaml"
+file-types = ["yaml", "yml"]
+language-servers = ["yaml-language-server"]
+
+[language-server.yaml-language-server.settings]
+yaml = { schemas = { "https://json.schemastore.org/github-workflow" = ".github/workflows/*.{yml,yaml}", "https://json.schemastore.org/kustomization" = "kustomization.{yml,yaml}", "https://json.schemastore.org/chart" = "Chart.{yml,yaml}" } }
+
+[language-server.vscode-json-languageserver]
+command = "vscode-json-languageserver"
+args = ["--stdio"]
+
+[[language]]
+name = "json"
+scope = "source.json"
+file-types = ["json"]
+language-servers = ["vscode-json-languageserver"]
+
+[language-server.vscode-json-languageserver.settings]
+json = { schemas = [
+  { fileMatch = [
+    "/package.json",
+  ], url = "https://json.schemastore.org/package.json" },
+  { fileMatch = [
+    "/tsconfig.json",
+  ], url = "https://json.schemastore.org/tsconfig.json" },
+] }
+
+[language-server.marksman]
+command = "marksman"
+
+[[language]]
+name = "markdown"
+scope = "text.md"
+file-types = ["md", "markdown"]
+language-servers = ["marksman"]
+
+[[language]]
+name = "asciidoc"
+scope = "text.asciidoc"
+file-types = ["adoc", "asciidoc"]
+language-servers = ["asciidoctor-lsp"]
+
+[language-server.asciidoctor-lsp]
+command = "asciidoctor-lsp"
+
+[[language]]
+name = "asn1"
+scope = "source.asn1"
+file-types = ["asn1"]
+language-servers = []
