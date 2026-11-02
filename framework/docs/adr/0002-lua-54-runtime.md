@@ -1,0 +1,19 @@
+# ADR 0002 — Lua 5.4 runtime
+
+Status: accepted.
+
+## Context
+
+Lua 5.5 was removed. Lua 5.4.9 is installed as `lua5.4` and `luac5.4`.
+Bare `lua` and `luac` may resolve to 5.1.
+
+## Decision
+
+All Lua source targets 5.4.9. `luac5.4 -p` is the parse gate. Bytecode is
+Lua 5.4 with header `1b4c756154`. Lua 5.5-only syntax is banned.
+
+## Consequences
+
+- `stylua --syntax Lua54`, `luacheck --std lua54`, LuaLS runtime 5.4.
+- `table.create`, `global`, named varargs, and prefix attributes fail audit.
+- The bytecode header check is exact.

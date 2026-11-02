@@ -1,0 +1,5 @@
+UTILITY: mandoc 1.14.6
+ADMITTED: -T lint, -T ascii, -T utf8
+BANNED: -T html (not needed), -T pdf (not needed)
+EXIT_STATUS: 0 clean, 2 warnings or errors
+RATIONALE: render and lint every man page; Lua manlint is the fallback

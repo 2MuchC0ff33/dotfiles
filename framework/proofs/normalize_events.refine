@@ -1,0 +1,34 @@
+return {
+  refinement = "normalize_events",
+  spec = {
+    input = "raw_event_stream",
+    output = "canonical_event_tsv",
+    precondition = {
+      "every line has 7 tab-separated fields",
+      "timestamp is integer Unix seconds",
+    },
+    postcondition = {
+      "output has exactly one canonical record per valid input record",
+      "output field order is fixed",
+      "no output record contains a raw newline",
+    },
+    failure = {
+      "malformed line => INPUT_INVALID",
+      "missing input => ENV_MISSING",
+    },
+    safety = {
+      "never emits a record with fewer than 7 fields",
+    },
+    determinism = true,
+    resource_bound = "input <= 100 MiB; one record per line",
+    liveness = "terminates after the last input line",
+  },
+  implementation = {
+    language = "awk",
+    entrypoint = "awk/normalize_events.awk",
+  },
+  checks = {
+    "tests/contract/normalize_events.sh",
+    "tests/property/normalize_events_prop.lua",
+  },
+}

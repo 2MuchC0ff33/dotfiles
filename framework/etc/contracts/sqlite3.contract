@@ -1,0 +1,5 @@
+UTILITY: sqlite3 3.54.1
+ADMITTED: -noheader, .mode csv, .import, .read, .schema, PRAGMA journal_mode=WAL
+BANNED: .shell, .system, .load
+EXIT_STATUS: 0 success, >0 failure
+RATIONALE: relational persistence owned by sh

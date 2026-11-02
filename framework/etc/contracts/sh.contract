@@ -1,0 +1,5 @@
+UTILITY: sh (BusyBox ash)
+ADMITTED: set -eu, printf, test, command -v, trap, wait, read, case, for, while, if, $(( ))
+BANNED: eval, echo for formatted output, [[ ]], function keyword, local, arrays, timeout
+EXIT_STATUS: propagate every nonzero status; no pipefail assumption
+RATIONALE: sole process orchestrator; no business logic

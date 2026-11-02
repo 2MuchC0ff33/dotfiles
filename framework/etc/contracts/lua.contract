@@ -1,0 +1,6 @@
+UTILITY: lua5.4 / luac5.4
+ADMITTED: io, os, string, table, math, utf8, coroutine; bitwise operators; <const> and <close> suffixes
+BANNED: io.popen, os.execute, os.time, os.date, math.random, package.loadlib, ffi, load/dofile/loadfile in lib/, table.create, global, named varargs, prefix attributes
+SYNTAX: Lua 5.4 only; luac5.4 -p must accept every file
+EXIT_STATUS: os.exit with errors.exit_code
+RATIONALE: pure transforms, validation, state

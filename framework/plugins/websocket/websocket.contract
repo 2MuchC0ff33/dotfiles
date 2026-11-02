@@ -1,0 +1,12 @@
+PLUGIN: websocket
+ENTRYPOINT: plugins/websocket/websocket.sh
+DEPENDENCY: websocat 1.14.1 (OPTIONAL)
+ADMITTED: wss:// only; allowlist from FW_PLUGIN_WEBSOCKET_ALLOWLIST;
+  one message per invocation; output to a file; fw_timeout 30.
+BANNED: ws://, arbitrary hosts, interactive mode, shell execution.
+EXIT_STATUS: 0 success, 1 edge failure, 2 usage, 3 contract violation,
+  4 missing dependency, 124 watchdog.
+OPT_IN: FW_PLUGINS=1 in etc/framework.conf. make verify excludes plugins;
+  make plugins runs plugins/websocket/tests/websocket.sh.
+RATIONALE: WebSocket transport is useful but not part of the POSIX core.
+  Keeping it in plugins/ preserves a zero-extension core.

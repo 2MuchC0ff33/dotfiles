@@ -1,0 +1,5 @@
+UTILITY: find (BusyBox 1.38)
+ADMITTED: -name, -type, -path, -prune, -exec ... {} +, -print, -newer, -size, -perm
+BANNED: -delete, -quit
+EXIT_STATUS: 0 success, >0 failure
+RATIONALE: file selection only

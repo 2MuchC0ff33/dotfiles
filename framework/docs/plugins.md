@@ -1,0 +1,47 @@
+# Plugins
+
+## Rules
+
+- A plugin lives in `plugins/<name>/`.
+- It has a contract, an entrypoint, a README, and a test.
+- It is **not** part of `make verify`.
+- `make plugins` runs `sh/tests/plugin_gate.sh`, which runs every plugin
+  test.
+- `etc/framework.conf` sets `FW_PLUGINS=1`; plugins are opted in by default
+  when explicitly invoked, but they never run during core verification.
+- A plugin must not introduce a non-POSIX utility into the core. The core
+  audit does not scan `plugins/`; the plugin contract is the boundary.
+
+## Reference plugin: websocket
+
+```text
+plugins/websocket/
+  websocket.contract
+  websocket.sh
+  README.md
+  tests/websocket.sh
+```
+
+Contract:
+
+- only `wss://`;
+- URL must match `FW_PLUGIN_WEBSOCKET_ALLOWLIST`;
+- one message per invocation, stdin to file;
+- bounded by `fw_timeout 30`;
+- exit 3 on contract violation, 4 on missing `websocat`, 124 on timeout.
+
+Usage:
+
+```sh
+printf 'hello\n' | sh plugins/websocket/websocket.sh \
+  wss://echo.websocket.events work/ws.out
+```
+
+## Adding a plugin
+
+1. Create `plugins/<name>/<name>.contract`.
+2. Create `plugins/<name>/<name>.sh` with `set -eu`, `fw_die`, and a trap.
+3. Create `plugins/<name>/tests/<name>.sh`.
+4. Add the test invocation to `sh/tests/plugin_gate.sh`.
+5. Run `make plugins`.
+6. Do not add the plugin to `make verify`.

@@ -1,0 +1,5 @@
+UTILITY: tcc 0.9.28rc, cppcheck 2.22.0, astyle 3.6.18
+ADMITTED: tcc -std=c99 -D_POSIX_C_SOURCE=200809L; cppcheck --std=c99 --error-exitcode; astyle --style=kr --indent=spaces=2 --dry-run --error-on-changes
+BANNED: tcc -std=c17, tcc -std=c11 as the primary gate, astyle without --dry-run, cppcheck without --error-exitcode
+EXIT_STATUS: 0 success, 3 analysis/format failure, 4 missing musl-dev
+RATIONALE: C99 baseline plus the POSIX.1-2017 API surface; no C11/C17 claim

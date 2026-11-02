@@ -1,0 +1,19 @@
+# ADR 0008 — plugins are opt-in and excluded from verify
+
+Status: accepted.
+
+## Context
+
+`websocat` is useful but not POSIX. Keeping it in core forces a waiver.
+
+## Decision
+
+Move optional transports to `plugins/<name>/`. Set `FW_PLUGINS=1` so they
+are enabled by default when explicitly invoked. Exclude them from
+`make verify`; run them with `make plugins`.
+
+## Consequences
+
+- Core verification has no network dependency.
+- Plugin contracts are separate from core contracts.
+- The websocket plugin is the reference implementation.

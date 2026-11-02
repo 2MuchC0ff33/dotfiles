@@ -1,0 +1,9 @@
+UTILITY: cksum (POSIX / BusyBox 1.38)
+ADMITTED: file operands, stdin, multiple files
+BANNED: none; cksum has no options
+EXIT_STATUS: 0 all files processed, >0 error
+FORMAT: "%u %d %s\n" (CRC32, octet count, pathname)
+SECURITY: CRC32 is an integrity check, not a cryptographic hash. Use the
+  websocket plugin only for transport, never for tamper evidence. A future
+  sha256 plugin may be added for adversarial integrity.
+RATIONALE: POSIX-native manifest for every final artifact

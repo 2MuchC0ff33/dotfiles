@@ -1,0 +1,10 @@
+# Generated state. Never commit.
+work/
+build/
+srv/
+spool/
+etc/framework.local.conf
+
+# Transient artifacts.
+*.tmp
+*.cksum

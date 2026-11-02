@@ -1,0 +1,18 @@
+return {
+  stage_id = "normalize_events",
+  purpose = "Convert raw event lines into canonical TSV",
+  inputs = { "spool/events.raw" },
+  outputs = { "work/events.normalized.tsv" },
+  tool_or_language = "awk",
+  determinism = true,
+  failure_modes = {
+    "malformed record",
+    "missing field",
+    "invalid timestamp",
+  },
+  validation = {
+    "field count == 7",
+    "timestamp matches ^-?[0-9]+$",
+  },
+  proof_reference = "proofs/normalize_events.refine",
+}

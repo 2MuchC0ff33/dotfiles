@@ -1,0 +1,19 @@
+# ADR 0007 — dual man-page gates
+
+Status: accepted.
+
+## Context
+
+The old plan only checked `.TH`/`.SH`. mandoc 1.14.6 is installed. A host
+without mandoc still needs a fail-closed check.
+
+## Decision
+
+Run `mandoc -T lint` and `mandoc -T ascii` when mandoc is present. Always
+run `lib/manlint.lua` as a structural fallback. Both are in `make man`.
+
+## Consequences
+
+- Unknown macros fail the Lua gate.
+- Empty NAME sections fail the Lua gate.
+- mandoc warnings fail the shell gate (rc 2).
