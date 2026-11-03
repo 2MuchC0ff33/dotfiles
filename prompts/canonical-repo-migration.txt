@@ -1,0 +1,192 @@
+Full repository migration prompt
+===============================
+
+Paste this whole file into OpenCode Plan mode while you are in the target
+repository. Replace nothing unless the plan asks you to. Do not use it in a
+repository whose owner has not agreed to a CVS-first migration.
+
+You are the canonical Plan agent for this repository. The operator wants a
+full migration to the canonical toolchain and version control policy, not a
+partial lint pass. Use the canonical Plan protocol end to end.
+
+Mission
+-------
+
+Migrate this repository to:
+
+- POSIX.1-2017 only.
+- POSIX sh orchestration only; Lua 5.4.9 is the primary language; bytecode
+  .luac is generated, never committed.
+- C99 with tcc only if native code is needed.
+- Plain-text ASCII documentation; roff manuals with mandoc.
+- POSIX make automation at the repository root and in any framework/docs.
+- CVS as the local canonical VCS at /home/twomuchcoffee/CVS/<module>.
+- Git only as a signed mirror to GitHub; no rewriting history.
+- GPG signing for mirror commits and release manifests.
+- All skills, docs, gates, and configuration updated to follow the same
+  toolchain, documentation, and version control rules.
+
+Hard constraints
+----------------
+
+- No implementation before explicit operator approval.
+- No framework gate may be weakened.
+- No generated build/ or work/ content may be committed.
+- No .luac may be tracked.
+- No jq, bc, local, mktemp, grep -r, GNU-only options, or POSIX 2024 tools.
+- Documentation is ASCII; human docs use .txt; tool-mandated .md files only
+  where required and content must be ASCII.
+- CVS departments/tags must not rewrite history.
+- No force-push. If a mirror update would require force-push, stop.
+- Delete GitHub branches only after proving they are disposable or after the
+  operator explicitly approves deletion.
+- Keep untracked operator files; ask if they should be carried into the CVS
+  checkout.
+
+Mandatory workflow
+------------------
+
+Phase 0: intake and profile
+
+1. Identify the repository root, remote URL, current branch, untracked files,
+   ignored files, build system, language/toolchain, and whether a framework
+   directory exists.
+2. Read AGENTS.md, README.*, build manifests, .gitignore/.cvsignore, and
+   existing skills.
+3. Record the OpenCode version and the installed toolchain: sh, cvs, git,
+   dbclient, dropbear, gpg, make, mandoc, lua5.4, luac5.4, sqlite3, wget,
+   websocat, tcc, awk, sed, grep, find.
+4. Check whether the repository is Git, CVS, or neither. Do not assume.
+
+Phase 1: questions before tools
+
+Ask the operator with batched multiple-choice questions, at most seven per
+call, recommended option first, and require decisions on:
+
+- Scope: dotfiles-specific toolchain only, or all affected projects?
+- CVS location: default /home/twomuchcoffee/CVS/<module>, or a custom path.
+- Module name: default the repository directory name, or a custom module.
+- Migration shape: import current HEAD once (default), replay history, or
+  fresh start with an archived Git repository.
+- GitHub policy: mirror HEAD snapshots to dev and main (default), release
+  only, or other.
+- Branch deletion: list any stale remote branches and whether unique commits
+  may be discarded; require explicit per-branch approval if not merged.
+- Savannah: now or later. If later, keep GitHub mirror only and record the
+  Savannah plan as a separate handover.
+- Release signing: gpg sign mirror commits and release manifests; state which
+  key to use if more than one is available.
+- Documentation: convert all Markdown docs to ASCII .txt, keep tool-mandated
+  .md ASCII, and update references.
+- Untracked files: keep, commit as source, ignore, or delete only with
+  explicit approval.
+
+Do not proceed until all BLOCKING decisions are answered. Never guess a
+CVSROOT, module, remote, branch, or signing key.
+
+Phase 2: verification before mutation
+
+1. Confirm the repository is clean or ask about untracked files.
+2. Fetch origin and record current remote tips.
+3. If Git history is to be imported, stage the exact HEAD tracked files using
+   git ls-files and cp -p; do not use tar, rsync, or archive flags.
+4. Produce a checksum manifest for the staged tree.
+5. Preserve the existing Git repository at /home/twomuchcoffee/.local/archive.
+6. If a CVS root does not exist, ask before creating it.
+
+Phase 3: ASCII documentation and toolchain conversion
+
+1. Rename human .md docs to .txt; keep .md only for tool-mandated files
+   such as AGENTS.md, SKILL.md, and OpenCode agent/command files.
+2. Convert tracked documentation content to ASCII using explicit byte-wise
+   mappings; fail on any remaining non-ASCII byte.
+3. Update cross-references from .md to .txt.
+4. Add .cvsignore and update .gitignore; never commit work/ or build/.
+5. Add or update a root POSIX Makefile and, if a framework directory exists,
+   extend its Makefile with ASCII and VCS gates.
+6. Move validation logic to Lua 5.4.9 modules compiled to .luac; shell remains
+   orchestration only; .sed/.awk files hold stream/record transforms.
+7. Add or update .sed and .awk files instead of embedding large transforms.
+8. Ensure no .luac is tracked; build/ is ignored and reproducible.
+
+Phase 4: CVS migration
+
+1. Create or confirm the CVS root: /home/twomuchcoffee/CVS.
+2. If the module does not exist, import the staged HEAD with:
+   cvs -d /home/twomuchcoffee/CVS/<module> init
+   cvs -d /home/twomuchcoffee/CVS/<module> import -m "<message>" <module> <vendor> <release>
+3. Verify the import with a cksum manifest against the staged tree.
+4. Move the old repository to the archive; do not delete it.
+5. Check out CVS into the original path.
+6. Verify cvs status is clean and the manifest matches before any further
+   implementation work.
+
+Phase 5: Git mirror
+
+1. Create or use /home/twomuchcoffee/.local/src/<module>-mirror as a Git
+   mirror. It is not a second working tree for development.
+2. Fetch origin; for each target branch, create a signed snapshot commit
+   whose parent is the remote tip. Push without force.
+3. Verify origin/dev and origin/main (or the agreed branches) point at the
+   snapshot commits and signatures verify.
+4. Delete stale remote branches only after explicit approval. If any has
+   unique commits not reachable from the remote, stop and ask.
+5. Run aggressive cleanup in the mirror: fetch --prune, worktree prune,
+   reflog expire, gc, fsck.
+6. Verify no untracked files are staged and no unintended branches remain.
+
+Phase 6: release signing
+
+1. Create a CVS tag for the verified snapshot, for example
+   RELEASE_YYYYMMDD.
+2. Export the tag to a temporary directory outside the working tree.
+3. Generate a cksum manifest for the export.
+4. Sign the manifest with gpg --armor --detach-sign.
+5. Verify the signature before reporting completion.
+6. Do not publish anything until verification passes.
+
+Phase 7: gates and report
+
+1. Run root and framework verification, including any new ASCII and VCS
+   gates. Do not weaken a failing gate.
+2. Check `cvs status` is clean.
+3. Confirm the Git mirror matches CVS HEAD on the approved branches.
+4. Confirm the signed manifest verifies.
+5. Report: imported revision, mirror commit IDs, deleted branches, archive
+   path, gate exit codes, residual risks, and any operator actions still
+   pending.
+
+Savannah follow-up
+------------------
+
+Do not configure Savannah until the operator explicitly chooses the module
+name and repository. When approved:
+
+1. Use the Savannah CVS instructions for account setup and SSH via dbclient.
+2. Create the local CVS module and push to Savannah only after local
+   verification passes.
+3. Keep GitHub as mirror unless the operator changes that policy.
+4. Record the new canonical remote in the repository docs and in any
+   relevant skills.
+
+Stop conditions
+---------------
+
+Stop and ask if:
+
+- the tree is dirty and untracked files may be user work;
+- the remote tips changed during the operation;
+- a manifest differs after import;
+- a branch has unique commits outside dev/main or an approved deletion list;
+- gpg cannot sign or verify;
+- mandoc fails;
+- a gate must be weakened to pass;
+- any required tool is missing;
+- a file cannot be proven safe to migrate;
+- the operator has not answered a BLOCKING question.
+
+Ready to execute
+----------------
+
+When all questions are answered and verification passes, switch to the Build
+agent and execute the generated handover. Do not implement in Plan mode.

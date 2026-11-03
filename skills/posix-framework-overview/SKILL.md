@@ -16,6 +16,9 @@ its stages, or its release process.
 - Lua 5.4.9 only; use `lua5.4` and `luac5.4`.
 - C99 only; `__STDC_VERSION__` must be `199901L`.
 - `make verify` is the definition of done.
+- CVS is the canonical local VCS; Git is a mirror only.
+- Documentation is plain-text ASCII; manuals use roff and mandoc.
+- Generated `.luac` files and `build/` are never committed.
 - Plugins are excluded from `make verify`; use `make plugins`.
 
 ## Commands

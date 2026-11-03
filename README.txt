@@ -10,6 +10,7 @@ Contents
 - skills/       Canonical OpenCode skills, installed by skills/install.sh.
 - agents/       Canonical Plan agent and eight read-only plan subagents.
 - commands/     /plan and /execute-plan commands.
+- prompts/       Plain-text prompts for repeated Plan-mode migrations.
 - planmode      Deterministic installer and verifier.
 - man/          planmode(1) manual.
 - doc/          Plain-text operator guide.
