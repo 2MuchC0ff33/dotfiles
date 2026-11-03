@@ -18,9 +18,8 @@ make plugins
 
 - `make verify` rc 0.
 - `make plugins` rc 0.
-- `git diff --check` clean.
-- No generated files in `git status`.
-- Negative scenarios in the handoff fail with the documented codes.
+- `cvs diff` clean and the CVS working tree has no generated files.
+- The Git mirror is updated only as a signed HEAD snapshot and never force-pushed.
 
 ## Report
 
