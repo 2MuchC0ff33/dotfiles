@@ -25,18 +25,28 @@ Quickstart
 OpenCode Plan Mode
 ------------------
 
-  sh install.sh --dry-run
-  ./planmode install
-  ./planmode status
-  opencode reload
+# PATH setup (login shell reads ~/.profile; interactive shells read ~/.ashrc)
+# ~/.local/bin is prepended automatically.
+
+sh install.sh --dry-run
+./planmode install
+./planmode status
+opencode reload
+
+Equivalent short commands:
+
+  pm -v     verify
+  pm -x     upgrade-check
+  pm -b     backup config
+  pm -s     status
 
 Then press Tab to enter Plan mode and give only the request. When the
 handover is ready, switch to Build and run /execute-plan.
 
 After an upgrade:
 
-  ./planmode upgrade-check
-  ./planmode verify
+  pm -x
+  pm -v
 
 Version control
 ---------------

@@ -1,7 +1,19 @@
 #!/bin/sh
 set -eu
 
-root=$(CDPATH= cd -- "$(dirname -- "$0")" && pwd)
+self=$0
+case "$self" in
+  /*) script_path=$self ;;
+  *) script_path=$(command -v -- "$self") ;;
+esac
+while [ -L "$script_path" ]; do
+  script_path=$(ls -l "$script_path" | sed -n 's/^.* -> //p')
+  case "$script_path" in
+    /*) ;;
+    *) script_path=$(dirname -- "$script_path")/$script_path ;;
+  esac
+done
+root=$(CDPATH= cd -- "$(dirname -- "$script_path")" && pwd)
 config_dir=${OPENCODE_CONFIG_DIR:-${XDG_CONFIG_HOME:-$HOME/.config}/opencode}
 config=${OPENCODE_CONFIG:-$config_dir/opencode.json}
 tested_version=${OPENCODE_TESTED_VERSION:-2.2.5}
@@ -13,19 +25,24 @@ err() { printf 'error: %s\n' "$*" >&2; }
 
 usage() {
   cat <<'MAN'
-usage: ./planmode <command> [options]
+usage: pm [command] [options]
 commands:
-  build            Build Lua bytecode into build/planmode
-  install          Install symlinks and managed config key
-  repair           Re-create safe symlinks and config key
-  verify           Verify files, config, and agent discovery
-  upgrade-check    Strict compatibility check after opencode upgrade
-  status           Read-only health report
-  backup           Create timestamped config backup
-  restore <file>   Restore global config from backup
-  reload           Run opencode reload or print restart instruction
-  uninstall        Remove managed symlinks and config key
-  help             Show this help
+  install| -i|--install   Install symlinks and managed config key
+  repair | -q|--repair     Re-create safe symlinks and config key
+  verify  | -v|--verify     Verify files, config, and agent discovery
+  upgrade-check | -x|--upgrade-check  Strict compatibility check
+  status  | -s|--status     Read-only health report
+  backup  | -b|--backup     Create timestamped config backup
+  restore <file> | -r|--restore <file>  Restore global config from backup
+  reload  | -l|--reload     Run opencode reload or print restart instruction
+  uninstall | -u|--uninstall Remove managed symlinks and config key
+  help    | -h|--help       Show this help
+
+Examples:
+  pm -v
+  pm -x
+  pm -b
+  pm -r ~/.config/opencode/opencode.json.pre-planmode.20261103T112009Z
 MAN
 }
 
@@ -97,21 +114,32 @@ install_links() {
   fi
 }
 
-cmd=${1:-status}
+cmd=${1:-help}
 [ $# -gt 0 ] && shift
-
 case "$cmd" in
-  help|-h|--help) usage; exit 0 ;;
+  -i|--install) cmd=install ;;
+  -q|--repair) cmd=repair ;;
+  -v|--verify) cmd=verify ;;
+  -x|--upgrade-check) cmd=upgrade-check ;;
+  -s|--status) cmd=status ;;
+  -b|--backup) cmd=backup ;;
+  -r|--restore) cmd=restore ;;
+  -l|--reload) cmd=reload ;;
+  -u|--uninstall) cmd=uninstall ;;
+  -h|--help) cmd=help ;;
+esac
+case "$cmd" in
+  help) usage; exit 0 ;;
   build) make -C "$root" build ;;
   install)
     install_links 0
     write_config_add
-    ./planmode verify
+    "$root/planmode" verify
     ;;
   repair)
     sh "$root/install.sh"
     write_config_add
-    ./planmode verify
+    "$root/planmode" verify
     ;;
   verify|upgrade-check)
     resolve_bin
@@ -147,7 +175,7 @@ case "$cmd" in
     "$bin" --version | sed -n 's/^[^ ]* //p' | sed 's/^v//'
     printf 'tested OpenCode: %s\n' "$tested_version"
     [ -f "$config" ] && ok "config exists" || warn "config missing"
-    ./planmode verify || exit 1
+    "$root/planmode" verify || exit 1
     ;;
   backup) config_backup ;;
   restore)

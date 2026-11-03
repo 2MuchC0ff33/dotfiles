@@ -11,32 +11,52 @@
 .Sh DESCRIPTION
 .Nm
 creates and verifies the symlinks, commands, skills, and global configuration
-required for the canonical Plan-mode workflow.
+required for the canonical OpenCode Plan-mode workflow.
 It is POSIX sh orchestration over Lua 5.4 bytecode.
 It does not mutate the repository except during
 .Cm install
 with explicit consent, and it does not force-push or rewrite history.
 .Sh COMMANDS
 .Cm install
-Install links and the managed config key.
+Install links and the managed config key (short option: \\-i)
+.Pp
+.Cm repair
+Re-create safe symlinks and config key (short option: \\-q)
 .Pp
 .Cm verify
-Verify the installed files and OpenCode discovery.
+Verify the installed files and OpenCode discovery (short option: \\-v)
 .Pp
 .Cm upgrade-check
-Require the tested OpenCode baseline.
+Require the tested OpenCode baseline (short option: \\-x)
 .Pp
 .Cm status
-Print a read-only health report.
+Print a read-only health report (short option: \\-s)
 .Pp
 .Cm backup
-Create a timestamped config backup.
+Create a timestamped config backup (short option: \\-b)
 .Pp
 .Cm restore Ar file
-Restore the global config from a backup.
+Restore the global config from a backup (short option: \\-r)
+.Pp
+.Cm reload
+Run opencode reload or print a restart instruction (short option: \\-l)
 .Pp
 .Cm uninstall
-Remove managed links and the managed config key.
+Remove managed links and the managed config key (short option: \\-u)
+.Pp
+.Cm help
+Show usage (short option: \\-h)
+.Sh ENVIRONMENT
+.Op EV OPENCODE_CONFIG Path to the OpenCode config file. Defaults to $HOME/.config/opencode/opencode.json .
+.Pp
+.Op EV OPENCODE_TESTED_VERSION OpenCode version the workflow was last verified against. Defaults to 2.2.5 .
+.Pp
+.Op EV OPENCODE_BIN Path to the opencode binary .
+.Sh FILES
+.Pa ~/.local/bin/planmode symlink to this script for PATH invocation .
+.Pp
+.Pa ~/.local/bin/pm shortcut symlink to this script .
+.Pa ~/.profile .Pa ~/.ashrc prepend .Pa ~/.local/bin to PATH for login and interactive shells .
 .Sh EXIT STATUS
 .Ex -std
 .Sh SEE ALSO

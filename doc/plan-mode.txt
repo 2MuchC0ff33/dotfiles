@@ -15,6 +15,21 @@ Use
 Press Tab to enter Plan mode. Give only the request. Answer questions. Review
 and approve the handover. Switch to Build and run /execute-plan.
 
+PATH shortcuts
+--------------
+
+~/.local/bin is prepended by ~/.profile and ~/.ashrc. Short commands:
+
+  pm -v     verify
+  pm -x     upgrade-check
+  pm -b     backup config
+  pm -s     status
+
+Full path form:
+
+  ./planmode install
+  ./planmode status
+
 Artifacts
 ---------
 
@@ -40,6 +55,12 @@ After opencode upgrade
 
   ./planmode upgrade-check
   ./planmode verify
+
+Uninstall
+---------
+
+  ./planmode uninstall
+  opencode reload
 
 If verification fails, fix the compatibility pieces, re-run make build, and
 then repeat the checks. Do not bypass the gate.

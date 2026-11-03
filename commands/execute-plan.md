@@ -51,8 +51,8 @@ Run:
 ```sh
 make verify
 make ascii
-./planmode verify
-./planmode upgrade-check
+pm verify
+pm upgrade-check
 mandoc -T lint man/planmode.1
 ```
 

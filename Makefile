@@ -22,6 +22,7 @@ verify: build
 	find lib tools -type f -name '*.lua' -exec $(LUAC) -p {} \;
 	./planmode verify
 	$(MAND) -T lint man/planmode.1
+	$(MAKE) ascii
 	cd framework && $(MAKE) verify
 
 ascii:
