@@ -25,7 +25,7 @@ verify: build
 	cd framework && $(MAKE) verify
 
 ascii:
-	@find . -path ./.git -prune -o -path ./CVS -prune -o -path ./work -prune -o -path ./build -prune -o -type f -print | \
+	@find . -path ./.git -prune -o -path ./CVS -prune -o -path ./work -prune -o -path ./build -prune -o -path ./framework/build -prune -o -path ./framework/work -prune -o -type f -print | \
 	  while IFS= read -r f; do case "$$f" in \
 	    *.luac|*.png|*.jpg|*.gif|*.db|*.raw|*.bin|*.pcap) ;; \
 	    *) if LC_ALL=C tr '\t' ' ' < "$$f" | grep -Iq '[^ -~]'; then printf 'non-ascii: %s\n' "$$f" >&2; exit 1; fi ;; \
