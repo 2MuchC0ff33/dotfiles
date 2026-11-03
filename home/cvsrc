@@ -1,0 +1,30 @@
+# ~/.cvsrc - CVS client per-command option defaults
+#
+# Stored in the dotfiles CVS repo at home/cvsrc and symlinked to ~/.cvsrc.
+# CVS reads this file for default options per command.  Lines are of the form:
+#   command  option [option ...]
+#
+# Keep free of passwords, tokens, keys, and host/user secrets.  This file is
+# safe for a public mirror.
+
+# Global: quiet by default (less noisy output)
+cvs -q
+
+# diff: unified context diff
+diff -u
+
+# update: prune removed dirs, reset sticky tags/dates
+update -P
+
+# release: remove working dir after successful release
+release -d
+
+# log: show revisions on the main trunk only by default
+log -r
+
+# commit: use the editor defined by $EDITOR / $VISUAL (no inline -m default here;
+# commit messages are supplied on the command line per repo policy)
+commit
+
+# checkout: do not create a top-level CVS directory at repo root
+checkout -l

@@ -1,0 +1,23 @@
+[Default Applications]
+x-scheme-handler/http=userapp-LibreWolf-A2BHX3.desktop
+x-scheme-handler/https=userapp-LibreWolf-A2BHX3.desktop
+x-scheme-handler/chrome=userapp-LibreWolf-A2BHX3.desktop
+text/html=userapp-LibreWolf-A2BHX3.desktop
+application/x-extension-htm=userapp-LibreWolf-A2BHX3.desktop
+application/x-extension-html=userapp-LibreWolf-A2BHX3.desktop
+application/x-extension-shtml=userapp-LibreWolf-A2BHX3.desktop
+application/xhtml+xml=userapp-LibreWolf-A2BHX3.desktop
+application/x-extension-xhtml=userapp-LibreWolf-A2BHX3.desktop
+application/x-extension-xht=userapp-LibreWolf-A2BHX3.desktop
+
+[Added Associations]
+x-scheme-handler/http=userapp-LibreWolf-A2BHX3.desktop;
+x-scheme-handler/https=userapp-LibreWolf-A2BHX3.desktop;
+x-scheme-handler/chrome=userapp-LibreWolf-A2BHX3.desktop;
+text/html=userapp-LibreWolf-A2BHX3.desktop;
+application/x-extension-htm=userapp-LibreWolf-A2BHX3.desktop;
+application/x-extension-html=userapp-LibreWolf-A2BHX3.desktop;
+application/x-extension-shtml=userapp-LibreWolf-A2BHX3.desktop;
+application/xhtml+xml=userapp-LibreWolf-A2BHX3.desktop;
+application/x-extension-xhtml=userapp-LibreWolf-A2BHX3.desktop;
+application/x-extension-xht=userapp-LibreWolf-A2BHX3.desktop;

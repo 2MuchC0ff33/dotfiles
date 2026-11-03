@@ -1,0 +1,132 @@
+Upgrading OpenCode safely
+========================
+
+Before you exit this session, record the current state. This is optional but
+recommended:
+
+  cd /home/twomuchcoffee/.local/src/dotfiles
+  make build
+  pm -b
+  pm -s
+
+After running opencode upgrade in the CLI, do these checks in order:
+
+  opencode --version
+  opencode reload
+  cd /home/twomuchcoffee/.local/src/dotfiles
+  pm -x
+  pm -s
+  pm -v
+
+If opencode reload is unavailable, restart OpenCode before debugging.
+
+Useful one-shot check:
+
+  opencode --version
+  OPENCODE_TESTED_VERSION=$(opencode --version | sed 's/^[^ ]* //' | sed 's/^v//') \
+    pm -x
+
+Expected result:
+
+  opencode --version prints the new version.
+  pm -x prints:
+    ok: OpenCode version X matches tested baseline
+    ok: agents verified
+    ok: root files verified
+    ok: protocol verified
+    ok: upgrade-check passed
+
+PATH shortcuts
+--------------
+
+~/.local/bin is prepended by ~/.profile and ~/.ashrc. Short commands:
+
+  pm -v     verify
+  pm -x     upgrade-check
+  pm -b     backup config
+  pm -s     status
+
+Full path form remains available:
+
+  ./planmode install
+  ./planmode verify
+  ./planmode upgrade-check
+
+If only the version differs, this is expected. Do not edit files just to
+silence the check. Read the release notes and confirm the v2 agent and
+configuration schema before changing the tested baseline.
+
+If verification fails
+---------------------
+
+Read the lines starting with "error:".
+
+Case: config missing experimental.subagent_depth=2
+
+  pm install
+  opencode reload
+  pm verify
+
+Case: plan agent or plan-* subagent missing
+
+  pm repair
+  opencode reload
+  opencode debug agents | grep '"id": "plan"'
+  opencode debug agents | grep -c '"id": "plan-'
+  pm verify
+
+Expected: one plan agent and eight subagents.
+
+Case: config parse failure or MCP broke
+
+  pm restore /home/twomuchcoffee/.config/opencode/opencode.json.pre-planmode.<timestamp>
+  opencode reload
+  pm verify
+
+Case: skills are missing or stale
+
+  ls -l ~/.config/opencode/skills
+  pm install
+  opencode reload
+  pm verify
+
+Case: the agent/config schema changed
+
+  Read the release notes and the v2 agent and permission documentation.
+  Update agents/plan.md and the plan-* subagent permission rules to the new
+  schema.
+  Run make verify, pm repair, opencode reload, and pm upgrade-check.
+
+Never bypass the gate by deleting or weakening checks. If the schema changed
+unsafely, restore the backup and ask for help before editing remote config.
+
+Sync checklist
+--------------
+
+- opencode --version is the intended version.
+- opencode debug config contains experimental.subagent_depth=2.
+- opencode debug agents lists plan and eight plan-* agents.
+- ~/.config/opencode/agents points to this repository.
+- ~/.config/opencode/commands points to this repository.
+- ~/.config/opencode/skills/* symlinks point to this repository.
+- pm verify passes.
+- make verify passes.
+
+Broken state
+------------
+
+If you cannot repair the install:
+
+  cd /home/twomuchcoffee/.local/src/dotfiles
+  pm restore /home/twomuchcoffee/.config/opencode/opencode.json.pre-planmode.<timestamp>
+  pm uninstall
+  opencode reload
+
+This restores the previous config and removes the managed symlinks. It does
+not delete this repository or the CVS repository.
+
+CVS and Git mirror
+------------------
+
+After an upgrade-compatible change, commit the tool changes to CVS and mirror
+the new HEAD snapshot to GitHub dev and main. Do not force-push.

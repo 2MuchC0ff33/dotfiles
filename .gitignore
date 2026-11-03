@@ -5,3 +5,12 @@ spool/
 .git/
 *.tmp
 *.cksum
+# Secret-bearing paths - never commit or mirror these (defense in depth)
+home/ssh/id_*
+home/ssh/known_hosts
+home/ssh/authorized_keys
+home/gnupg/private-keys-v1.d/
+home/gnupg/openpgp-revocs.d/
+config/opencode/secrets/
+config/opencode/service.json
+.local/.env
