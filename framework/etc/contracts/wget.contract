@@ -1,0 +1,8 @@
+UTILITY: wget (BusyBox 1.38)
+ADMITTED: -q, -S, -T SEC, -O FILE, -U AGENT, --no-check-certificate
+BANNED: --tries, --timeout, -c, --post-data, --post-file
+EXIT_STATUS: 0 success, 1 any failure (DNS, 404, timeout, bad option)
+SEMANTICS: -T covers connect and read, not DNS; wrap the call in
+  sh/lib/timeout.sh for an overall wall-clock bound. -q -S sends headers to
+  stderr; never parse them.
+RATIONALE: sole sanctioned HTTPS edge; not part of the POSIX core

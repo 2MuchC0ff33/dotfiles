@@ -1,0 +1,4 @@
+alpha	created	1700000000	user-1	session-1	web	{"k":"v"}
+beta	updated	1700000060	user-2	session-2	api	{"k":"w"}
+gamma	deleted	1700000120	user-3	session-3	web	{"k":"x"}
+delta	created	-1	user-4	session-4	batch	{"k":"y"}

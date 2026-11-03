@@ -1,0 +1,22 @@
+# tool	expected_ere	tier	probe
+lua5.4	Lua 5\.4\.9	REQUIRED	lua
+luac5.4	Lua 5\.4\.9	REQUIRED	luac
+luacheck	Luacheck: 1\.2\.0	REQUIRED	luacheck
+stylua	stylua 2\.6\.0	REQUIRED	stylua
+lua-language-server	lua-language-server-3\.16\.1-r1	REQUIRED	lls
+sh	BusyBox v1\.38\.0	REQUIRED	busybox
+awk	BusyBox v1\.38\.0	REQUIRED	busybox
+sed	BusyBox v1\.38\.0	REQUIRED	busybox
+grep	BusyBox v1\.38\.0	REQUIRED	busybox
+find	BusyBox v1\.38\.0	REQUIRED	busybox
+cksum	BusyBox v1\.38\.0	REQUIRED	busybox
+wget	BusyBox v1\.38\.0	REQUIRED	busybox
+make	GNU Make 4\.4\.1	REQUIRED	make
+sqlite3	3\.54\.1	REQUIRED	sqlite
+getconf	200809	REQUIRED	getconf
+tcc	tcc version 0\.9\.28rc	REQUIRED	tcc
+cppcheck	Cppcheck 2\.22\.0	REQUIRED	cppcheck
+astyle	Artistic Style Version 3\.6\.18	REQUIRED	astyle
+mandoc	mandoc-1\.14\.6-r17	REQUIRED	mandoc
+musl-dev	musl-dev ok	C_REQUIRED	musldev
+websocat	websocat 1\.14\.1	OPTIONAL	websocat

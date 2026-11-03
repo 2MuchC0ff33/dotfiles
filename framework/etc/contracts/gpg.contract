@@ -1,0 +1,12 @@
+contract: gpg 2
+class: EXT
+allowed_scopes:
+  - signing Git mirror commits with existing key B361DAAA94AB488C
+  - signing release manifests
+  - verifying signatures before publish
+banned_actions:
+  - generating keys without operator approval
+  - deleting secret keys
+  - importing keys without verification
+gate:
+  - sh/tests/vcs_gate.sh

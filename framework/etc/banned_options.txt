@@ -1,0 +1,43 @@
+# id	scope	pattern	class	reason
+SED_INPLACE	all	(^|[^[:alnum:]_])sed[[:space:]]+(-[[:alnum:]]*i|--in-place)	TOOL_CONTRACT	sed -i mutates tracked source
+FIND_DELETE	all	(^|[^[:alnum:]_])find([[:space:]]+[^|;&]*)?[[:space:]]-delete([[:space:]]|$)	TOOL_CONTRACT	find -delete is not POSIX and is destructive
+FIND_QUIT	all	(^|[^[:alnum:]_])find([[:space:]]+[^|;&]*)?[[:space:]]-quit([[:space:]]|$)	TOOL_CONTRACT	find -quit is not POSIX
+GREP_PERL	all	(^|[^[:alnum:]_])grep[[:space:]]+(-[[:alnum:]]*P|--perl-regexp)	TOOL_CONTRACT	grep -P is not POSIX
+GREP_NUL	all	(^|[^[:alnum:]_])grep[[:space:]]+(-[[:alnum:]]*z|--null-data)	TOOL_CONTRACT	grep -z is not POSIX
+GREP_RECURSIVE	all	(^|[^[:alnum:]_])grep[[:space:]]+(-[[:alnum:]]*[rR]|--recursive)	TOOL_CONTRACT	grep -r is not POSIX 2017; use find -exec grep
+DATE_GNU	all	(^|[^[:alnum:]_])date[[:space:]]+(-[[:alnum:]]*[dIR]|--date|--iso-8601|--rfc-2822)	TOOL_CONTRACT	date -d/-I/-R are not POSIX
+WGET_TRIES	all	(^|[^[:alnum:]_])wget[^|;&]*--tries	TOOL_CONTRACT	BusyBox wget silently ignores --tries
+WGET_TIMEOUT	all	(^|[^[:alnum:]_])wget[^|;&]*--timeout	TOOL_CONTRACT	wget --timeout is forbidden
+TCC_C17	all	(^|[^[:alnum:]_])tcc[^|;&]*-std=c17	TOOL_CONTRACT	tcc silently ignores -std=c17
+LUA_BARE	all	(^|[[:space:];&|(])(lua|luac|lua5\.5|luac5\.5)([[:space:];&|)]|$)	TOOL_CONTRACT	use lua5.4/luac5.4
+LUA_POPEN	lua	io[[:space:]]*\.[[:space:]]*popen	TOOL_CONTRACT	Lua must not spawn processes
+LUA_OS_EXECUTE	lua	os[[:space:]]*\.[[:space:]]*execute	TOOL_CONTRACT	Lua must not spawn processes
+LUA_LOADLIB	lua	package[[:space:]]*\.[[:space:]]*loadlib	TOOL_CONTRACT	no dynamic C loading
+LUA_FFI	lua	require[[:space:]]*\(?[[:space:]]*["']ffi	TOOL_CONTRACT	no FFI
+LUA_DYNAMIC_LOAD	lib	(^|[^[:alnum:]_.:])(dofile|loadfile|loadstring|load)[[:space:]]*\(	TOOL_CONTRACT	no dynamic code loading in lib
+LUA_GLOBAL_DECL	lua	^[[:space:]]*global[[:space:]]	TOOL_CONTRACT	Lua 5.5-only global declaration
+LUA_PREFIX_ATTR	lua	local[[:space:]]+<[[:alpha:]]+[[:space:]]+[[:alpha:]_]	TOOL_CONTRACT	Lua 5.5-only prefix attribute
+LUA_NAMED_VARARG	lua	\.\.\.[[:space:]]+[[:alpha:]_][[:alnum:]_]*[[:space:]]*[,)]	TOOL_CONTRACT	Lua 5.5-only named vararg
+LUA_TABLE_CREATE	lua	table[[:space:]]*\.[[:space:]]*create	TOOL_CONTRACT	table.create is Lua 5.5-only
+LUA_CLOCK	lib	(os[[:space:]]*\.[[:space:]]*(time|date)|math[[:space:]]*\.[[:space:]]*(random|randomseed))	TOOL_CONTRACT	nondeterministic clock/random in core
+SH_EVAL	sh	(^|[^[:alnum:]_])eval([[:space:]]|$)	TOOL_CONTRACT	eval on untrusted data
+SH_ECHO	sh	(^|[^[:alnum:]_])echo([[:space:]]|$)	TOOL_CONTRACT	use printf
+SH_BASHISM	sh	(^|[^[:alnum:]_])\[\[([[:space:]]|$)	TOOL_CONTRACT	bashism in /bin/sh
+SH_LOCAL	sh	(^|[^[:alnum:]_])local([[:space:]]|$)	TOOL_CONTRACT	local is not POSIX 2017
+SH_TIMEOUT	sh	(^|[^[:alnum:]_])timeout([[:space:]]|$)	TOOL_CONTRACT	timeout is not POSIX 2017; use sh/lib/timeout.sh
+SH_SHA256SUM	sh	(^|[^[:alnum:]_])sha256sum([[:space:]]|$)	TOOL_CONTRACT	use POSIX cksum
+SH_BC	sh	(^|[^[:alnum:]_])bc([[:space:]]|$)	TOOL_CONTRACT	bc is not used; use awk or Lua
+SH_MKTEMP	sh	(^|[^[:alnum:]_])mktemp([[:space:]]|$)	TOOL_CONTRACT	mktemp is not POSIX 2017; use mkdir
+MAKE_GNU	make	\$\((shell|wildcard|foreach|call|eval|origin|flavor)[[:space:]]	TOOL_CONTRACT	GNU make extension
+MAKE_JOBS	make	(^|[^[:alnum:]_])make[[:space:]]+-j	TOOL_CONTRACT	-j is not POSIX
+AWK_SYSTEM	awk	(^|[^[:alnum:]_])system[[:space:]]*\(	TOOL_CONTRACT	awk must not spawn processes
+AWK_PIPE_GETLINE	awk	\|[[:space:]]*getline	TOOL_CONTRACT	awk must not spawn processes
+AWK_CLOCK	awk	(^|[^[:alnum:]_])(systime|strftime|mktime)[[:space:]]*\(	TOOL_CONTRACT	nondeterministic awk clock
+SQLITE_SHELL	sql	\.[[:space:]]*(shell|system|load)([[:space:]]|$)	TOOL_CONTRACT	sqlite3 must not spawn or load
+GIT_PUSH_FORCE	all	(^|[^[:alnum:]_])git[^|;&]*push[^|;&]*--force([[:space:]=]|$)	TOOL_CONTRACT	mirror must never force-push
+GIT_RESET_HARD	all	(^|[^[:alnum:]_])git[^|;&]*reset[[:space:]]+--hard	TOOL_CONTRACT	may destroy work
+GIT_CLEAN_FORCE	all	(^|[^[:alnum:]_])git[^|;&]*clean[^|;&]*-[a-zA-Z]*f	TOOL_CONTRACT	may delete untracked work
+GIT_BRANCH_DELETE	all	(^|[^[:alnum:]_])git[^|;&]*branch[^|;&]*-D([[:space:]]|$)	TOOL_CONTRACT	may delete unmerged branch
+CVS_RELEASE_DELETE	all	(^|[^[:alnum:]_])cvs[^|;&]*release[^|;&]*-d	TOOL_CONTRACT	deletes working tree
+CVS_REVISION_REMOVE	all	(^|[^[:alnum:]_])cvs[^|;&]*admin[^|;&]*-o	TOOL_CONTRACT	rewrites history
+GPG_DELETE_SECRET	all	(^|[^[:alnum:]_])gpg[^|;&]*--delete-secret-keys	TOOL_CONTRACT	destroys signing keys

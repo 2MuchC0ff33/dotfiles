@@ -1,0 +1,63 @@
+# utility	class	contract	purpose
+sh	POSIX	etc/contracts/sh.contract	process orchestration
+printf	POSIX	-	formatted output
+test	POSIX	-	conditionals
+[	POSIX	-	conditionals
+read	POSIX	-	line input
+set	POSIX	-	shell options
+trap	POSIX	-	cleanup
+wait	POSIX	-	child synchronization
+kill	POSIX	-	signal delivery
+sleep	POSIX	-	delay and watchdog
+mkdir	POSIX	-	directory creation
+rm	POSIX	-	removal
+mv	POSIX	-	atomic rename
+cp	POSIX	-	copy
+ln	POSIX	-	links
+cat	POSIX	-	concatenation
+sed	POSIX	etc/contracts/sed.contract	line transforms
+grep	POSIX	etc/contracts/grep.contract	pattern matching
+find	POSIX	etc/contracts/find.contract	file selection
+sort	POSIX	-	ordering
+xargs	POSIX	-	argument batching
+tee	POSIX	-	stream split
+head	POSIX	-	prefix
+tail	POSIX	-	suffix
+wc	POSIX	-	counting
+cut	POSIX	-	field extraction
+tr	POSIX	-	character translation
+date	POSIX	-	timestamps (only -u)
+make	POSIX	etc/contracts/make.contract	build
+getconf	POSIX	-	POSIX version probe
+cksum	POSIX	etc/contracts/cksum.contract	integrity manifest (CRC32)
+awk	POSIX	etc/contracts/awk.contract	record transforms
+env	POSIX	-	environment control
+command	POSIX	-	command lookup
+cd	POSIX	-	directory change
+pwd	POSIX	-	print working directory
+basename	POSIX	-	path suffix
+dirname	POSIX	-	path prefix
+chmod	POSIX	-	mode bits
+umask	POSIX	-	default mode bits
+touch	POSIX	-	timestamps
+od	POSIX	-	byte inspection
+cmp	POSIX	-	byte comparison
+diff	POSIX	-	text comparison
+sqlite3	EXT	etc/contracts/sqlite3.contract	relational store
+lua5.4	EXT	etc/contracts/lua.contract	primary language
+luac5.4	EXT	etc/contracts/lua.contract	compiler
+wget	EXT	etc/contracts/wget.contract	HTTPS edge
+tcc	EXT	etc/contracts/c.contract	C compiler
+cvs	EXT	etc/contracts/cvs.contract	canonical local VCS
+git	EXT	etc/contracts/git.contract	GitHub mirror only
+dbclient	EXT	etc/contracts/dropbear.contract	SSH transport for Git and CVS
+dropbear	EXT	etc/contracts/dropbear.contract	SSH service distribution
+gpg	EXT	etc/contracts/gpg.contract	signing
+luacheck	DEV	etc/contracts/lua.contract	lint
+stylua	DEV	etc/contracts/lua.contract	format
+lua-language-server	DEV	etc/contracts/lua.contract	diagnostics
+cppcheck	DEV	etc/contracts/c.contract	C analysis
+astyle	DEV	etc/contracts/c.contract	C format
+mandoc	DEV	etc/contracts/mandoc.contract	man validation
+apk	DEV	-	manual prerequisite only
+websocat	PLUGIN	plugins/websocket/websocket.contract	WebSocket plugin

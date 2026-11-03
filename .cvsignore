@@ -1,0 +1,8 @@
+CVS
+.git
+work/
+build/
+srv/
+spool/
+*.tmp
+*.cksum

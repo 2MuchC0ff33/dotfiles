@@ -1,0 +1,5 @@
+UTILITY: grep (BusyBox 1.38)
+ADMITTED: -E -F -i -v -c -l -n -q -e -f -m -x -w -o -A -B -C
+BANNED: -P, -z, -r, -R, --include, --exclude
+EXIT_STATUS: 0 match, 1 no match, 2 error; 2 is always a hard failure
+RATIONALE: pattern admission and audit; recursive search uses find -exec grep

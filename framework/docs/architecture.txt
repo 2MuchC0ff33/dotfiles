@@ -1,0 +1,62 @@
+# Architecture
+
+## Layers
+
+```text
+sh/        process orchestration, edges, state, gates
+awk/       record transforms
+sed/       line transforms
+Lua lib/   pure transforms, validation, proof parsing, encoding
+C c/       narrow parsing primitives with a C99 ABI
+SQL sql/   schema, migrations, queries
+```
+
+Shell is the only layer allowed to spawn processes. Lua must not call
+`io.popen` or `os.execute`. awk must not call `system()` or pipe `getline`.
+
+## Dataflow
+
+```text
+spool/events.raw
+  -> awk/normalize_events.awk
+  -> work/events.normalized.tsv.tmp
+  -> lib/stages/normalize_events.lua validate
+  -> work/events.normalized.tsv
+  -> work/events.normalized.tsv.cksum
+  -> work/normalize_events.result.json
+```
+
+The stage writes to a temporary path, validates it, then renames it. A trap
+removes the temporary and final artifacts on failure and records the exit
+code in the result JSON.
+
+## Error taxonomy
+
+| Class | Exit |
+|---|---|
+| `TRANSFORM_FAILED`, `STATE_CONFLICT`, `EDGE_FAILED`, `PROGRAMMER_ERROR` | 1 |
+| `INPUT_INVALID`, `TOOL_CONTRACT` | 3 |
+| `ENV_MISSING` | 4 |
+| `PROOF_FAILED` | 5 |
+
+## State
+
+SQLite owns durable state. `sh/db_bootstrap.sh` applies the schema.
+`sh/db_migrate.sh` applies files in `sql/migrations/` and records a `cksum`
+of each migration in `schema_migration`. The database path follows the
+precedence in `docs/conformance.txt` and `sh/lib/common.sh`.
+
+## Determinism
+
+- `LC_ALL=C` for ordering.
+- No wall clock, randomness, or network in core transforms.
+- SQLite timestamps are state metadata, not transform output.
+- Proofs are parsed as data, never executed.
+
+## Extension points
+
+- New stage: add `stages/<id>.stage`, `proofs/<id>.refine`, a transform,
+  a validator, and contract/property tests.
+- New plugin: add `plugins/<id>/` with a contract, entrypoint, README, and
+  gate. Do not add it to `make verify`.
+- New skill: add `skills/<id>/SKILL.md` and run `skills/install.sh`.

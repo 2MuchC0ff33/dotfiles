@@ -1,0 +1,60 @@
+.TH FRAMEWORK 1 "2026-11-01" "framework 0.1" "User Commands"
+.SH NAME
+framework \- POSIX.1-2017-targeted Lua 5.4 dataflow framework
+.SH SYNOPSIS
+.B make
+.RI [ target ]
+.SH DESCRIPTION
+.B framework
+runs declared dataflow stages under
+.BR sh (1),
+with Lua 5.4 modules for pure transforms and validation.
+Every stage has a contract, a refinement, a test, and a checksum.
+.PP
+The framework targets POSIX.1-2017. It does not use non-POSIX shell
+extensions such as
+.BR local ,
+.BR timeout ,
+.BR mktemp ,
+or
+.BR bc .
+.SH TARGETS
+.TP
+.B verify
+Run every core gate in order.
+.TP
+.B audit
+Scan source for forbidden utilities and options.
+.TP
+.B test
+Run unit, property, contract, and integration tests.
+.TP
+.B proof
+Validate every
+.I .refine
+obligation.
+.TP
+.B build
+Compile stripped Lua 5.4 bytecode into
+.IR build/bytecode .
+.TP
+.B man
+Lint and render the manual page.
+.TP
+.B plugins
+Run the opt-in plugin gate.
+.SH EXIT STATUS
+0 success, 1 transform or edge failure, 3 validation failure,
+4 environment failure, 5 proof failure.
+.SH FILES
+.I etc/posix_allowlist.txt
+and
+.I etc/banned_options.txt
+are the policy sources.
+.I etc/framework.conf
+holds non-secret configuration.
+.SH SEE ALSO
+.BR sh (1),
+.BR lua5.4 (1),
+.BR cksum (1),
+.BR sqlite3 (1)

@@ -1,0 +1,43 @@
+.Dd November 3, 2026
+.Dt PLANMODE 1
+.Os
+.Sh NAME
+.Nm planmode
+.Nd install, verify, and manage the canonical OpenCode Plan workflow
+.Sh SYNOPSIS
+.Nm
+.Ar command
+.Op Ar options
+.Sh DESCRIPTION
+.Nm
+creates and verifies the symlinks, commands, skills, and global configuration
+required for the canonical Plan-mode workflow.
+It is POSIX sh orchestration over Lua 5.4 bytecode.
+It does not mutate the repository except during
+.Cm install
+with explicit consent, and it does not force-push or rewrite history.
+.Sh COMMANDS
+.Cm install
+Install links and the managed config key.
+.Pp
+.Cm verify
+Verify the installed files and OpenCode discovery.
+.Pp
+.Cm upgrade-check
+Require the tested OpenCode baseline.
+.Pp
+.Cm status
+Print a read-only health report.
+.Pp
+.Cm backup
+Create a timestamped config backup.
+.Pp
+.Cm restore Ar file
+Restore the global config from a backup.
+.Pp
+.Cm uninstall
+Remove managed links and the managed config key.
+.Sh EXIT STATUS
+.Ex -std
+.Sh SEE ALSO
+See the manuals for make, mandoc, cvs, git, gpg, sh and lua5.4.

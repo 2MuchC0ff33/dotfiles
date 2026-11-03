@@ -1,0 +1,5 @@
+UTILITY: awk (BusyBox 1.38)
+ADMITTED: -F, -v, -f, ENVIRON, printf, getline < file, split, sub, gsub, match
+BANNED: system(), cmd | getline, systime, strftime, mktime
+EXIT_STATUS: exit 3 on INPUT_INVALID
+RATIONALE: record-oriented transforms only

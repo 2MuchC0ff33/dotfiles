@@ -1,0 +1,51 @@
+Canonical OpenCode Plan Mode
+============================
+
+Install
+-------
+
+  cd /home/twomuchcoffee/.local/src/dotfiles
+  make build
+  ./planmode install
+  opencode reload
+
+Use
+---
+
+Press Tab to enter Plan mode. Give only the request. Answer questions. Review
+and approve the handover. Switch to Build and run /execute-plan.
+
+Artifacts
+---------
+
+  HANDOVER.md  PLAN.md       WORKORDER.md
+  INDEX.md     RISKS.md      PROOF.md
+  QUESTIONS.md GIT.md        PATCHES.md
+
+The handover artifacts are not committed to this repository and remain
+under ~/.opencode/plan.
+
+CVS-first workflow
+------------------
+
+  cvs -d ~/CVS/dotfiles status
+  cvs -d ~/CVS/dotfiles update -PAd
+  cvs -d ~/CVS/dotfiles commit -m "type(scope): message"
+
+GitHub receives signed HEAD snapshots on dev and main. The migration imports
+the current HEAD once; replay of old commits is not supported.
+
+After opencode upgrade
+----------------------
+
+  ./planmode upgrade-check
+  ./planmode verify
+
+If verification fails, fix the compatibility pieces, re-run make build, and
+then repeat the checks. Do not bypass the gate.
+
+Uninstall
+---------
+
+  ./planmode uninstall
+  opencode reload

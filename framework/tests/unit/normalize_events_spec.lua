@@ -1,0 +1,48 @@
+local h = require("tests.lib.harness")
+local normalize = require("lib.stages.normalize_events")
+
+h.describe("normalize_events", function()
+  h.it("accepts a valid row", function()
+    local ok, err = normalize.validate_row({ "a", "b", "1700000000", "c", "d", "e", "f" })
+    h.ok(ok, err)
+  end)
+
+  h.it("accepts a negative timestamp", function()
+    local ok, err = normalize.validate_row({ "a", "b", "-1", "c", "d", "e", "f" })
+    h.ok(ok, err)
+  end)
+
+  h.it("rejects a short row", function()
+    local ok, err = normalize.validate_row({ "a", "b", "1", "c", "d" })
+    h.eq(ok, nil)
+    h.ok(err:match("expected 7 fields"))
+  end)
+
+  h.it("rejects a non-integer timestamp", function()
+    local ok, err = normalize.validate_row({ "a", "b", "1.5", "c", "d", "e", "f" })
+    h.eq(ok, nil)
+    h.ok(err:match("integer"))
+  end)
+
+  h.it("validates a file", function()
+    local path = "work/normalize.spec.tsv"
+    local f = assert(io.open(path, "w"))
+    f:write("a\tb\t1\tc\td\te\tf\n")
+    f:close()
+    local ok, count = normalize.validate_output(path)
+    h.ok(ok, count)
+    h.eq(count, 1)
+    os.remove(path)
+  end)
+
+  h.it("rejects a bad file", function()
+    local path = "work/normalize.bad.tsv"
+    local f = assert(io.open(path, "w"))
+    f:write("a\tb\tx\tc\td\te\tf\n")
+    f:close()
+    local ok, err = normalize.validate_output(path)
+    h.eq(ok, nil)
+    h.ok(tostring(err):match("integer"))
+    os.remove(path)
+  end)
+end)

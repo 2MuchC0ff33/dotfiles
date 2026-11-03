@@ -1,0 +1,16 @@
+contract: git 2.56
+class: EXT
+allowed_scopes:
+  - mirror repository at ~/.local/src/dotfiles-mirror
+  - fetch, status, diff, log, ls-remote, branch, rev-parse, merge-base
+  - commit -S, push, fetch --prune, worktree prune, gc, fsck
+  - HEAD snapshot mirroring to origin/dev and origin/main
+banned_options:
+  - push --force
+  - push --force-with-lease
+  - reset --hard
+  - clean -f
+  - branch -D
+  - gc --prune=now before ancestry proof
+gate:
+  - sh/tests/vcs_gate.sh

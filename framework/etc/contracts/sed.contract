@@ -1,0 +1,5 @@
+UTILITY: sed (BusyBox 1.38)
+ADMITTED: -n, -E, -e, -f, s///, y///, p, d
+BANNED: -i, --in-place, s///e, -z, -s, -u
+EXIT_STATUS: 0 success, >0 failure
+RATIONALE: deterministic line transforms to a new output

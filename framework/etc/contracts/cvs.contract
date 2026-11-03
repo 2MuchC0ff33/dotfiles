@@ -1,0 +1,16 @@
+contract: cvs 1.12
+class: EXT
+allowed_scopes:
+  - local CVS server commands with an explicit -d root
+  - checkout, update, status, log, diff, cksum, commit, import, export, tag
+  - release cleanup only with operator approval
+banned_options:
+  - release -d
+  - admin -o
+  - rtag -F
+  - update -r for mutable recovery without operator approval
+required_environment:
+  - CVSROOT is ~/CVS/dotfiles unless explicitly overridden
+  - repository metadata is never committed to source control
+gate:
+  - sh/tests/vcs_gate.sh

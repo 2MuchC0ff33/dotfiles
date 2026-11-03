@@ -1,0 +1,5 @@
+UTILITY: make (GNU Make 4.4.1, invoked in POSIX mode)
+ADMITTED: .POSIX:, explicit rules, variables, .PHONY
+BANNED: $(shell), $(wildcard), $(foreach), $(call), $(eval), make -j
+EXIT_STATUS: 0 success, >0 failure
+RATIONALE: portable build entrypoint; no GNU-only functions

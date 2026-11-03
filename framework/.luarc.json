@@ -1,0 +1,8 @@
+{
+  "runtime.version": "Lua 5.4",
+  "runtime.path": ["?.lua", "?/init.lua"],
+  "workspace.ignoreDir": [".git", "work", "build", "srv", "spool", "plugins"],
+  "diagnostics.globals": ["arg"],
+  "diagnostics.disable": ["lowercase-global", "need-check-nil"],
+  "format.enable": false
+}
