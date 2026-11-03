@@ -19,4 +19,6 @@ Rules:
 - Do not weaken POSIX or framework gates.
 - Documentation is plain-text ASCII; docs are .txt except tool-mandated .md.
 - Build automation is POSIX make.
+- Operator shortcuts: symlinked `pm`/`planmode` in ~/.local/bin; use `pm -i`
+  to install, `pm -v` to verify, `pm -x` to upgrade-check, `pm -s` for status.
 - CVS is the local VCS; Git mirrors to GitHub.
