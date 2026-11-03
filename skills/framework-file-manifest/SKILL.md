@@ -8,7 +8,7 @@ description: Use when checking for missing or unexpected framework files; lists 
 ## Canonical
 
 `Makefile`, `.editorconfig`, `.gitignore`, `.luacheckrc`, `.luarc.json`,
-`stylua.toml`, `README.md`, `AGENTS.md`, `etc/`, `lib/`, `sh/`, `awk/`,
+`stylua.toml`, `README.txt`, `AGENTS.md`, `etc/`, `lib/`, `sh/`, `awk/`,
 `sed/`, `sql/`, `c/`, `man/`, `proofs/`, `stages/`, `tests/`, `docs/`,
 `plugins/`.
 
@@ -26,5 +26,5 @@ find . -type f -not -path './work/*' -not -path './build/*' | sort
 
 ## Reference
 
-- `docs/architecture.md`
-- `docs/skills.md`
+- `docs/architecture.txt`
+- `docs/skills.txt`

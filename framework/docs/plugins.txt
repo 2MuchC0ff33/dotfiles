@@ -18,7 +18,7 @@
 plugins/websocket/
   websocket.contract
   websocket.sh
-  README.md
+  README.txt
   tests/websocket.sh
 ```
 

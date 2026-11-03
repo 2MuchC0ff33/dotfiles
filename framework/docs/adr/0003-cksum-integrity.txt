@@ -1,4 +1,4 @@
-# ADR 0003 — cksum for integrity
+# ADR 0003 - cksum for integrity
 
 Status: accepted.
 

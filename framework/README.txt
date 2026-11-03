@@ -60,11 +60,11 @@ plugins/ opt-in extensions
 
 ## Documentation
 
-- `docs/conformance.md` — what is and is not claimed.
-- `docs/architecture.md` — layers and dataflow.
-- `docs/decisions.md` — waiver elimination matrix.
-- `docs/plugins.md` — plugin contract.
-- `docs/skills.md` — skill catalog.
+- `docs/conformance.txt` - what is and is not claimed.
+- `docs/architecture.txt` - layers and dataflow.
+- `docs/decisions.txt` - waiver elimination matrix.
+- `docs/plugins.txt` - plugin contract.
+- `docs/skills.txt` - skill catalog.
 
 ## License
 

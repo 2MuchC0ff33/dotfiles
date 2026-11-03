@@ -1,4 +1,4 @@
-# ADR 0001 — POSIX.1-2017 only
+# ADR 0001 - POSIX.1-2017 only
 
 Status: accepted.
 

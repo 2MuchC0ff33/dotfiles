@@ -1,4 +1,4 @@
-# AGENTS.md — framework rules
+# AGENTS.md - framework rules
 
 ## Non-negotiables
 

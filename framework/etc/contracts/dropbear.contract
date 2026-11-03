@@ -1,0 +1,11 @@
+contract: dropbear 2025
+class: EXT
+allowed_scopes:
+  - dbclient for Git SSH transport
+  - dropbear for local SSH service management only with operator approval
+banned_actions:
+  - hostkey generation for production keys without operator approval
+  - disabling host-key verification
+  - root login enablement
+gate:
+  - sh/tests/vcs_gate.sh

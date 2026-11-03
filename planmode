@@ -1,0 +1,160 @@
+#!/bin/sh
+set -eu
+
+root=$(CDPATH= cd -- "$(dirname -- "$0")" && pwd)
+config_dir=${OPENCODE_CONFIG_DIR:-${XDG_CONFIG_HOME:-$HOME/.config}/opencode}
+config=${OPENCODE_CONFIG:-$config_dir/opencode.json}
+tested_version=${OPENCODE_TESTED_VERSION:-2.2.5}
+bin=${OPENCODE_BIN:-}
+
+ok() { printf 'ok: %s\n' "$*"; }
+warn() { printf 'warn: %s\n' "$*"; }
+err() { printf 'error: %s\n' "$*" >&2; }
+
+usage() {
+  cat <<'MAN'
+usage: ./planmode <command> [options]
+commands:
+  build            Build Lua bytecode into build/planmode
+  install          Install symlinks and managed config key
+  repair           Re-create safe symlinks and config key
+  verify           Verify files, config, and agent discovery
+  upgrade-check    Strict compatibility check after opencode upgrade
+  status           Read-only health report
+  backup           Create timestamped config backup
+  restore <file>   Restore global config from backup
+  reload           Run opencode reload or print restart instruction
+  uninstall        Remove managed symlinks and config key
+  help             Show this help
+MAN
+}
+
+resolve_bin() {
+  if [ -n "$bin" ]; then return 0; fi
+  if command -v opencode >/dev/null 2>&1; then bin=$(command -v opencode); return 0; fi
+  bin=$HOME/.opencode/bin/opencode
+  [ -x "$bin" ] || { err "opencode not found"; exit 2; }
+}
+
+lua_cmd() {
+  resolve_bin
+  build_dir=$root/build/planmode
+  [ -f "$build_dir/planmode.luac" ] || { err "run make build first"; exit 2; }
+  LUA_PATH="$build_dir/?.luac;;" lua5.4 "$build_dir/planmode.luac" "$@"
+}
+
+need_config() { [ -f "$config" ] || { err "config not found: $config"; exit 2; }; }
+config_backup() {
+  need_config
+  backup=$config.pre-planmode.$(date -u +%Y%m%dT%H%M%SZ)
+  cp -p "$config" "$backup"
+  printf '%s\n' "$backup"
+}
+
+write_config_add() {
+  need_config
+  tmp=$config.tmp.$$
+  trap 'rm -f "$tmp"' EXIT HUP INT TERM
+  lua_cmd config-add "$config" "$tmp"
+  chmod 600 "$tmp"
+  mv "$tmp" "$config"
+  trap - EXIT HUP INT TERM
+  ok "config updated"
+}
+
+remove_config_key() {
+  need_config
+  tmp=$config.tmp.$$
+  trap 'rm -f "$tmp"' EXIT HUP INT TERM
+  lua_cmd config-remove "$config" "$tmp"
+  chmod 600 "$tmp"
+  mv "$tmp" "$config"
+  trap - EXIT HUP INT TERM
+  ok "managed config key removed"
+}
+
+issued=0
+check_symlink() {
+  dst=$1
+  if [ -L "$dst" ]; then
+    current=$(ls -l "$dst" | sed -n -f "$root/tools/sed/symlink_target.sed")
+    case "$current" in
+      "$root"/*) ok "$dst" ;;
+      *) err "$dst points elsewhere: $current"; issued=$((issued + 1)) ;;
+    esac
+    return
+  fi
+  err "$dst is not a symlink"
+  issued=$((issued + 1))
+}
+
+install_links() {
+  force=$1
+  if [ "$force" = 1 ]; then
+    sh "$root/install.sh" --force
+  else
+    sh "$root/install.sh"
+  fi
+}
+
+cmd=${1:-status}
+[ $# -gt 0 ] && shift
+
+case "$cmd" in
+  help|-h|--help) usage; exit 0 ;;
+  build) make -C "$root" build ;;
+  install)
+    install_links 0
+    write_config_add
+    ./planmode verify
+    ;;
+  repair)
+    sh "$root/install.sh"
+    write_config_add
+    ./planmode verify
+    ;;
+  verify|upgrade-check)
+    resolve_bin
+    if ! "$bin" debug config | grep -q '"subagent_depth"[[:space:]]*:[[:space:]]*2'; then
+      err "config missing experimental.subagent_depth=2"
+      exit 1
+    fi
+    if ! "$bin" debug agents | LUA_PATH="$root/build/planmode/?.luac;;" lua5.4 "$root/build/planmode/planmode.luac" verify-agents; then
+      err "agent verification failed"
+      exit 1
+    fi
+    lua_cmd verify-root "$root"
+    lua_cmd verify-protocol "$root/agents/plan.md"
+    for path in "$root" "$root/agents" "$root/commands" "$root/skills/canonical-plan-protocol" "$root/skills/build-handover-execution"; do
+      [ -e "$path" ] || err "missing $path"
+    done
+    ok "$cmd passed"
+    ;;
+  status)
+    resolve_bin
+    printf 'found OpenCode: '
+    "$bin" --version | sed -n 's/^[^ ]* //p' | sed 's/^v//'
+    printf 'tested OpenCode: %s\n' "$tested_version"
+    [ -f "$config" ] && ok "config exists" || warn "config missing"
+    ./planmode verify || exit 1
+    ;;
+  backup) config_backup ;;
+  restore)
+    [ $# -eq 1 ] || { err "restore requires one backup path"; exit 2; }
+    [ -f "$1" ] || { err "backup missing: $1"; exit 2; }
+    current=$(config_backup)
+    cp -p "$1" "$config"
+    ok "restored $1"
+    ok "previous config preserved at $current"
+    ;;
+  reload)
+    resolve_bin
+    if "$bin" reload >/dev/null 2>&1; then ok "reload completed"; else warn "restart OpenCode"; fi
+    ;;
+  uninstall)
+    sh "$root/install.sh" --remove
+    remove_config_key
+    printf 'restart OpenCode or run: ./planmode reload\n'
+    ;;
+  *) err "unknown command: $cmd"; usage >&2; exit 2 ;;
+esac

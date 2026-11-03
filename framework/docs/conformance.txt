@@ -50,4 +50,4 @@ Expected: `make verify` exits 0, `200809`, `Lua 5.4.9`, `199901`.
 
 ## Waivers
 
-None. `docs/decisions.md` records how each old waiver was eliminated.
+None. `docs/decisions.txt` records how each old waiver was eliminated.

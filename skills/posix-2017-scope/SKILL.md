@@ -31,6 +31,6 @@ make audit
 
 ## References
 
-- `docs/conformance.md`
-- `docs/decisions.md`
+- `docs/conformance.txt`
+- `docs/decisions.txt`
 - `etc/posix_allowlist.txt`

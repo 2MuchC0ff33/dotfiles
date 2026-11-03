@@ -48,12 +48,16 @@ lua5.4	EXT	etc/contracts/lua.contract	primary language
 luac5.4	EXT	etc/contracts/lua.contract	compiler
 wget	EXT	etc/contracts/wget.contract	HTTPS edge
 tcc	EXT	etc/contracts/c.contract	C compiler
+cvs	EXT	etc/contracts/cvs.contract	canonical local VCS
+git	EXT	etc/contracts/git.contract	GitHub mirror only
+dbclient	EXT	etc/contracts/dropbear.contract	SSH transport for Git and CVS
+dropbear	EXT	etc/contracts/dropbear.contract	SSH service distribution
+gpg	EXT	etc/contracts/gpg.contract	signing
 luacheck	DEV	etc/contracts/lua.contract	lint
 stylua	DEV	etc/contracts/lua.contract	format
 lua-language-server	DEV	etc/contracts/lua.contract	diagnostics
 cppcheck	DEV	etc/contracts/c.contract	C analysis
 astyle	DEV	etc/contracts/c.contract	C format
 mandoc	DEV	etc/contracts/mandoc.contract	man validation
-git	DEV	-	VCS
 apk	DEV	-	manual prerequisite only
 websocat	PLUGIN	plugins/websocket/websocket.contract	WebSocket plugin

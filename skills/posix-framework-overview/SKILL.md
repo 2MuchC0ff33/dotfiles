@@ -28,6 +28,6 @@ make plugins
 
 ## References
 
-- `docs/conformance.md`
-- `docs/architecture.md`
-- `docs/decisions.md`
+- `docs/conformance.txt`
+- `docs/architecture.txt`
+- `docs/decisions.txt`

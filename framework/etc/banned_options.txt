@@ -34,3 +34,10 @@ AWK_SYSTEM	awk	(^|[^[:alnum:]_])system[[:space:]]*\(	TOOL_CONTRACT	awk must not 
 AWK_PIPE_GETLINE	awk	\|[[:space:]]*getline	TOOL_CONTRACT	awk must not spawn processes
 AWK_CLOCK	awk	(^|[^[:alnum:]_])(systime|strftime|mktime)[[:space:]]*\(	TOOL_CONTRACT	nondeterministic awk clock
 SQLITE_SHELL	sql	\.[[:space:]]*(shell|system|load)([[:space:]]|$)	TOOL_CONTRACT	sqlite3 must not spawn or load
+GIT_PUSH_FORCE	all	(^|[^[:alnum:]_])git[^|;&]*push[^|;&]*--force([[:space:]=]|$)	TOOL_CONTRACT	mirror must never force-push
+GIT_RESET_HARD	all	(^|[^[:alnum:]_])git[^|;&]*reset[[:space:]]+--hard	TOOL_CONTRACT	may destroy work
+GIT_CLEAN_FORCE	all	(^|[^[:alnum:]_])git[^|;&]*clean[^|;&]*-[a-zA-Z]*f	TOOL_CONTRACT	may delete untracked work
+GIT_BRANCH_DELETE	all	(^|[^[:alnum:]_])git[^|;&]*branch[^|;&]*-D([[:space:]]|$)	TOOL_CONTRACT	may delete unmerged branch
+CVS_RELEASE_DELETE	all	(^|[^[:alnum:]_])cvs[^|;&]*release[^|;&]*-d	TOOL_CONTRACT	deletes working tree
+CVS_REVISION_REMOVE	all	(^|[^[:alnum:]_])cvs[^|;&]*admin[^|;&]*-o	TOOL_CONTRACT	rewrites history
+GPG_DELETE_SECRET	all	(^|[^[:alnum:]_])gpg[^|;&]*--delete-secret-keys	TOOL_CONTRACT	destroys signing keys

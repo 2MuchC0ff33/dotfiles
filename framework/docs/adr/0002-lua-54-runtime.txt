@@ -1,4 +1,4 @@
-# ADR 0002 — Lua 5.4 runtime
+# ADR 0002 - Lua 5.4 runtime
 
 Status: accepted.
 

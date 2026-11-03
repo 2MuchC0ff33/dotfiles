@@ -1,4 +1,4 @@
-# ADR 0007 — dual man-page gates
+# ADR 0007 - dual man-page gates
 
 Status: accepted.
 

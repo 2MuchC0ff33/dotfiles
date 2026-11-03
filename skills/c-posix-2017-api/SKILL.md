@@ -23,5 +23,5 @@ tcc -std=c99 -D_POSIX_C_SOURCE=200809L c/tests/posix_level.c -o /tmp/pv && /tmp/
 
 ## References
 
-- `docs/conformance.md`
+- `docs/conformance.txt`
 - `etc/contracts/c.contract`

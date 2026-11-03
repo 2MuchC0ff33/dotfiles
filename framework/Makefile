@@ -4,11 +4,11 @@ SHELL = /bin/sh
 LUA = lua5.4
 LUAC = luac5.4
 
-.PHONY: all verify env audit shell parse lint format lsp test proof build checksum man c plugins verify-plugins clean
+.PHONY: all verify env audit shell parse lint format lsp test proof build checksum man c plugins verify-plugins clean ascii vcs
 
 all: verify
 
-verify: env audit shell parse lint format lsp test proof build checksum man c
+verify: env audit shell parse lint format lsp test proof build checksum man c ascii vcs
 
 env:
 	sh/tests/env_probe.sh
@@ -47,6 +47,12 @@ checksum:
 
 man:
 	sh/tests/man_gate.sh
+
+ascii:
+	sh/tests/ascii_gate.sh
+
+vcs:
+	sh/tests/vcs_gate.sh
 
 c:
 	sh/tests/c_gate.sh

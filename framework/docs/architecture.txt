@@ -44,7 +44,7 @@ code in the result JSON.
 SQLite owns durable state. `sh/db_bootstrap.sh` applies the schema.
 `sh/db_migrate.sh` applies files in `sql/migrations/` and records a `cksum`
 of each migration in `schema_migration`. The database path follows the
-precedence in `docs/conformance.md` and `sh/lib/common.sh`.
+precedence in `docs/conformance.txt` and `sh/lib/common.sh`.
 
 ## Determinism
 
