@@ -1,0 +1,95 @@
+#
+# ~/.ashrc  -  BusyBox ash interactive-shell rc
+# Target: POSIX.1-2024 baseline with requested UX extensions.
+# Sourced by interactive NON-LOGIN shells via $ENV (set in ~/.profile).
+# Login shells read ~/.profile instead; this file is interactive-only.
+#
+
+# --- Interactive-only guard ---------------------------------------------
+case $- in
+    *i*) ;;
+    *)   return 0 ;;
+esac
+
+# --- Safety options (interactive) ---------------------------------------
+# noclobber:   refuse to clobber existing files with `>`  (use `>|` to force)
+set -o noclobber
+# nounset (-u): error on references to unset variables
+set -o nounset
+# noglob (-f): disable pathname expansion (requested).  `set +f` re-enables.
+set -o noglob
+# NOTE: errexit (-e) is intentionally NOT enabled interactively - it would
+# kill the shell on any command failure.  errexit applies to non-interactive
+# use via ~/.profile only.
+
+# --- Line editing --------------------------------------------------------
+set -o vi
+
+# --- History -------------------------------------------------------------
+HISTFILE=$HOME/.ash_history
+HISTSIZE=5000
+# BusyBox ash appends history to HISTFILE on shell exit.
+# NOTE: BusyBox ash has no HISTCONTROL; duplicate entries are not
+# automatically suppressed (POSIX.1-2024 does not require it).
+
+# --- Colour capability (computed once) -----------------------------------
+_shell_use_colour=0
+if [ -t 1 ] && command -v tput >/dev/null 2>&1 && [ "${TERM:-}" != dumb ]; then
+    _ncolors="$(tput colors 2>/dev/null)"
+    case $_ncolors in
+        *[0-9]*) [ "$_ncolors" -ge 8 ] 2>/dev/null && _shell_use_colour=1 ;;
+    esac
+fi
+if [ "$_shell_use_colour" -eq 1 ]; then
+    _c_user="$(tput bold)$(tput setaf 2)"   # bold green  = user
+    _c_host="$(tput bold)$(tput setaf 6)"   # bold cyan   = host
+    _c_dir="$(tput bold)$(tput setaf 4)"    # bold blue   = dir
+    _c_git="$(tput bold)$(tput setaf 5)"    # bold magenta= git branch
+    _c_norm="$(tput sgr0)"
+else
+    _c_user= _c_host= _c_dir= _c_git= _c_norm=
+fi
+
+# --- Prompt: informative + colourised + git-aware ------------------------
+# PS1 is re-expanded at every display (POSIX permits command substitution
+# in PS1).  Colours only on a real terminal; git branch only when git is
+# installed and cwd is inside a git repository.
+_shell_prompt() {
+    u="${LOGNAME:-${USER:-$(id -un 2>/dev/null)}}"
+    h="${HOSTNAME:-$(hostname 2>/dev/null)}"
+    d="${PWD}"
+    git_branch=""
+    if command -v git >/dev/null 2>&1; then
+        git_branch="$(git rev-parse --abbrev-ref HEAD 2>/dev/null)" || git_branch=""
+        [ -n "$git_branch" ] && git_branch=" ${_c_git}(${git_branch})${_c_norm}"
+    fi
+    printf '%s' "${_c_user}${u}${_c_norm}@${_c_host}${h}${_c_norm}:${_c_dir}${d}${_c_norm}${git_branch}${_c_norm}\$ "
+}
+
+PS1='$(_shell_prompt) '
+export PS1
+PS2='> '
+export PS2
+
+# --- Personal command paths (interactive shells do not read ~/.profile) ---
+case ":${PATH}:" in
+    *":/home/twomuchcoffee/.local/bin:"*) ;;
+    *)
+        if [ -d /home/twomuchcoffee/.local/bin ]; then
+            PATH=/home/twomuchcoffee/.local/bin${PATH:+:$PATH}
+        fi
+        ;;
+esac
+
+# --- opencode PATH (interactive shells do not read ~/.profile) -----------
+case ":${PATH}:" in
+    *":/home/twomuchcoffee/.opencode/bin:"*) ;;
+    *)
+        if [ -d /home/twomuchcoffee/.opencode/bin ]; then
+            PATH=/home/twomuchcoffee/.opencode/bin${PATH:+:$PATH}
+        fi
+        ;;
+esac
+
+# --- No aliases (pure POSIX per request) ---------------------------------
+# Deliberately empty.  Invoke commands directly for maximum portability.

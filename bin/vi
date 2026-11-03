@@ -1,0 +1,27 @@
+#!/bin/sh
+# BusyBox vi wrapper - strict POSIX configuration
+#
+# Applies :set defaults on every launch.  ~/.exrc is also read by BusyBox
+# vi v1.38+, so this wrapper is belt-and-suspenders: it guarantees the
+# options are set even if .exrc is missing or unreadable.
+#
+# Usage: vi [file...]      (read-write, via alias this is vi -R)
+#        vi -R [file...]   (force read-only)
+#        vi +set [file...] (override options interactively)
+#
+# The shell alias (see ~/.profile) maps 'vi' -> 'vi -R' so the editor opens
+# read-only by default.  Use ':w!' inside vi to force a write.
+
+set -u
+
+# Runtime options applied on every launch.
+#   autoindent  - indent new lines to match previous line
+#   ignorecase  - case-insensitive searches (/ and ?)
+#   showmatch   - briefly jump to matching ( ) [ ] { }
+#   noflash     - beep on error instead of flashing screen
+#   tabstop=8   - tab displays as 8 columns
+VI_INIT="set autoindent ai; set ignorecase ic; set showmatch sm; set noflash; set tabstop=8"
+
+# Pass through to the real vi (BusyBox multi-call binary).  $VI_INIT is
+# injected via -c so options are set before the first file is edited.
+exec /bin/busybox vi -c "$VI_INIT" "$@"

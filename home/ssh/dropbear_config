@@ -1,0 +1,12 @@
+# Dropbear per-user client config.
+# NOTE: this file supports ONLY Host, HostName, Port, User, IdentityFile.
+# Keepalive / ciphers / MACs / compression MUST be passed on the dbclient
+# command line via -o / -c / -m / -K (see example below).
+
+Host *
+    IdentityFile ~/.ssh/id_ed25519_dropbear
+
+Host slow-link
+    HostName <REPLACE-remote-host>
+    Port 22
+    User <REPLACE-remote-user>
