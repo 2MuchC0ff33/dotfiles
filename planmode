@@ -16,7 +16,7 @@ done
 root=$(CDPATH= cd -- "$(dirname -- "$script_path")" && pwd)
 config_dir=${OPENCODE_CONFIG_DIR:-${XDG_CONFIG_HOME:-$HOME/.config}/opencode}
 config=${OPENCODE_CONFIG:-$config_dir/opencode.json}
-tested_version=${OPENCODE_TESTED_VERSION:-2.2.5}
+tested_version=${OPENCODE_TESTED_VERSION:-2.2.6}
 bin=${OPENCODE_BIN:-}
 
 ok() { printf 'ok: %s\n' "$*"; }
