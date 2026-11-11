@@ -1,0 +1,57 @@
+cd /home/twomuchcoffee/.local/src/dotfiles
+
+# Check and update the CVS working copy; review before committing.
+cvs -d ~/CVS/dotfiles status
+cvs -d ~/CVS/dotfiles update -PAd
+cvs -d ~/CVS/dotfiles diff -u
+
+# Run your checks.
+make build
+make verify
+pm -x
+pm -s
+pm -v
+
+# Commit the changes to CVS.
+cvs -d ~/CVS/dotfiles commit -m "fix(planmode): update tested OpenCode version to 2.2.7"
+
+# Confirm the CVS working copy is clean.
+cvs -d ~/CVS/dotfiles status
+
+MIRROR="$HOME/.local/src/dotfiles-mirror"
+EXPORT="/path/to/clean/cvs-head-export"
+
+# Fetch the current GitHub branch tips.
+git -C "$MIRROR" fetch origin dev main
+
+# Build a Git tree from the CVS export using a temporary, empty index.
+cd "$EXPORT"
+INDEX=$(mktemp)
+rm -f "$INDEX"
+export GIT_INDEX_FILE="$INDEX"
+
+git --git-dir="$MIRROR/.git" --work-tree="$EXPORT" read-tree --empty
+git --git-dir="$MIRROR/.git" --work-tree="$EXPORT" add -A
+
+# Inspect exactly what would go into the snapshot before proceeding.
+git --git-dir="$MIRROR/.git" --work-tree="$EXPORT" status --short
+git --git-dir="$MIRROR/.git" diff --cached --stat
+
+TREE=$(git --git-dir="$MIRROR/.git" write-tree)
+
+# Make and verify a separately signed snapshot for each branch, then push
+# normally (no force). If a push is rejected, fetch and recreate that snapshot.
+for branch in dev main; do
+  TIP=$(git -C "$MIRROR" rev-parse "refs/remotes/origin/$branch^{commit}")
+    COMMIT=$(git -C "$MIRROR" commit-tree -S "$TREE" -p "$TIP" \
+        -m "mirror: CVS HEAD snapshot $(date -u +%Y-%m-%dT%H:%M:%SZ)")
+
+	  git -C "$MIRROR" verify-commit "$COMMIT"
+	    git -C "$MIRROR" push origin "$COMMIT:refs/heads/$branch"
+	    done
+
+	    unset GIT_INDEX_FILE
+	    rm -f "$INDEX"
+
+	    # Confirm GitHub's branch tips after pushing.
+	    git ls-remote origin refs/heads/dev refs/heads/main
