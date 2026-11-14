@@ -34,6 +34,7 @@ Expected result:
     ok: agents verified
     ok: root files verified
     ok: protocol verified
+    ok: generic workflow verified
     ok: upgrade-check passed
 
 PATH shortcuts

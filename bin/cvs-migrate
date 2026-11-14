@@ -1,0 +1,110 @@
+#!/bin/sh
+set -eu
+
+usage() {
+  printf 'usage: %s --repo DIR [--dry-run|--apply] [--archive DIR]\n' "$0"
+}
+
+cm_repo=
+cm_mode=dry
+cm_archive=${HOME}/.local/archive
+
+while [ $# -gt 0 ]; do
+  case "$1" in
+    --repo)
+      shift
+      [ $# -gt 0 ] || { usage >&2; exit 2; }
+      cm_repo=$1
+      ;;
+    --dry-run) cm_mode=dry ;;
+    --apply) cm_mode=apply ;;
+    --archive)
+      shift
+      [ $# -gt 0 ] || { usage >&2; exit 2; }
+      cm_archive=$1
+      ;;
+    -h|--help) usage; exit 0 ;;
+    *) usage >&2; exit 2 ;;
+  esac
+  shift
+done
+
+[ -n "$cm_repo" ] || { usage >&2; exit 2; }
+[ -d "$cm_repo" ] || exit 3
+[ ! -d "$cm_repo/CVS" ] || { printf 'already CVS: %s\n' "$cm_repo" >&2; exit 3; }
+[ -d "$cm_repo/.git" ] || { printf 'not a Git repository: %s\n' "$cm_repo" >&2; exit 3; }
+
+cm_name=$(basename -- "$cm_repo")
+cm_parent=$(dirname -- "$cm_repo")
+cm_cvsroot=$HOME/CVS/$cm_name
+cm_new=$cm_parent/$cm_name.cvs-new
+cm_stamp=$(date -u +%Y%m%dT%H%M%SZ)
+
+cm_clean=$(git -C "$cm_repo" status --porcelain)
+[ -z "$cm_clean" ] || { printf 'dirty tree: %s\n' "$cm_repo" >&2; exit 4; }
+[ ! -e "$cm_cvsroot" ] || { printf 'CVS root exists: %s\n' "$cm_cvsroot" >&2; exit 5; }
+
+cm_head=$(git -C "$cm_repo" rev-parse HEAD)
+cm_branch=$(git -C "$cm_repo" rev-parse --abbrev-ref HEAD)
+cm_remote=$(git -C "$cm_repo" config --get remote.origin.url || true)
+
+printf 'repo: %s\n' "$cm_repo"
+printf 'name: %s\n' "$cm_name"
+printf 'head: %s\n' "$cm_head"
+printf 'branch: %s\n' "$cm_branch"
+printf 'remote: %s\n' "${cm_remote:-none}"
+printf 'cvsroot: %s\n' "$cm_cvsroot"
+printf 'archive: %s/%s.git.%s\n' "$cm_archive" "$cm_name" "$cm_stamp"
+
+if [ "$cm_mode" = dry ]; then
+  printf 'dry-run: no changes\n'
+  exit 0
+fi
+
+mkdir -p "$cm_archive"
+cm_tracked=$cm_archive/$cm_name.tracked.$cm_stamp
+git -C "$cm_repo" ls-files | LC_ALL=C sort | \
+  sed -e '/^\.cvsignore$/d' > "$cm_tracked"
+mv "$cm_repo/.git" "$cm_archive/$cm_name.git.$cm_stamp"
+
+if [ ! -f "$cm_repo/.cvsignore" ]; then
+  {
+    printf 'CVS\n'
+    printf '.git\n'
+    printf 'work/\n'
+    printf 'build/\n'
+    printf 'srv/\n'
+    printf 'spool/\n'
+    printf '*.tmp\n'
+    printf '*.cksum\n'
+  } > "$cm_repo/.cvsignore"
+fi
+
+cvs -d "$cm_cvsroot" init
+(
+  cd "$cm_repo"
+  cvs -d "$cm_cvsroot" import -m "Import Git HEAD as CVS base" \
+    "$cm_name" vendor start
+)
+(
+  cd "$cm_parent"
+  cvs -d "$cm_cvsroot" checkout -d "$cm_name.cvs-new" "$cm_name"
+)
+
+cm_new_list=$cm_archive/$cm_name.cvs-list.$cm_stamp
+find "$cm_new" -type d -name CVS -prune -o -type f -print | \
+  sed -e "s|^$cm_new/||" -e '/^\.cvsignore$/d' | \
+  LC_ALL=C sort > "$cm_new_list"
+if ! diff "$cm_tracked" "$cm_new_list" >/dev/null 2>&1; then
+  printf 'inventory mismatch: %s %s\n' "$cm_tracked" "$cm_new_list" >&2
+  exit 6
+fi
+rm -f "$cm_tracked" "$cm_new_list"
+
+mv "$cm_repo" "$cm_archive/$cm_name.worktree.$cm_stamp"
+mv "$cm_new" "$cm_repo"
+(
+  cd "$cm_repo"
+  cvs -d "$cm_cvsroot" status
+)
+printf 'migrated: %s\n' "$cm_repo"

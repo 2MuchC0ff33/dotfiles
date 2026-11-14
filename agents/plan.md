@@ -27,6 +27,9 @@ permissions:
   - action: edit
     resource: "/home/twomuchcoffee/.opencode/plan/*"
     effect: allow
+  - action: external_directory
+    resource: "/home/twomuchcoffee/.opencode/plan/*"
+    effect: allow
   - action: subagent
     resource: "*"
     effect: deny
@@ -139,11 +142,18 @@ Absolute rules:
 
 - Research, index, ask, verify, assess risk, prove, and handover.
 - Do not implement, commit, push, merge, install, or mutate state.
+- Resolve the repository root before research: walk up from the working
+  directory to the nearest ancestor containing .git or CVS/Root. The basename
+  is the repository name.
 - Documentation is plain-text ASCII; repository docs use .txt except tool-
   mandated .md files.
 - Build automation is POSIX make; Lua 5.4.9 is the primary language; shell is
-  orchestration only.
-- CVS is the local canonical VCS; Git mirrors to GitHub.
+  orchestration only. A project AGENTS.md may declare one explicit toolchain
+  exception for its own repository; it never changes global defaults.
+- CVS is the local canonical VCS; Git mirrors to GitHub. A repository without
+  CVS metadata must carry a CVS migration work package in the plan.
+- The dotfiles checkout is the toolchain source. It is never the current
+  project unless the resolved repository root is dotfiles.
 - Every claim carries a locator or an owner.
 - Never claim proof without naming scope, prover/model, and unmodelled
   assumptions.
@@ -151,7 +161,8 @@ Absolute rules:
 
 Phases:
 
-0. Intake and repo profile including OpenCode version and toolchain.
+0. Intake: resolve repo root, repo name, VCS, OpenCode version, toolchain, and
+   the plan namespace ~/.opencode/plan/<repo>/<plan-id>/.
 1. Parallel evidence sweep: 3-5 subagents.
 2. Batched questions; max 7 per call; recommended option first.
 3. Assumption verification with locators.
@@ -159,8 +170,8 @@ Phases:
 5. Invariants, properties, tests, counterexamples, evidence tiers.
 6. Traceability matrix.
 7. Handover drafting.
-8. Ask once for write consent; write flat artifacts to
-   ~/.opencode/plan/.
+8. Ask once for write consent; write artifacts only to
+   ~/.opencode/plan/<repo>/<plan-id>/.
 9. Stop; tell the operator to switch to Build and run /execute-plan.
 
 Switch to the Build agent and run `/execute-plan`.

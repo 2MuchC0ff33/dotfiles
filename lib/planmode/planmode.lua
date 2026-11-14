@@ -97,6 +97,55 @@ local function cmd_verify_protocol(path)
   ok("protocol verified")
 end
 
+local function cmd_resolve_plan(a)
+  local resolve = require("resolve")
+  local candidates = {}
+  for i = 4, #a do candidates[#candidates + 1] = a[i] end
+  local dir, code, message = resolve.select(a[1], a[2], a[3], candidates)
+  if code ~= 0 then
+    if message then io.stderr:write(message .. "\n") end
+    os.exit(code)
+  end
+  io.write(dir .. "\n")
+end
+
+local function cmd_repo_profile(a)
+  local profile = require("profile")
+  local root = a[1]
+  local mode = "emit"
+  local repo = root
+  local i = 2
+  while i <= #a do
+    if a[i] == "--emit" then
+      mode = "emit"
+    elseif a[i] == "--apply" then
+      mode = "apply"
+    elseif a[i] == "--repo" then
+      i = i + 1
+      if i > #a then error("--repo requires a directory") end
+      repo = a[i]
+    else
+      error("unknown option: " .. tostring(a[i]))
+    end
+    i = i + 1
+  end
+  local info = profile.detect(repo)
+  local template = util.read_all(root .. "/templates/repo/AGENTS.block.txt")
+  local block = profile.render(info, template)
+  if mode == "emit" then
+    io.write(block)
+    if block:sub(-1) ~= "\n" then io.write("\n") end
+  else
+    ok(profile.apply(repo, block))
+  end
+end
+
+local function cmd_verify_generic(root)
+  verify.generic(root or ".", function(msg) fail(msg) end)
+  if errors > 0 then os.exit(1) end
+  ok("generic workflow verified")
+end
+
 local commands = {
   ["config-add"] = function(a) cmd_config_add(a[1], a[2]) end,
   ["config-remove"] = function(a) cmd_config_remove(a[1], a[2]) end,
@@ -108,6 +157,9 @@ local commands = {
   ["verify-agents"] = function() cmd_verify_agents() end,
   ["verify-root"] = function(a) cmd_verify_root(a[1]) end,
   ["verify-protocol"] = function(a) cmd_verify_protocol(a[1]) end,
+  ["resolve-plan"] = function(a) cmd_resolve_plan(a) end,
+  ["repo-profile"] = function(a) cmd_repo_profile(a) end,
+  ["verify-generic"] = function(a) cmd_verify_generic(a[1]) end,
 }
 
 local command = arg[1]

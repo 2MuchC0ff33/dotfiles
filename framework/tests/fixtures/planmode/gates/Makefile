@@ -1,0 +1,3 @@
+.POSIX:
+verify:
+	@true

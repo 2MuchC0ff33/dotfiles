@@ -1,1 +1,6 @@
 one pivot that is changing and you will need to make all changes everywhere, is replacing git with cvs as the main canonical version control system. i have an account setup on savannah.nongnu.org and I am new to CVS but prefer to use it as it suits and matches my development toolchain better, i want to use POSIX strict CVS. information on setting it up is at https://savannah.nongnu.org/maintenance/CvsGettingStarted/   https://savannah.nongnu.org/maintenance/SshAccess/ and use GPG on https://savannah.nongnu.org/maintenance/UsingGpg/
+
+Follow-ups from plan 2026-11-12-repo-scoped-execute-plan:
+- Migrate each Git-only repository to CVS at its next plan (adrian_tax,
+  aido-bot, elvis, ledger).
+- Retire the flat ~/.opencode/plan/*.md artifacts after operator review.

@@ -10,6 +10,9 @@ Contents
 - skills/       Canonical OpenCode skills, installed by skills/install.sh.
 - agents/       Canonical Plan agent and eight read-only plan subagents.
 - commands/     /plan and /execute-plan commands.
+- config/opencode/AGENTS.md  Global canonical rules, installed as
+                ~/.config/opencode/AGENTS.md.
+- templates/    Managed repository profile blocks (templates/repo).
 - prompts/       Plain-text prompts for repeated Plan-mode migrations.
 - planmode      Deterministic installer and verifier.
 - man/          planmode(1) manual.
@@ -39,6 +42,13 @@ Equivalent short commands:
   pm -x     upgrade-check
   pm -b     backup config
   pm -s     status
+
+Repository commands:
+
+  pm resolve-plan                        select the READY handover for this repo
+  pm repo-profile --emit                 print the canonical profile block
+  pm repo-profile --apply                insert or refresh it in AGENTS.md
+  pm cvs-migrate --repo DIR --dry-run    preview a Git-only migration
 
 Then press Tab to enter Plan mode and give only the request. When the
 handover is ready, switch to Build and run /execute-plan.
