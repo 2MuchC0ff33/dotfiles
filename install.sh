@@ -152,6 +152,8 @@ install_tree() {
 
 install_tree agents "$repo_dir/agents" "$config_dir/agents"
 install_tree commands "$repo_dir/commands" "$config_dir/commands"
+install_item "$repo_dir/config/opencode/AGENTS.md" \
+  "$config_dir/AGENTS.md" "AGENTS.md"
 
 for skill_dir in "$repo_dir"/skills/*; do
   [ -d "$skill_dir" ] || continue

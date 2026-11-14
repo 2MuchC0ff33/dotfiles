@@ -36,6 +36,9 @@ commands:
   restore <file> | -r|--restore <file>  Restore global config from backup
   reload  | -l|--reload     Run opencode reload or print restart instruction
   uninstall | -u|--uninstall Remove managed symlinks and config key
+  resolve-plan [-- <plan-id>]  Select the READY handover for this repo
+  repo-profile [--emit|--apply] [--repo DIR]  Repo profile block
+  cvs-migrate [--repo DIR] [--dry-run|--apply]  CVS-first migration
   help    | -h|--help       Show this help
 
 Examples:
@@ -164,9 +167,12 @@ case "$cmd" in
     fi
     lua_cmd verify-root "$root"
     lua_cmd verify-protocol "$root/agents/plan.md"
+    lua_cmd verify-generic "$root"
     for path in "$root" "$root/agents" "$root/commands" "$root/skills/canonical-plan-protocol" "$root/skills/build-handover-execution"; do
       [ -e "$path" ] || err "missing $path"
     done
+    check_symlink "$config_dir/AGENTS.md"
+    if [ "$issued" -gt 0 ]; then exit 1; fi
     ok "$cmd passed"
     ;;
   status)
@@ -194,6 +200,56 @@ case "$cmd" in
     sh "$root/install.sh" --remove
     remove_config_key
     printf 'restart OpenCode or run: ./planmode reload\n'
+    ;;
+  resolve-plan)
+    if [ $# -gt 0 ] && [ "$1" = "--" ]; then shift; fi
+    if [ $# -gt 1 ]; then
+      printf 'error: at most one plan id\n' >&2
+      exit 2
+    fi
+    plan_arg=
+    if [ $# -gt 0 ]; then plan_arg=$1; fi
+    repo_root=$(pwd -P)
+    repo_found=0
+    while true; do
+      if [ -e "$repo_root/.git" ] || [ -e "$repo_root/CVS/Root" ]; then
+        repo_found=1
+        break
+      fi
+      [ "$repo_root" = "/" ] && break
+      repo_root=$(dirname -- "$repo_root")
+    done
+    if [ "$repo_found" -eq 0 ]; then
+      printf 'error: no repository root; pass an explicit plan id\n' >&2
+      exit 2
+    fi
+    # CVS stores a CVS/Root marker in every subdirectory, so the nearest
+    # marker is not the working-copy root. Climb while the parent belongs to
+    # the same CVS root.
+    if [ ! -e "$repo_root/.git" ] && [ -e "$repo_root/CVS/Root" ]; then
+      cvs_root_id=$(sed -n '1p' "$repo_root/CVS/Root")
+      while [ "$repo_root" != "/" ]; do
+        parent=$(dirname -- "$repo_root")
+        [ -e "$parent/CVS/Root" ] || break
+        parent_id=$(sed -n '1p' "$parent/CVS/Root")
+        [ "$parent_id" = "$cvs_root_id" ] || break
+        repo_root=$parent
+      done
+    fi
+    repo_name=$(basename -- "$repo_root")
+    set -- "$HOME/.opencode/plan/$repo_name"/*/HANDOVER.md
+    plan_dir=$(lua_cmd resolve-plan "$repo_root" "$repo_name" "$plan_arg" "$@") || exit $?
+    canon=$(CDPATH= cd -- "$plan_dir" 2>/dev/null && pwd -P) || exit 5
+    case "$canon" in
+      "$HOME/.opencode/plan/"*) printf '%s\n' "$canon" ;;
+      *) exit 5 ;;
+    esac
+    ;;
+  repo-profile)
+    lua_cmd repo-profile "$root" "$@"
+    ;;
+  cvs-migrate)
+    sh "$root/bin/cvs-migrate" "$@"
     ;;
   *) err "unknown command: $cmd"; usage >&2; exit 2 ;;
 esac

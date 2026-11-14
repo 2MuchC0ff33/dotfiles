@@ -19,6 +19,12 @@ Rules:
 - Do not weaken POSIX or framework gates.
 - Documentation is plain-text ASCII; docs are .txt except tool-mandated .md.
 - Build automation is POSIX make.
-- Operator shortcuts: symlinked `pm`/`planmode` in ~/.local/bin; use `pm -i`
-  to install, `pm -v` to verify, `pm -x` to upgrade-check, `pm -s` for status.
-- CVS is the local VCS; Git mirrors to GitHub.
+- Resolve the repository root first: nearest ancestor with .git or CVS/Root.
+  The basename is the repository name. Never assume dotfiles.
+- Write artifacts only to ~/.opencode/plan/<repo>/<plan-id>/.
+- CVS is canonical; Git mirrors. A Git-only repository requires a CVS
+  migration package before implementation.
+- The dotfiles checkout is the global toolchain source, not the current
+  project.
+- Operator shortcuts when the toolchain is installed: `pm -i`, `pm -v`,
+  `pm -x`, `pm -s`, `pm resolve-plan`, `pm repo-profile`, `pm cvs-migrate`.

@@ -44,18 +44,29 @@ Run opencode reload or print a restart instruction (short option: \\-l)
 .Cm uninstall
 Remove managed links and the managed config key (short option: \\-u)
 .Pp
+.Cm resolve-plan
+Select the READY handover for the current repository.
+.Pp
+.Cm repo-profile
+Emit or apply the canonical repository profile block.
+.Pp
+.Cm cvs-migrate
+Migrate a Git-only repository to CVS-first.
+Dry-run by default.
+.Pp
 .Cm help
 Show usage (short option: \\-h)
 .Sh ENVIRONMENT
 .Op EV OPENCODE_CONFIG Path to the OpenCode config file. Defaults to $HOME/.config/opencode/opencode.json .
 .Pp
-.Op EV OPENCODE_TESTED_VERSION OpenCode version the workflow was last verified against. Defaults to 2.2.5 .
+.Op EV OPENCODE_TESTED_VERSION OpenCode version the workflow was last verified against. Defaults to 2.2.7 .
 .Pp
 .Op EV OPENCODE_BIN Path to the opencode binary .
 .Sh FILES
 .Pa ~/.local/bin/planmode symlink to this script for PATH invocation .
 .Pp
 .Pa ~/.local/bin/pm shortcut symlink to this script .
+.Pa ~/.config/opencode/AGENTS.md global canonical rules, symlinked from the repository config/opencode/AGENTS.md .
 .Pa ~/.profile .Pa ~/.ashrc prepend .Pa ~/.local/bin to PATH for login and interactive shells .
 .Sh EXIT STATUS
 .Ex -std

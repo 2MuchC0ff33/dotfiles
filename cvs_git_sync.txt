@@ -1,3 +1,23 @@
+# Generic CVS-first form. The dotfiles block below is the same sequence
+# with REPO=dotfiles and MODULE=dotfiles.
+REPO=example
+MODULE=example
+CVS_ROOT="$HOME/CVS/$REPO"
+WORKTREE="$HOME/.local/src/$REPO"
+
+cvs -d "$CVS_ROOT" status
+cvs -d "$CVS_ROOT" update -PAd
+cvs -d "$CVS_ROOT" diff -u
+
+cd "$WORKTREE"
+make build
+make verify
+pm -v
+
+cvs -d "$CVS_ROOT" commit -m "type(scope): message"
+cvs -d "$CVS_ROOT" status
+
+# Dotfiles instance.
 cd /home/twomuchcoffee/.local/src/dotfiles
 
 # Check and update the CVS working copy; review before committing.

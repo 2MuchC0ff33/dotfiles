@@ -33,19 +33,49 @@ Full path form:
 Artifacts
 ---------
 
+Plan artifacts live in ~/.opencode/plan/<repo>/<plan-id>/ and contain:
+
   HANDOVER.md  PLAN.md       WORKORDER.md
   INDEX.md     RISKS.md      PROOF.md
   QUESTIONS.md GIT.md        PATCHES.md
+  MANIFEST.txt TRACEABILITY.md
 
-The handover artifacts are not committed to this repository and remain
-under ~/.opencode/plan.
+<repo> is the repository name, the basename of the nearest ancestor with
+.git or CVS/Root. Every HANDOVER.md starts with an identity block:
+
+  Repo: <absolute repository root>
+  Repo-Name: <basename>
+  VCS: cvs|git|none
+  CVS-Root: <absolute path or none>
+  CVS-Module: <module or none>
+  Git-Remote: <url or none>
+  Plan-ID: <YYYY-MM-DD-slug>
+  Plan-Dir: <absolute plan directory>
+  Status: READY|BLOCKED
+  Gates: <gate> | <gate> | ...
+  Migration: required|not-required
+  Stop-After: none|migrate
+
+The identity block is verified before any gate or edit. Flat artifacts
+directly in ~/.opencode/plan/ are legacy; they are never read as a default.
+
+Resolve and profile commands:
+
+  pm resolve-plan [-- <plan-id>]        select the READY handover for this repo
+  pm repo-profile --emit                print the canonical profile block
+  pm repo-profile --apply               insert or refresh the block in AGENTS.md
+  pm cvs-migrate --repo DIR --dry-run   preview a Git-only migration
 
 CVS-first workflow
 ------------------
 
-  cvs -d ~/CVS/dotfiles status
-  cvs -d ~/CVS/dotfiles update -PAd
-  cvs -d ~/CVS/dotfiles commit -m "type(scope): message"
+  cvs -d "$CVS_ROOT" status
+  cvs -d "$CVS_ROOT" update -PAd
+  cvs -d "$CVS_ROOT" diff -u
+  cvs -d "$CVS_ROOT" commit -m "type(scope): message"
+
+For this dotfiles checkout, CVS_ROOT is ~/CVS/dotfiles. Other repositories
+use their own CVS root and module from the plan identity block.
 
 GitHub receives signed HEAD snapshots on dev and main. The migration imports
 the current HEAD once; replay of old commits is not supported.
